@@ -10,4 +10,6 @@ class App {
 }
 
 let app = new App();
+/* test API call */
+app.controller.__testAPICall();
 

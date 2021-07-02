@@ -23,6 +23,7 @@ export default class Controller {
 
         // setup Async callbacks for the fetch requests
         this.callbackForFetchFromAPI = this.callbackForFetchFromAPI.bind(this);
+        this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
 
     }
 
@@ -36,6 +37,85 @@ export default class Controller {
 
     /* example interface used from the callback for FetchUtil */
     callbackForFetchFromAPI(jsonData, httpStatus) {
+
+    }
+
+    callbackForRecipeSearch(jsonData, httpStatus = 200) {
+        logger.log("Callback Recipe Search", 3);
+        if (status >= 200 && status <= 299) { // do we have any data?
+
+            logger.log(jsonData, 100);
+            /* TO-DO add the recipes to the document */
+
+        } else {
+           /* TO-DO clear the recipe view and display an error? */
+
+        }
+    }
+
+    /* provide the interface for the API call */
+    searchForRecipes(
+        queryText = "",
+        isBalancedDiet = false,
+        isHighFiber = false,
+        isHighProtein = false,
+        isLowCarb = false,
+        isLowFat = false,
+        isLowSodium = false,
+        isDiaryFree = false,
+        isGlutenFree = false,
+        isKosher = false,
+        isVegan = false,
+        isVegetarian = false,
+        isDiabetic = false,
+        isBreakfast = false,
+        isLunch = false,
+        isDinner = false,
+        isSnack = false
+    ) {
+        // Do we have a diet restriction?
+        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium);
+        let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
+        let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
+        // construct the parameters for the JSON call
+        let parameters = {
+            q:queryText,
+            hasDietSelection: hasDietSelection,
+            hasHealthSelection: hasHealthSelection,
+            hasMealTypeSelection: hasMealTypeSelection,
+            isBalancedDiet: isBalancedDiet,
+            isHighFiber:isHighFiber,
+            isHighProtein:isHighProtein,
+            isLowCarb:isLowCarb,
+            isLowFat:isLowFat,
+            isLowSodium:isLowSodium,
+            isDiaryFree:isDiaryFree,
+            isGlutenFree:isGlutenFree,
+            isKosher:isKosher,
+            isVegan:isVegan,
+            isVegetarian:isVegetarian,
+            isDiabetic:isDiabetic,
+            isBreakfast:isBreakfast,
+            isLunch:isLunch,
+            isDinner:isDinner,
+            isSnack:isSnack
+
+        };
+        /* execute the asychronous fetch request and receive the results in the callback function */
+        fetchUtil.fetchQLJSON("/recipes",parameters, this.callbackForRecipeSearch);
+    }
+
+    __testAPICall() {
+        /* execute some test calls */
+        this.searchForRecipes(); // no parameters given
+        setTimeout(() => {
+            this.searchForRecipes("onion")
+        },3000); //simple ingredient
+        /* some meal types selected */
+        setTimeout(() => {
+            this.searchForRecipes("",false,false,false,false,true, false,false,false,false,false,true,false,true);
+        },6000);
+
 
     }
 
