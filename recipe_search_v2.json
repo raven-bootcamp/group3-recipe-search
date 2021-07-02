@@ -1,0 +1,812 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0",
+    "title": "Recipe Search API",
+    "description": "Our Recipe Search API allows you to search through millions of web recipes and integrate this information into your mobile or web applications."
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "api.edamam.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Recipe Search"
+    },
+    {
+      "name": "Specific Recipe Info"
+    }
+   ],
+  "paths": {
+    "/api/recipes/v2": {
+      "get": {
+        "tags": [
+          "Recipe Search"
+        ],
+        "summary": "<b>Click here to view the documentation</b>",
+        "description": "Returns a list of recipes matching the provided criteria.\n \n Note:\n When mentioned, 'floating point values' refers to values such as '50.0', '50.', '0.5', and '.5'. \n When speaking of ranges, the API accepts values such as 1.0+, 1.0-50.0, or 50.0, for floating point ranges",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type of recipes to search for.",
+            "required": true,
+            "type": "string",
+            "enum": ["public"]
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Query text, for example \"chicken\".",
+            "type": "string"
+          },
+          {
+            "name": "app_id",
+            "in": "query",
+            "x-data-threescale-name": "app_ids",
+            "description": "The application ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "app_key",
+            "in": "query",
+            "x-data-threescale-name": "app_keys",
+            "description": "The application key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ingr",
+            "in": "query",
+            "description": "Filter by number of ingredients (MIN+, MIN-MAX, MAX), where MIN and MAX are integer numbers. Example: ingr=5-8",
+            "pattern": "(?:[+-]?\\d+)|(?:(?:[+-]?\\d+)-(?:[+-]?\\d+))|(?:(?:[+-]?\\d+)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "diet",
+            "in": "query",
+            "description": "Diet label",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "balanced",
+                "high-fiber",
+                "high-protein",
+                "low-carb",
+                "low-fat",
+                "low-sodium"
+              ]
+            }
+          },
+          {
+            "name": "health",
+            "in": "query",
+            "description": "Health label",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "alcohol-free",
+                "celery-free",
+                "crustacean-free",
+                "dairy-free",
+                "egg-free",
+                "fish-free",
+                "fodmap-free",
+                "gluten-free",
+                "immuno-supportive",
+                "keto-friendly",
+                "kidney-friendly",
+                "kosher",
+                "low-fat-abs",
+                "low-potassium",
+                "low-sugar",
+                "lupine-free",
+                "mustard-free",
+                "no-oil-added",
+                "paleo",
+                "peanut-free",
+                "pescatarian",
+                "pork-free",
+                "red-meat-free",
+                "sesame-free",
+                "shellfish-free",
+                "soy-free",
+                "sugar-conscious",
+                "tree-nut-free",
+                "vegan",
+                "vegetarian",
+                "wheat-free"
+              ]
+            }
+          },
+          {
+            "name": "cuisineType",
+            "in": "query",
+            "description": "The type of cuisine of the recipe",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "American",
+                "Asian",
+                "British",
+                "Caribbean",
+                "Central Europe",
+                "Chinese",
+                "Eastern Europe",
+                "French",
+                "Indian",
+                "Italian",
+                "Japanese",
+                "Kosher",
+                "Mediterranean",
+                "Mexican",
+                "Middle Eastern",
+                "Nordic",
+                "South American",
+                "South East Asian"
+              ]
+            }
+          },
+          {
+            "name": "mealType",
+            "in": "query",
+            "description": "The type of meal a recipe belongs to",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Breakfast",
+                "Dinner",
+                "Lunch",
+                "Snack",
+                "Teatime"
+              ]
+            }
+          },
+          {
+            "name": "dishType",
+            "in": "query",
+            "description": "The dish type a recipe belongs to",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Biscuits and cookies",
+                "Bread",
+                "Cereals",
+                "Condiments and sauces",
+                "Desserts",
+                "Drinks",
+                "Main course",
+                "Pancake",
+                "Preps",
+                "Preserve",
+                "Salad",
+                "Sandwiches",
+                "Side dish",
+                "Soup",
+                "Starter",
+                "Sweets"
+              ]
+            }
+          },
+          {
+            "name": "calories",
+            "in": "query",
+            "description": "The format is calories=RANGE where RANGE is in one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. The + symbol needs to be properly encoded. Examples: “calories=100-300” will return all recipes with which have between 100 and 300 kcal per serving.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Time range for the total cooking and prep time for a recipe . The format is time=RANGE where RANGE is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative integer numbers. The + symbol needs to be properly encoded. Examples: “time=1%2B” will return all recipes with available total time greater then 1 minute",
+            "pattern": "(?:[+-]?\\d+)|(?:(?:[+-]?\\d+)-(?:[+-]?\\d+))|(?:(?:[+-]?\\d+)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "imageSize",
+            "in": "query",
+            "description": "Show only recipes, which have images with selected sizes",
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "string",
+              "enum": ["LARGE", "REGULAR", "SMALL", "THUMBNAIL"]
+            }
+          },
+          {
+            "name": "glycemicIndex",
+            "in": "query",
+            "description": "Filter by glycemic index. The format is FLOAT-RANGE",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "excluded",
+            "in": "query",
+            "description": "Excluding recipes with certain ingredients. The format is excluded=FOOD where FOOD is replaced by the name of the specific food you don’t want to be present in the recipe results. More than one food can be excluded at the same time. Example: excluded=vinegar&excluded=pretzel will exclude any recipes which contain vinegar or pretzels in their ingredient list",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nutrients[CA]",
+            "in": "query",
+            "description": "Calcium unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> For example: nutrients[CA]=50+ means minimum 50mg calcium, where ‘50+’ has to be properly encoded as ‘50%2B’ nutrients[FAT]=30 means maximum 30g fat and nutrients[FE]=5-10 means iron between 5mg and 10mg inclusive",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[CHOCDF]",
+            "in": "query",
+            "description": "Carbs unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[CHOLE]",
+            "in": "query",
+            "description": "Cholesterol unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br>See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FAMS]",
+            "in": "query",
+            "description": "Monounsaturated unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FAPU]",
+            "in": "query",
+            "description": "Polyunsaturated unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FASAT]",
+            "in": "query",
+            "description": "Saturated unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FAT]",
+            "in": "query",
+            "description": "Fat unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FATRN]",
+            "in": "query",
+            "description": "Trans unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FE]",
+            "in": "query",
+            "description": "Iron unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FIBTG]",
+            "in": "query",
+            "description": "Fiber unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[FOLDFE]",
+            "in": "query",
+            "description": "Folate (Equivalent) unit - æg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[K]",
+            "in": "query",
+            "description": "Potassium unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[MG]",
+            "in": "query",
+            "description": "Magnesium unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[NA]",
+            "in": "query",
+            "description": "Sodium unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[ENERC_KCAL]",
+            "in": "query",
+            "description": "Energy unit - kcal. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[NIA]",
+            "in": "query",
+            "description": "Niacin (B3) unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[P]",
+            "in": "query",
+            "description": "Phosphorus unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[PROCNT]",
+            "in": "query",
+            "description": "Protein unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[RIBF]",
+            "in": "query",
+            "description": "Riboflavin (B2) unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[SUGAR]",
+            "in": "query",
+            "description": "Sugars unit - g. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[THIA]",
+            "in": "query",
+            "description": "Thiamin (B1) unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[TOCPHA]",
+            "in": "query",
+            "description": "Vitamin E unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITA_RAE]",
+            "in": "query",
+            "description": "Vitamin A unit - æg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITB12]",
+            "in": "query",
+            "description": "Vitamin B12 unit - æg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITB6A]",
+            "in": "query",
+            "description": "Vitamin B6 unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITC]",
+            "in": "query",
+            "description": "Vitamin C unit - mg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITD]",
+            "in": "query",
+            "description": "Vitamin D unit - æg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "nutrients[VITK1]",
+            "in": "query",
+            "description": "Vitamin K unit - æg. Input the range which is one of MIN+, MIN-MAX or MAX, where MIN and MAX are non-negative floating point numbers. <br> <br> See calcium for an example for how to fill in the range.",
+            "pattern": "(?:[+-]?\\d+(?:\\.\\d*)?)|(?:(?:[+-]?\\d+(?:\\.\\d*)?)-(?:[+-]?\\d+(?:\\.\\d*)?))|(?:(?:[+-]?\\d+(?:\\.\\d*)?)[+-])",
+            "type": "string"
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Recipe fields to be included in the response.",
+            "type": "array",
+            "collectionFormat": "multi",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "uri",
+                "label",
+                "image",
+                "source",
+                "url",
+                "shareAs",
+                "yield",
+                "dietLabels",
+                "healthLabels",
+                "cautions",
+                "ingredientLines",
+                "ingredients",
+                "calories",
+                "glycemicIndex",
+                "totalWeight",
+                "totalTime",
+                "cuisineType",
+                "mealType",
+                "dishType",
+                "totalNutrients",
+                "totalDaily",
+                "digest"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of recipes",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "A list of errors",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          },
+          "403": {
+            "description": "A list of errors",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    },
+    "/api/recipes/v2/{id}": {
+      "get": {
+        "tags": [
+          "Specific Recipe Info"
+        ],
+        "summary": "<b>Click here to view the documentation</b>",
+        "description": "Returns the nutritional information for given recipe.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The recipe ID",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type of recipes to search for.",
+            "required": true,
+            "type": "string",
+            "enum": ["public"]
+          },
+          {
+            "name": "app_id",
+            "in": "query",
+            "x-data-threescale-name": "app_ids",
+            "description": "The application ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "app_key",
+            "in": "query",
+            "x-data-threescale-name": "app_keys",
+            "description": "The application key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recipe info",
+            "schema": {
+              "$ref": "#/definitions/Hit"
+            }
+          },
+          "400": {
+            "description": "A list of errors",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          },
+          "403": {
+            "description": "A list of errors",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          },
+          "404": {
+            "description": "A list of errors",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Response": {
+      "properties": {
+        "from": {
+          "type": "integer"
+        },
+        "to": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "_links": {
+          "$ref": "#/definitions/Links"
+        },
+        "hits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Hit"
+          }
+        }
+      }
+    },
+    "Errors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error": {
+      "properties": {
+        "errorCode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Links": {
+      "properties": {
+        "self": {
+          "$ref": "#/definitions/Link"
+        },
+        "next": {
+          "$ref": "#/definitions/Link"
+        }
+      }
+    },
+    "Link": {
+      "properties": {
+        "href": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "Hit": {
+      "properties": {
+        "recipe": {
+          "$ref": "#/definitions/Recipe"
+        },
+        "_links": {
+          "$ref": "#/definitions/Links"
+        }
+      }
+    },
+    "Recipe": {
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "shareAs": {
+          "type": "string"
+        },
+        "yield": {
+          "type": "number"
+        },
+        "dietLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "healthLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cautions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ingredientLines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ingredient"
+          }
+        },
+        "calories": {
+          "type": "number"
+        },
+        "totalWeight": {
+          "type": "number"
+        },
+        "cuisineType": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mealType": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dishType": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "totalNutrients": {
+          "$ref": "#/definitions/NutrientsInfo"
+        },
+        "totalDaily": {
+          "$ref": "#/definitions/NutrientsInfo"
+        },
+        "digest": {
+          "$ref": "#/definitions/Digest"
+        }
+      }
+    },
+    "Ingredient": {
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "measure": {
+          "type": "string"
+        },
+        "food": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number"
+        },
+        "foodId": {
+          "type": "string"
+        }
+      }
+    },
+    "NutrientsInfo": {
+      "additionalProperties": {
+        "$ref": "#/definitions/NutrientInfo"
+      }
+    },
+    "NutrientInfo": {
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        }
+      }
+    },
+    "Digest": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DigestEntry"
+      }
+    },
+    "DigestEntry": {
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "schemaOrgTag": {
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "hasRDI": {
+          "type": "boolean"
+        },
+        "daily": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "sub": {
+          "$ref": "#/definitions/Digest"
+        }
+      }
+    }
+  }
+}
