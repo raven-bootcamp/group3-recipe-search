@@ -44,6 +44,7 @@ class FetchUtil {
                 callback(JSON.parse(data));
             })
             .catch(error => {
+                logger.log(error,10);
 
             });
     }

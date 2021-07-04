@@ -3,11 +3,12 @@ import Controller from "./Controller.js";
 
 class App {
     constructor() {
-        logger.setOn();
-        logger.setLevel(100);
-        this.controller = new Controller(this,window.localStorage);
+        this.controller = new Controller(document,window.localStorage);
     }
 }
+/* turn on console messages for development*/
+logger.setOn();
+logger.setLevel(100);
 
 let app = new App();
 /* test API call */

@@ -4,12 +4,10 @@ class SimpleDebug {
         this.debugDepth = 100;
     }
 
-    log(message, debugDepth = 5) {
+    log(message, debugDepth = -1) {
         if (!this.debugOn) return;
         if (debugDepth > this.debugDepth) return;
-        if (this.debugOn) {
-            console.log(message);
-        }
+        console.log(message);
     }
 
     setLevel(newLevel) {

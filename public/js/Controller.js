@@ -41,14 +41,30 @@ export default class Controller {
     }
 
     callbackForRecipeSearch(jsonData, httpStatus = 200) {
-        logger.log("Callback Recipe Search", 3);
-        if (status >= 200 && status <= 299) { // do we have any data?
+        logger.log(`Callback Recipe Search with status ${httpStatus}`, 3);
+        let rootEl = document.getElementById("root");
 
+        if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
             logger.log(jsonData, 100);
             /* TO-DO add the recipes to the document */
+            let recipeListEl = document.createElement("ul");
+            recipeListEl.setAttribute("style","margin-left:0px");
+            let recipes = jsonData.hits;
+            logger.log(recipes,100);
+            for (let index = 0;index < recipes.length;index++) {
+                let recipe = recipes[index].recipe;
+                logger.log(recipe,100);
+                let recipeEl = document.createElement("li");
+                recipeEl.innerHTML = `<a href="${recipe.url}">${recipe.label}</a>`;
+                recipeListEl.appendChild(recipeEl);
+            }
+            rootEl.appendChild(recipeListEl);
+
 
         } else {
            /* TO-DO clear the recipe view and display an error? */
+            let childEl = rootEl.querySelector("ul");
+            if (childEl) rootEl.removeChild(childEl);
 
         }
     }
@@ -108,13 +124,13 @@ export default class Controller {
     __testAPICall() {
         /* execute some test calls */
         this.searchForRecipes(); // no parameters given
-        setTimeout(() => {
-            this.searchForRecipes("onion")
-        },3000); //simple ingredient
-        /* some meal types selected */
-        setTimeout(() => {
-            this.searchForRecipes("",false,false,false,false,true, false,false,false,false,false,true,false,true);
-        },6000);
+        // setTimeout(() => {
+        //     this.searchForRecipes("onion")
+        // },3000); //simple ingredient
+        // /* some meal types selected */
+        // setTimeout(() => {
+        //     this.searchForRecipes("",false,false,false,false,true, false,false,false,false,false,true,false,true);
+        // },6000);
 
 
     }
