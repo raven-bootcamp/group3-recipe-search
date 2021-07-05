@@ -40,33 +40,49 @@ export default class Controller {
 
     }
 
+    _createRecipeFromEdamamRecipe(edamamRecipe) {
+        let recipeId = edamamRecipe.uri.split("_",2)[1];
+        let recipe = {
+            id: recipeId,
+            name: edamamRecipe.label,
+            imageURL: edamamRecipe.image,
+            calories: Math.round(edamamRecipe.calories),
+            mealType: edamamRecipe.mealType,
+            diet: edamamRecipe.dietLabels[0],
+            ingredients: edamamRecipe.ingredientLines
+        }
+        return recipe;
+    }
+
     callbackForRecipeSearch(jsonData, httpStatus = 200) {
         logger.log(`Callback Recipe Search with status ${httpStatus}`, 3);
         let rootEl = document.getElementById("root");
+        let recipes = [];
 
         if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
             logger.log(jsonData, 100);
-            /* TO-DO add the recipes to the document */
-            let recipeListEl = document.createElement("ul");
-            recipeListEl.setAttribute("style","margin-left:0px");
-            let recipes = jsonData.hits;
-            logger.log(recipes,100);
-            for (let index = 0;index < recipes.length;index++) {
-                let recipe = recipes[index].recipe;
-                logger.log(recipe,100);
-                let recipeEl = document.createElement("li");
-                recipeEl.innerHTML = `<a href="${recipe.url}">${recipe.label}</a>`;
-                recipeListEl.appendChild(recipeEl);
+            let edamamRecipes = jsonData.hits;
+            logger.log(edamamRecipes, 100);
+            for (let index = 0; index < edamamRecipes.length; index++) {
+                let edamamRecipe = edamamRecipes[index].recipe;
+                logger.log(edamamRecipe, 100);
+                /*
+                   recipes is an array of objects that contain the following information:
+                   id  - is the EDAMAM id - will be needed for a new call
+                   name,
+                   imageURL,
+                   calories - a number of calories (cal),
+                   ingredients - an array of strings with the ingredients
+                   mealType - string [Breakfast|Dinner|etc]
+                   diet - string [Balanced|Gluten-free|etc]
+
+                   if the array is empty (length 0) then there are no matching recipes or there was a web error (can't get data)
+                */
+                let recipe = this._createRecipeFromEdamamRecipe(edamamRecipe);
+                recipes.push(recipe);
             }
-            rootEl.appendChild(recipeListEl);
-
-
-        } else {
-           /* TO-DO clear the recipe view and display an error? */
-            let childEl = rootEl.querySelector("ul");
-            if (childEl) rootEl.removeChild(childEl);
-
         }
+        this.applicationView.receiveRecipeSearchResults(recipes);
     }
 
     /* provide the interface for the API call */
@@ -95,44 +111,31 @@ export default class Controller {
         let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
         // construct the parameters for the JSON call
         let parameters = {
-            q:queryText,
+            q: queryText,
             hasDietSelection: hasDietSelection,
             hasHealthSelection: hasHealthSelection,
             hasMealTypeSelection: hasMealTypeSelection,
             isBalancedDiet: isBalancedDiet,
-            isHighFiber:isHighFiber,
-            isHighProtein:isHighProtein,
-            isLowCarb:isLowCarb,
-            isLowFat:isLowFat,
-            isLowSodium:isLowSodium,
-            isDiaryFree:isDiaryFree,
-            isGlutenFree:isGlutenFree,
-            isKosher:isKosher,
-            isVegan:isVegan,
-            isVegetarian:isVegetarian,
-            isDiabetic:isDiabetic,
-            isBreakfast:isBreakfast,
-            isLunch:isLunch,
-            isDinner:isDinner,
-            isSnack:isSnack
+            isHighFiber: isHighFiber,
+            isHighProtein: isHighProtein,
+            isLowCarb: isLowCarb,
+            isLowFat: isLowFat,
+            isLowSodium: isLowSodium,
+            isDiaryFree: isDiaryFree,
+            isGlutenFree: isGlutenFree,
+            isKosher: isKosher,
+            isVegan: isVegan,
+            isVegetarian: isVegetarian,
+            isDiabetic: isDiabetic,
+            isBreakfast: isBreakfast,
+            isLunch: isLunch,
+            isDinner: isDinner,
+            isSnack: isSnack
 
         };
         /* execute the asychronous fetch request and receive the results in the callback function */
-        fetchUtil.fetchQLJSON("/recipes",parameters, this.callbackForRecipeSearch);
+        fetchUtil.fetchQLJSON("/recipes", parameters, this.callbackForRecipeSearch);
     }
 
-    __testAPICall() {
-        /* execute some test calls */
-        this.searchForRecipes(); // no parameters given
-        // setTimeout(() => {
-        //     this.searchForRecipes("onion")
-        // },3000); //simple ingredient
-        // /* some meal types selected */
-        // setTimeout(() => {
-        //     this.searchForRecipes("",false,false,false,false,true, false,false,false,false,false,true,false,true);
-        // },6000);
-
-
-    }
 
 }
