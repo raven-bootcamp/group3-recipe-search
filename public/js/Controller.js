@@ -1,6 +1,7 @@
 import logger from './util/SimpleDebug.js';
 import fetchUtil from "./util/FetchUtil.js";
 import LocalStorageUtil from "./util/LocalStorageUtil.js";
+import stateManager from "./util/ui/StateManagementUtil.js";
 
 
 export default class Controller {
@@ -8,7 +9,6 @@ export default class Controller {
     constructor(applicationView, clientSideStorage) {
         this.applicationView = applicationView;
         this.lsUtil = new LocalStorageUtil(clientSideStorage);
-        this.fetchUtility = fetchUtil;
 
         // setup query URLs
         this.queryURLRecipesSearch = "/recipes";
@@ -16,10 +16,36 @@ export default class Controller {
         // setup local storage key and previous searches array
         this.shoppingListKey = "shoppinglist";
         this.favouriteRecipesKey = "favouriterecipes";
+        this.recipeSearchResultsKey = "recipesearch";
+
+        // setup state management
+        stateManager.setStateByName(this.recipeSearchResultsKey,[]);
+        stateManager.addChangeListenerForName(this.recipeSearchResultsKey,this.listenForRecipeSearchResultsStateChange)
+        stateManager.setStateByName(this.favouriteRecipesKey,[]);
+        stateManager.addChangeListenerForName(this.recipeSearchResultsKey,this.listenForRecipeSearchResultsStateChange)
+        stateManager.setStateByName(this.shoppingListKey,[]);
+        stateManager.addChangeListenerForName(this.shoppingListKey,this.listenForShoppingListStateChange)
 
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
 
+        // setup state management listeners
+        this.listenForRecipeSearchResultsStateChange = this.listenForRecipeSearchResultsStateChange.bind(this);
+        this.listenForFavouriteRecipesStateChange = this.listenForFavouriteRecipesStateChange.bind(this);
+        this.listenForShoppingListStateChange = this.listenForShoppingListStateChange.bind(this);
+
+    }
+
+    listenForRecipeSearchResultsStateChange(name, newState) {
+        this.applicationView.handleRecipeSearchResultsChange(newState);
+    }
+
+    listenForFavouriteRecipesStateChange(name, newState) {
+        this.applicationView.handleFavouriteRecipesChange(newState);
+    }
+
+    listenForShoppingListStateChange(name, newState) {
+        this.applicationView.handleShoppingListChange(newState);
     }
 
     _createRecipeFromEdamamRecipe(edamamRecipe) {
@@ -65,7 +91,8 @@ export default class Controller {
                 recipes.push(recipe);
             }
         }
-        this.applicationView.receiveRecipeSearchResults(recipes);
+        stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
+
     }
 
     /* provide the interface for the API call */
@@ -137,7 +164,9 @@ export default class Controller {
         for (let index=0;index < recipeObjFromSearch.ingredients.length;index++) {
             this.lsUtil.addNewItemToKeyStorage(this.shoppingListKey,recipeObjFromSearch.ingredients[index]);
         }
-        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        stateManager.setStateByName(this.shoppingListKey,shoppingList);
+        return shoppingList;
     }
 
     /*
@@ -146,7 +175,9 @@ export default class Controller {
     */
     removeIngredientFromShoppingList(ingredientItem) {
         this.lsUtil.removeItemFromKeyStorage(this.shoppingListKey,ingredientItem);
-        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        stateManager.setStateByName(this.shoppingListKey,shoppingList);
+        return shoppingList;
     }
 
     /* this function is used to compare a recipe with an id in the local storage using the id value */
@@ -168,7 +199,9 @@ export default class Controller {
      */
     addRecipeToFavouriteRecipes(recipeObjFromSearch) {
         this.lsUtil.addNewItemToKeyStorage(this.favouriteRecipesKey,recipeObjFromSearch);
-        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+        return favouriteRecipes;
     }
 
     /*
@@ -188,6 +221,8 @@ export default class Controller {
      */
     removeRecipeFromFavouriteRecipesById(recipeId) {
         this.lsUtil.removeItemFromKeyStorageWithFunctionForEquality(this.favouriteRecipesKey,recipeId,this.__comparingRecipeWithIdFunction)
-        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+        return favouriteRecipes;
     }
 }
