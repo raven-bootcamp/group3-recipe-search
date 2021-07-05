@@ -10,6 +10,12 @@ class App {
         this.shoppingListView = new ShoppingList(document);
         this.favouriteRecipesView = new FavouriteRecipes(document);
         this.searchResultsView = new RecipeSearchResults(document);
+
+        this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
+        this.handleRecipeSearchResultsChange = this.handleRecipeSearchResultsChange.bind(this);
+        this.handleShoppingListChange = this.handleShoppingListChange.bind(this);
+
+        this.controller.initialise();
     }
 
     /*  This method is called from the Controller when recipe search results have returned */

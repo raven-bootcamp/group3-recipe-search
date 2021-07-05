@@ -34,6 +34,9 @@ export default class Controller {
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
 
+    }
+
+    initialise() {
         // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
         this.getFavouriteRecipes();
         this.getShoppingList();
