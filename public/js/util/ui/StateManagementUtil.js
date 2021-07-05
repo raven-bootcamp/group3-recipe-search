@@ -41,7 +41,7 @@ class StateManagementUtil {
         let foundIndex = this.stateChangeListeners.findIndex((element) => element.name === name);
         if (foundIndex >= 0) {
             let changeListenersForName = this.stateChangeListeners[foundIndex];
-            changeListenersForName.push(listener);
+            changeListenersForName.listeners.push(listener);
         }
         else {
             logger.log(`Adding state listener for ${name} - first occurrence`,201);

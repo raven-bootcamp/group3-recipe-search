@@ -18,21 +18,22 @@ export default class Controller {
         this.favouriteRecipesKey = "favouriterecipes";
         this.recipeSearchResultsKey = "recipesearch";
 
+        // setup state management listeners
+        this.listenForRecipeSearchResultsStateChange = this.listenForRecipeSearchResultsStateChange.bind(this);
+        this.listenForFavouriteRecipesStateChange = this.listenForFavouriteRecipesStateChange.bind(this);
+        this.listenForShoppingListStateChange = this.listenForShoppingListStateChange.bind(this);
+
         // setup state management
         stateManager.setStateByName(this.recipeSearchResultsKey,[]);
         stateManager.addChangeListenerForName(this.recipeSearchResultsKey,this.listenForRecipeSearchResultsStateChange)
         stateManager.setStateByName(this.favouriteRecipesKey,[]);
-        stateManager.addChangeListenerForName(this.recipeSearchResultsKey,this.listenForRecipeSearchResultsStateChange)
+        stateManager.addChangeListenerForName(this.favouriteRecipesKey,this.listenForFavouriteRecipesStateChange)
         stateManager.setStateByName(this.shoppingListKey,[]);
         stateManager.addChangeListenerForName(this.shoppingListKey,this.listenForShoppingListStateChange)
 
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
 
-        // setup state management listeners
-        this.listenForRecipeSearchResultsStateChange = this.listenForRecipeSearchResultsStateChange.bind(this);
-        this.listenForFavouriteRecipesStateChange = this.listenForFavouriteRecipesStateChange.bind(this);
-        this.listenForShoppingListStateChange = this.listenForShoppingListStateChange.bind(this);
 
     }
 
@@ -50,13 +51,22 @@ export default class Controller {
 
     _createRecipeFromEdamamRecipe(edamamRecipe) {
         let recipeId = edamamRecipe.uri.split("_",2)[1];
+        let mealTypes = edamamRecipe.mealType;
+        if ((mealTypes === null) || (mealTypes === undefined)) {
+            mealTypes = ["Not supplied"];
+        }
+        let dietLabels = edamamRecipe.dietLabels;
+        if ((dietLabels === null) || (dietLabels === undefined)) {
+            dietLabels = ["Not supplied"];
+        }
+
         let recipe = {
             id: recipeId,
             name: edamamRecipe.label,
             imageURL: edamamRecipe.image,
             calories: Math.round(edamamRecipe.calories),
-            mealType: edamamRecipe.mealType[0],
-            diet: edamamRecipe.dietLabels[0],
+            mealType: mealTypes[0],
+            diet: dietLabels[0],
             ingredients: edamamRecipe.ingredientLines,
             URL: edamamRecipe.url
         }
