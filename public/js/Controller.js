@@ -1,42 +1,24 @@
 import logger from './util/SimpleDebug.js';
 import fetchUtil from "./util/FetchUtil.js";
+import LocalStorageUtil from "./util/LocalStorageUtil.js";
 
 
 export default class Controller {
 
     constructor(applicationView, clientSideStorage) {
         this.applicationView = applicationView;
-        this.clientSideStorage = clientSideStorage;
+        this.lsUtil = new LocalStorageUtil(clientSideStorage);
         this.fetchUtility = fetchUtil;
 
         // setup query URLs
-        this.queryURL = "";
+        this.queryURLRecipesSearch = "/recipes";
 
         // setup local storage key and previous searches array
-        this.localStorageKey1 = "";
-        this.localStorageItems1 = [];
-
-
-        // setup event handlers and local storage access call
-        this.handleExampleEvent = this.handleExampleEvent.bind(this);
-        this.getLocalStorageItems1 = this.getLocalStorageItems1.bind(this);
+        this.shoppingListKey = "shoppinglist";
+        this.favouriteRecipesKey = "favouriterecipes";
 
         // setup Async callbacks for the fetch requests
-        this.callbackForFetchFromAPI = this.callbackForFetchFromAPI.bind(this);
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
-
-    }
-
-    handleExampleEvent(event) {
-
-    }
-
-    getLocalStorageItems1() {
-        return [];
-    }
-
-    /* example interface used from the callback for FetchUtil */
-    callbackForFetchFromAPI(jsonData, httpStatus) {
 
     }
 
@@ -134,8 +116,77 @@ export default class Controller {
 
         };
         /* execute the asychronous fetch request and receive the results in the callback function */
-        fetchUtil.fetchQLJSON("/recipes", parameters, this.callbackForRecipeSearch);
+        fetchUtil.fetchQLJSON(this.queryURLRecipesSearch, parameters, this.callbackForRecipeSearch);
+    }
+
+    /*
+       Get the current contents of the saved shopping list
+       Returns the current saved ingredient list (array of strings)
+    */
+    getShoppingList() {
+        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+    }
+
+    /*
+       Add ingredient list to the saved shopping list
+       Pass in the recipe object obtained from the search call
+       Returns the modified shopping list for display
+    */
+    addRecipeIngredientsToShoppingList(recipeObjFromSearch) {
+        for (let index=0;index < recipeObjFromSearch.ingredients.length;index++) {
+            this.lsUtil.addNewItemToKeyStorage(this.shoppingListKey,recipeObjFromSearch.ingredients[index]);
+        }
+        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+    }
+
+    /*
+      Remove an ingredient (by name) from the saved shopping list
+      Returns the modified saved list for display
+    */
+    removeIngredientFromShoppingList(ingredientItem) {
+        this.lsUtil.removeItemFromKeyStorage(this.shoppingListKey,ingredientItem);
+        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+    }
+
+    /* this function is used to compare a recipe with an id in the local storage using the id value */
+    __comparingRecipeWithIdFunction(recipe, id) {
+        return (recipe.id === id);
+    }
+
+    /* get the current set of favourite recipes
+       Will return recipe objects, the same as for a search
+    */
+    getFavouriteRecipes() {
+        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+    }
+
+    /*
+    Add a new recipe to the favourite recipes
+    Pass in a recipe object (from a search)
+    Returns the modified list of favourite recipes
+     */
+    addRecipeToFavouriteRecipes(recipeObjFromSearch) {
+        this.lsUtil.addNewItemToKeyStorage(this.favouriteRecipesKey,recipeObjFromSearch);
+        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+    }
+
+    /*
+      Remove a recipe from the favourite recipes list
+      Pass in a recipe object (from a search)
+      Returns the modified list of favourite recipes
+     */
+    removeRecipeFromFavouriteRecipes(recipeObjectFromSearch) {
+        return this.removeRecipeFromFavouriteRecipesById(recipeObjectFromSearch.id);
     }
 
 
+    /*
+    Remove a recipe from the favourite recipes list
+    Pass in a recipe id from the recipe object
+    Returns the modified list of favourite recipes
+     */
+    removeRecipeFromFavouriteRecipesById(recipeId) {
+        this.lsUtil.removeItemFromKeyStorageWithFunctionForEquality(this.favouriteRecipesKey,recipeId,this.__comparingRecipeWithIdFunction)
+        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+    }
 }
