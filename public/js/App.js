@@ -34,3 +34,12 @@ let app = new App();
 app.controller.searchForRecipes();
 
 
+// get relevant elements from page for use
+var searchInput = document.querySelector("#search-input");  
+var searchBtn = document.querySelector("#search-btn");
+var searchRefineEl = document.querySelector("#search-refine"); // the dropdown element to refine the search
+var favBtn = document.querySelector("#favourite-btn"); // the button to open the favourites modal
+var shoppingListBtn = document.querySelector("#shopping-list-btn"); // the button to open the shopping list modal
+var supermarketButton = document.querySelector("#supermarket-btn"); // the button to open the supermarket map feature, may not need this
+var resultsList = document.querySelector("#results-list"); // the container that we will append our search results elements to
+var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
