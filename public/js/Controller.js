@@ -34,7 +34,10 @@ export default class Controller {
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
 
-
+        // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
+        this.getFavouriteRecipes();
+        this.getShoppingList();
+        stateManager.setStateByName(this.recipeSearchResultsKey,[]);
     }
 
     listenForRecipeSearchResultsStateChange(name, newState) {
@@ -162,7 +165,9 @@ export default class Controller {
        Returns the current saved ingredient list (array of strings)
     */
     getShoppingList() {
-        return this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        stateManager.setStateByName(this.shoppingListKey,shoppingList);
+        return shoppingList;
     }
 
     /*
@@ -199,7 +204,10 @@ export default class Controller {
        Will return recipe objects, the same as for a search
     */
     getFavouriteRecipes() {
-        return this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+        return favouriteRecipes;
+
     }
 
     /*
