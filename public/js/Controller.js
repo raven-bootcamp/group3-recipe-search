@@ -29,9 +29,10 @@ export default class Controller {
             name: edamamRecipe.label,
             imageURL: edamamRecipe.image,
             calories: Math.round(edamamRecipe.calories),
-            mealType: edamamRecipe.mealType,
+            mealType: edamamRecipe.mealType[0],
             diet: edamamRecipe.dietLabels[0],
-            ingredients: edamamRecipe.ingredientLines
+            ingredients: edamamRecipe.ingredientLines,
+            URL: edamamRecipe.url
         }
         return recipe;
     }
