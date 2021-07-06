@@ -10,17 +10,50 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="root">
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      <div id="shopping-list" class="modal">
+        <div class="modal-background">
+          <div class="modal-card pt-5">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Shopping List</p>
+              <button id="close-shopping-list-delete-button" class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <div class="shopping-list-content">
+                <ul id="shopping-list-content">
+                  <!-- Shopping list items go here -->
+                </ul>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <button id="close-shopping-list-button" class="button">Close</button>
+            </footer>
+          </div>
+        </div>
+      </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      <div id="favourite-recipes" class="modal">
+        <div class="modal-background">
+          <div class="modal-card pt-5">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Favourite Recipes</p>
+              <button id="close-favourite-recipes-delete-button" class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <div class="favourite-recipes-content">
+                <ul id="favourite-recipes-content">
+                  <!-- Favourite Recipes list items go here -->
+                </ul>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <button id="close-favourite-recipes-button" class="button">Close</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+
 
     <!--Navbar-->
     <nav class="navbar" role="navigation">
@@ -31,19 +64,19 @@
       </div>
       <div class="navbar-menu" style="float: right;">
         <div class="navbar-start">
-          
+
           <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="shop_cart">
+          <a class="navbar-item" id="shopping-list-btn">
             <i class="fas fa-shopping-cart"></i>
           </a>
-          
+
           <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="fav">
+          <a class="navbar-item" id="favourite-btn">
             <i class="fas fa-star"></i>
           </a>
         </div>
       </div>
-      
+
   
     </nav>
 
@@ -52,11 +85,11 @@
       <div class="card">
         <div class="card-content">
           <p class="title">Search</p>
-  
+
           <!-- Have assigned a temp id for search can be changed -->
-          <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe">
+          <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
         </div>
-      </div>  
+      </div>
     </section>
 
     <!-- Results section -->
@@ -168,10 +201,10 @@
         </div>
       </div>
     </section>
-    
+
 
   <!-- Footer have left bare for now -->
-  <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>    
+  <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
 
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
