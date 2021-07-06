@@ -24,7 +24,7 @@ class App {
         this.handleEventShowShoppingList = this.handleEventShowShoppingList.bind(this);
         this.handleEventShowFavouriteRecipes = this.handleEventShowFavouriteRecipes.bind(this);
         this.handleEventRemoveIngredientFromShoppingList = this.handleEventRemoveIngredientFromShoppingList.bind(this);
-        this.handleShowRecipeDetails = this.handleShowRecipeDetails.bind(this);
+        this.handleEventShowRecipeDetails = this.handleEventShowRecipeDetails.bind(this);
 
 
         this.controller.initialise();
@@ -197,7 +197,7 @@ class App {
     /*
     This the event handler for when the user wants to see the recipe details
      */
-    handleShowRecipeDetails(event) {
+    handleEventShowRecipeDetails(event) {
         logger.log("Handling event - Show Recipe Details",1);
         /*
         collect the recipe Id attribute from the event
