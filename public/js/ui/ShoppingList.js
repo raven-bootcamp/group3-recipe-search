@@ -6,7 +6,14 @@ export default class ShoppingList {
         this.document = document;
         this.application = application;
         this.domutil = new DOMUtil(document);
+        this.hide = this.hide.bind(this);
+
+        let closeButtonEl = this.document.getElementById("close-shopping-list-delete-button");
+        closeButtonEl.addEventListener("click",this.hide);
+        closeButtonEl = this.document.getElementById("close-shopping-list-button");
+        closeButtonEl.addEventListener("click",this.hide);
     }
+
     render(shoppingList) {
         logger.log("Rendering shopping list",10);
         logger.log(shoppingList,10);
@@ -14,7 +21,7 @@ export default class ShoppingList {
         let element = this.document.getElementById("shopping-list-content");
         this.domutil.removeAllChildNodes(element);
         // add the ingredients as buttons under list items
-        for (let index = 0;index <= shoppingList.length;index++) {
+        for (let index = 0;index < shoppingList.length;index++) {
             let buttonEl = this.domutil.addDeleteButtonAsListItemOfParent(shoppingList[index],element);
             buttonEl.addEventListener("click",this.application.handleEventRemoveIngredientFromShoppingList);
         }
@@ -24,5 +31,11 @@ export default class ShoppingList {
         logger.log("Showing shopping list",10);
         let element = this.document.getElementById("shopping-list");
         element.classList.add("is-active");
+    }
+
+    hide(event) {
+        logger.log("Hiding shopping list",10);
+        let element = this.document.getElementById("shopping-list");
+        element.classList.remove("is-active");
     }
 }

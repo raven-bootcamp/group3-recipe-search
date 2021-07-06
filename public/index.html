@@ -7,20 +7,18 @@
     <link rel="stylesheet" href="./css/style.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Chop 'n' Change</title>
+    <script src="js/ui/FavouriteRecipes.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <button class="button" id="shopping-list-btn">Show Shopping List</button>
-      <button class="button" id="search-btn">Search</button>
-      <button class="button" id="favourite-btn">Show Favourite Recipes</button>
 
       <div id="shopping-list" class="modal">
         <div class="modal-background">
           <div class="modal-card pt-5">
             <header class="modal-card-head">
               <p class="modal-card-title">Shopping List</p>
-              <button class="delete" aria-label="close"></button>
+              <button id="close-shopping-list-delete-button" class="delete" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
               <div class="shopping-list-content">
@@ -30,15 +28,33 @@
               </div>
             </section>
             <footer class="modal-card-foot">
-              <button class="button">Close</button>
+              <button id="close-shopping-list-button" class="button">Close</button>
             </footer>
           </div>
         </div>
       </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+      <div id="favourite-recipes" class="modal">
+        <div class="modal-background">
+          <div class="modal-card pt-5">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Favourite Recipes</p>
+              <button id="close-favourite-recipes-delete-button" class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <div class="favourite-recipes-content">
+                <ul id="favourite-recipes-content">
+                  <!-- Favourite Recipes list items go here -->
+                </ul>
+              </div>
+            </section>
+            <footer class="modal-card-foot">
+              <button id="close-favourite-recipes-button" class="button">Close</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+
 
     <!--Navbar-->
     <nav class="navbar is-primary" role="navigation">
@@ -51,12 +67,12 @@
         <div class="navbar-start">
 
           <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="shop_cart">
+          <a class="navbar-item" id="shopping-list-btn">
             <i class="fas fa-shopping-cart"></i>
           </a>
 
           <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="fav">
+          <a class="navbar-item" id="favourite-btn">
             <i class="fas fa-star"></i>
           </a>
         </div>
@@ -70,9 +86,11 @@
         <p class="title">Search</p>
 
         <!-- Have assigned a temp id for search can be changed -->
-        <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe">
+        <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe"/>
+        <button class="button" id="search-btn">Search</button>
       </div>
     </div>
+
 
   <!-- Footer have left bare for now -->
   <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>

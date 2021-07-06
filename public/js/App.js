@@ -9,7 +9,7 @@ class App {
     constructor() {
         this.controller = new Controller(this, window.localStorage);
         this.shoppingListView = new ShoppingList(this,document);
-        this.favouriteRecipesView = new FavouriteRecipes(document);
+        this.favouriteRecipesView = new FavouriteRecipes(this,document);
         this.searchResultsView = new RecipeSearchResults(document);
         this.recipeDetailsView = new RecipeDetails(document);
 
