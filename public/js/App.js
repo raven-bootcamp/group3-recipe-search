@@ -1,13 +1,25 @@
 import logger from './util/SimpleDebug.js'
 import Controller from "./Controller.js";
+import ShoppingList from "./ui/ShoppingList.js";
+import FavouriteRecipes from "./ui/FavouriteRecipes.js";
+import RecipeSearchResults from "./ui/RecipeSearchResults.js";
 
 class App {
     constructor() {
         this.controller = new Controller(this,window.localStorage);
+        this.shoppingListView = new ShoppingList(document);
+        this.favouriteRecipesView = new FavouriteRecipes(document);
+        this.searchResultsView = new RecipeSearchResults(document);
+
+        this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
+        this.handleRecipeSearchResultsChange = this.handleRecipeSearchResultsChange.bind(this);
+        this.handleShoppingListChange = this.handleShoppingListChange.bind(this);
+
+        this.controller.initialise();
     }
 
     /*  This method is called from the Controller when recipe search results have returned */
-    receiveRecipeSearchResults(recipes) {
+    handleRecipeSearchResultsChange(recipes) {
         /*
            recipes is an array of objects that contain the following information:
            id  - EDAMAM id - will be needed for a new call
@@ -21,20 +33,32 @@ class App {
            if the array is empty (length 0) then there are no matching recipes or there was a web error (can't get data)
         */
         // TO-DO display the recipes on the user interface
-        logger.log("Received recipes for display from a search",1);
+        logger.log("Handling recipes change for display",1);
         logger.log(recipes,100);
+        this.searchResultsView.render(recipes);
+    }
 
+    handleFavouriteRecipesChange(arrayOfFavouriteRecipes) {
+        logger.log("Handling favourite recipes change for display",1);
+        logger.log(arrayOfFavouriteRecipes);
+        this.favouriteRecipesView.render(arrayOfFavouriteRecipes);
+    }
+
+    handleShoppingListChange(arrayOfIngredientStrings) {
+        logger.log("Handling shopping list change for display",1);
+        logger.log(arrayOfIngredientStrings);
+        this.shoppingListView.render(arrayOfIngredientStrings);
     }
 }
 /* turn on console messages for development*/
 logger.setOn();
-logger.setLevel(100);
+logger.setLevel(200);
 
 let app = new App();
 app.controller.searchForRecipes();
 
 
-// get relevant elements from page for use
+
 var searchInput = document.querySelector("#search-input");  
 var searchBtn = document.querySelector("#search-btn");
 var searchRefineEl = document.querySelector("#search-refine"); // the dropdown element to refine the search
