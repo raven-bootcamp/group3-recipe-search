@@ -3,6 +3,7 @@ import Controller from "./Controller.js";
 import ShoppingList from "./ui/ShoppingList.js";
 import FavouriteRecipes from "./ui/FavouriteRecipes.js";
 import RecipeSearchResults from "./ui/RecipeSearchResults.js";
+import RecipeDetails from "./ui/RecipeDetails.js";
 
 class App {
     constructor() {
@@ -10,6 +11,7 @@ class App {
         this.shoppingListView = new ShoppingList(document);
         this.favouriteRecipesView = new FavouriteRecipes(document);
         this.searchResultsView = new RecipeSearchResults(document);
+        this.recipeDetailsView = new RecipeDetails(document);
 
         // state change handlers (called when the data changes in the application)
         this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
@@ -192,6 +194,7 @@ class App {
         // ask the controller to change the state and get the favourite recipes list
         this.controller.getFavouriteRecipes();
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+        this.favouriteRecipesView.show();
     }
 
     /*
@@ -207,7 +210,8 @@ class App {
         let recipeDetails = this.controller.getRecipeFromLastSearchResultsById(recipeId);
 
         // TO-DO show the modal and display the details
-
+        this.recipeDetailsView.render(recipeDetails);
+        this.recipeDetailsView.show();
     }
 
     /*
@@ -219,6 +223,7 @@ class App {
 
         this.controller.removeIngredientFromShoppingList(ingredient);
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
+        this.shoppingListView.show();
     }
 }
 
@@ -238,6 +243,8 @@ var resultsList = document.querySelector("#results-list"); // the container that
 var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
 
 
-searchBtn.addEventListener("click", app.handleEventStartRecipeSearch);
-shoppingListBtn.addEventListener("click", app.handleEventShowShoppingList);
-favBtn.addEventListener("click", app.handleEventShowFavouriteRecipes);
+searchBtn.addEventListener("click",app.handleEventStartRecipeSearch);
+
+shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
+
+favBtn.addEventListener("click",app.handleEventShowFavouriteRecipes);

@@ -10,4 +10,8 @@ export default class ShoppingList {
         // clear the current shopping list and redraw dynamically
 
     }
+
+    show() {
+        logger.log("Showing shopping list",10);
+    }
 }
