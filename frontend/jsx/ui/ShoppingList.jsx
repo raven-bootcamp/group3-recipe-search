@@ -1,5 +1,6 @@
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
+//import dom from "jsx-render";
 
 export default class ShoppingList {
     constructor(application,document) {
@@ -20,11 +21,18 @@ export default class ShoppingList {
         // clear the current shopping list and redraw dynamically
         let element = this.document.getElementById("shopping-list-content");
         this.domutil.removeAllChildNodes(element);
-        // add the ingredients as buttons under list items
-        for (let index = 0;index < shoppingList.length;index++) {
-            let buttonEl = this.domutil.addDeleteButtonAsListItemOfParent(shoppingList[index],element);
-            buttonEl.addEventListener("click",this.application.handleEventRemoveIngredientFromShoppingList);
-        }
+
+        const shoppingListItems = shoppingList.map((item, index) =>
+            <li>
+                <button className="button is-rounded is-success" onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
+                    <span>{item}</span>
+                    <span className="icon is-small">
+                       <i className="fas fa-times"></i>
+                    </span>
+                </button>
+            </li>
+        );
+        element.appendChild(<shoppingListItems />);
     }
 
     show() {
