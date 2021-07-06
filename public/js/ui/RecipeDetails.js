@@ -14,5 +14,7 @@ export default class RecipeDetails {
 
     show() {
         logger.log("Showing recipe details",10);
+        let element = this.document.getElementById("recipe-details");
+        element.classList.add("is-active");
     }
 }

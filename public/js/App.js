@@ -8,7 +8,7 @@ import RecipeDetails from "./ui/RecipeDetails.js";
 class App {
     constructor() {
         this.controller = new Controller(this, window.localStorage);
-        this.shoppingListView = new ShoppingList(document);
+        this.shoppingListView = new ShoppingList(this,document);
         this.favouriteRecipesView = new FavouriteRecipes(document);
         this.searchResultsView = new RecipeSearchResults(document);
         this.recipeDetailsView = new RecipeDetails(document);
@@ -184,6 +184,7 @@ class App {
         // ask the controller to change the state and get the favourite recipes list
         this.controller.getShoppingList();
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
+        this.shoppingListView.show();
     }
 
     /*
@@ -219,11 +220,10 @@ class App {
     */
     handleEventRemoveIngredientFromShoppingList(event) {
         logger.log("Handling event - Remove Ingredient from Shopping List",1);
-        let ingredient = ""; // GET FROM the document element via the event
+        let ingredient = event.target.innerText; // GET FROM the document element via the event
 
         this.controller.removeIngredientFromShoppingList(ingredient);
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
-        this.shoppingListView.show();
     }
 }
 

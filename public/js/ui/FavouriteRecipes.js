@@ -12,6 +12,8 @@ export default class FavouriteRecipes {
     }
 
     show() {
-
+        logger.log("Showing favourite recipes",10);
+        let element = this.document.getElementById("favourite-recipes");
+        element.classList.add("is-active");
     }
 }
