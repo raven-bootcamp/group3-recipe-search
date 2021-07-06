@@ -10,10 +10,17 @@ nav {
     padding: 12px;
 }
 
-.main_img {
+body {
     background-image: url('../img/main_img.jpg');
     background-size: cover;
-    padding: 10px;
+}
+
+.card {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 11%;
+    margin-bottom: 20%;
+    padding: 20px;
 }
 
 .search_box {
