@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="./css/bulma.css"/>
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">-->
+    <link rel="stylesheet" href="./css/style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Chop 'n' Change</title>
   </head>
   <body>
@@ -35,7 +36,46 @@
         </div>
       </div>
 
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+
+    <!--Navbar-->
+    <nav class="navbar is-primary" role="navigation">
+
+      <!-- Title holding the product name -->
+      <div class="navbar-brand">
+        <h1 class="navbar-item">Chop 'n' Change</h1>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+
+          <!-- Have assigned temp id names feel free to change them -->
+          <a class="navbar-item" id="shop_cart">
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+
+          <!-- Have assigned temp id names feel free to change them -->
+          <a class="navbar-item" id="fav">
+            <i class="fas fa-star"></i>
+          </a>
+        </div>
+
+
+    </nav>
+
+    <!-- Main card holding the search box -->
+    <div class="card">
+      <div class="card-content">
+        <p class="title">Search</p>
+
+        <!-- Have assigned a temp id for search can be changed -->
+        <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe">
+      </div>
     </div>
+
+  <!-- Footer have left bare for now -->
+  <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
 
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
