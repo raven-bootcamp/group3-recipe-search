@@ -11,17 +11,18 @@ nav {
 }
 
 /* Atm seems like how we could have it. Prone to chnage in the future */
-body {
+.main_section {
     background-image: url('../img/main_img.jpg');
     background-size: cover;
+    padding: 10px;
 }
 
 /* Custom chnages made on the card class on top of Bulma */
 .card {
     margin-left: 15%;
     margin-right: 15%;
-    margin-top: 11%;
-    margin-bottom: 20%;
+    margin-top: 5%;
+    margin-bottom: 5%;
     padding: 20px;
 }
 
@@ -29,4 +30,8 @@ body {
 input {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.results_section {
+    padding: 30px;
 }
