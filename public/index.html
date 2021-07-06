@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="./css/style.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Chop 'n' Change</title>
-    <script src="js/ui/FavouriteRecipes.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -57,13 +56,13 @@
 
 
     <!--Navbar-->
-    <nav class="navbar is-primary" role="navigation">
+    <nav class="navbar" role="navigation">
 
       <!-- Title holding the product name -->
       <div class="navbar-brand">
         <h1 class="navbar-item">Chop 'n' Change</h1>
       </div>
-      <div class="navbar-menu">
+      <div class="navbar-menu" style="float: right;">
         <div class="navbar-start">
 
           <!-- Have assigned temp id names feel free to change them -->
@@ -76,20 +75,132 @@
             <i class="fas fa-star"></i>
           </a>
         </div>
+      </div>
 
-
+  
     </nav>
 
-    <!-- Main card holding the search box -->
-    <div class="card">
-      <div class="card-content">
-        <p class="title">Search</p>
+    <!-- Main section holding the search box with a background image -->
+    <section class="main_section">
+      <div class="card">
+        <div class="card-content">
+          <p class="title">Search</p>
 
-        <!-- Have assigned a temp id for search can be changed -->
-        <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe"/>
-        <button class="button" id="search-btn">Search</button>
+          <!-- Have assigned a temp id for search can be changed -->
+          <input class="input is-rounded is-medium" id="search_main" type="text" placeholder="Type in a recipe">
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Results section -->
+    <section class="results_section" id="search_results">
+
+      <!-- Have just copied Irene's placeholder cards from recipe_list.html -->
+      <div class="container">
+        <div class="columns">
+            <div class="column is-mobile is-3-tablet is-3-desktop recipe-1">
+                <div class="card recipe-card-1 ">
+                    <header class="card-header recipe-title-1">
+                        <!--Javascript to add in recipe name, meal type and diet-->
+                        <p class="card-header-title is-size-5">
+                            Recipe title
+                        </p>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                        </span>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </span>
+                    </header>
+                    <div class="card-image has-text-centered">
+                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Recipe 2-->
+            <div class="column is-mobile is-3-tablet is-3-desktop recipe-2">
+                <div class="card recipe-card-2">
+                    <header class="card-header recipe-title-2">
+                        <!--Javascript to add in recipe name, meal type and diet-->
+                        <p class="card-header-title is-size-5 ">
+                            Recipe title
+                        </p>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                        </span>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </span>
+                    </header>
+                    <div class="card-image has-text-centered">
+                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <!--Recipe 3-->
+            <div class="column is-mobile is-3-tablet is-3-desktop recipe-3">
+                <div class="card recipe-card-3">
+                    <header class="card-header recipe-title-3">
+                        <!--Javascript to add in recipe name, meal type and diet-->
+                        <p class="card-header-title is-size-5 ">
+                            Recipe title
+                        </p>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                        </span>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </span>
+                    </header>
+                    <div class="card-image has-text-centered">
+                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <!--Recipe 4-->
+
+            <div class="column is-mobile is-3-tablet is-3-desktop recipe-4">
+                <div class="card recipe-card-4">
+                    <header class="card-header recipe-title-4">
+                        <!--Javascript to add in recipe name, meal type and diet-->
+                        <p class="card-header-title is-size-5 ">
+                            Recipe title
+                        </p>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                        </span>
+                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </span>
+                    </header>
+                    <div class="card-image has-text-centered">
+                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
 
 
   <!-- Footer have left bare for now -->
