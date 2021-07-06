@@ -238,6 +238,6 @@ var resultsList = document.querySelector("#results-list"); // the container that
 var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
 
 
-searchBtn.addEventListener("click",app.handleEventStartRecipeSearch);
-shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
-favBtn.addEventListener("click",app.handleEventShowFavouriteRecipes);
+searchBtn.addEventListener("click", app.handleEventStartRecipeSearch);
+shoppingListBtn.addEventListener("click", app.handleEventShowShoppingList);
+favBtn.addEventListener("click", app.handleEventShowFavouriteRecipes);
