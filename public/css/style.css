@@ -1,0 +1,32 @@
+h1 {
+    font-size: 26px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+nav {
+    padding: 12px;
+}
+
+/* Atm seems like how we could have it. Prone to chnage in the future */
+body {
+    background-image: url('../img/main_img.jpg');
+    background-size: cover;
+}
+
+/* Custom chnages made on the card class on top of Bulma */
+.card {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 11%;
+    margin-bottom: 20%;
+    padding: 20px;
+}
+
+/* Custom chnages made on the input on top of Bulma */
+input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
