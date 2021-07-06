@@ -111,6 +111,13 @@ export default class Controller {
 
     }
 
+    getRecipeFromLastSearchResultsById(recipeId) {
+        let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
+        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id !== recipeId);
+        return arrayOfRecipes[foundIndex];
+    }
+
+
     /* provide the interface for the API call */
     searchForRecipes(
         queryText = "",
@@ -246,4 +253,6 @@ export default class Controller {
         stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
         return favouriteRecipes;
     }
+
+
 }
