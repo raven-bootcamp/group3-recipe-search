@@ -1,5 +1,5 @@
 h1 {
-    font-size: 28px;
+    font-size: 26px;
 }
 
 h2 {
@@ -8,7 +8,6 @@ h2 {
 
 nav {
     padding: 12px;
-    justify-content: center;
 }
 
 .main_img {
@@ -18,11 +17,18 @@ nav {
 }
 
 .search_box {
-    margin: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 11%;
+    margin-bottom: 20%;
     padding: 20px;
-    max-width: 40%;
     background-color: white;
-    box-shadow: 0px 2px 15px 2px rgba(128, 128, 128, 0.199);
+    box-shadow: 0px 1px 10px 5px rgba(70, 70, 70, 0.199);
     border-radius: 7px;
 
+}
+
+input {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
