@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "loose": true,
+        "targets": {
+          "ie": "11",
+          "edge": "15",
+          "safari": "10",
+          "firefox": "50",
+          "chrome": "49"
+        }
+      }
+    ]],
+    "plugins": [
+      "@babel/plugin-syntax-jsx",
+      ["@babel/plugin-transform-react-jsx", { "pragma": "dom" }]
+    ]
+
+}
