@@ -1,6 +1,10 @@
+/** @jsx createElement */
+/*** @jsxFrag createFragment */
+
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
-//import dom from "jsx-render";
+import {createFragment,createElement} from "../util/ui/JsxProcessor.js";
+
 
 export default class ShoppingList {
     constructor(application,document) {
@@ -22,17 +26,18 @@ export default class ShoppingList {
         let element = this.document.getElementById("shopping-list-content");
         this.domutil.removeAllChildNodes(element);
 
-        const shoppingListItems = shoppingList.map((item, index) =>
-            <li>
-                <button className="button is-rounded is-success" onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
-                    <span>{item}</span>
-                    <span className="icon is-small">
-                       <i className="fas fa-times"></i>
-                    </span>
-                </button>
-            </li>
-        );
-        element.appendChild(<shoppingListItems />);
+        for (let index = 0; index < shoppingList.length; index++) {
+            let shoppingListElement = () =>  (
+                    <button class="button is-fullwidth is-info is-outlined is-rounded" onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
+                        <span>{shoppingList[index]}</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </button>
+            )
+            element.appendChild(shoppingListElement());
+        }
+
     }
 
     show() {
