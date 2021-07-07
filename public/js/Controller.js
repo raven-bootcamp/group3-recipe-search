@@ -206,8 +206,12 @@ export default class Controller {
     }
 
     /* this function is used to compare a recipe with an id in the local storage using the id value */
-    __comparingRecipeWithIdFunction(recipe, id) {
+    isSameRecipeById(recipe, id) {
         return (recipe.id === id);
+    }
+
+    isSameRecipe(recipe1, recipe2) {
+        return (recipe1.id === recipe2.id);
     }
 
     /* get the current set of favourite recipes
@@ -217,8 +221,13 @@ export default class Controller {
         let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
         stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
         return favouriteRecipes;
-
     }
+
+    // is the recipe already in the favourite recipe list?
+    isRecipeAlreadyAFavourite(recipeObj) {
+        return this.lsUtil.isItemInKeyStorageWithFunctionForEquality(this.favouriteRecipesKey,recipeObj,this.isSameRecipe);
+    }
+
 
     /*
     Add a new recipe to the favourite recipes
@@ -226,9 +235,11 @@ export default class Controller {
     Returns the modified list of favourite recipes
      */
     addRecipeToFavouriteRecipes(recipeObjFromSearch) {
-        this.lsUtil.addNewItemToKeyStorage(this.favouriteRecipesKey,recipeObjFromSearch);
         let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
-        stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+        if (!this.isRecipeAlreadyAFavourite(recipeObjFromSearch)) {
+            this.lsUtil.addNewItemToKeyStorage(this.favouriteRecipesKey,recipeObjFromSearch);
+            stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+        }
         return favouriteRecipes;
     }
 
@@ -248,7 +259,7 @@ export default class Controller {
     Returns the modified list of favourite recipes
      */
     removeRecipeFromFavouriteRecipesById(recipeId) {
-        this.lsUtil.removeItemFromKeyStorageWithFunctionForEquality(this.favouriteRecipesKey,recipeId,this.__comparingRecipeWithIdFunction)
+        this.lsUtil.removeItemFromKeyStorageWithFunctionForEquality(this.favouriteRecipesKey,recipeId,this.isSameRecipeById)
         let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
         stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
         return favouriteRecipes;

@@ -34,7 +34,7 @@ export default class ShoppingList {
                             <i class="fas fa-times"></i>
                         </span>
                     </button>
-            )
+            );
             element.appendChild(shoppingListElement());
         }
 
