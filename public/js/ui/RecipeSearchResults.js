@@ -25,8 +25,6 @@ export default class RecipeSearchResults {
                 var recipeCardTitle = document.createElement("p");
                 recipeCardTitle.classList = "card-header-title is-size-4";
                 
-                var 
-
             }
         
             
