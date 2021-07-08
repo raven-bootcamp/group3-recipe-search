@@ -27,8 +27,8 @@ export default class RecipeDetails {
         this.domutil.removeAllChildNodes(element);
         let recipeDetailsElement = () =>  (
             <li>
-                <button recipe-id={recipe.id} className="button is-fullwidth is-info is-outlined is-rounded">
-                    <span recipe-id={recipe.id}>{recipe.name}</span>
+                <button recipe={recipe} className="button is-fullwidth is-info is-outlined is-rounded">
+                    <span recipe={recipe}>{recipe.name}</span>
                 </button>
             </li>
         );

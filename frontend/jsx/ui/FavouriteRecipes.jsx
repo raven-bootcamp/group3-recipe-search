@@ -29,11 +29,11 @@ export default class FavouriteRecipes {
             let recipe = arrayOfFavouriteRecipes[index];
             let recipesListElement = () =>  (
                 <li>
-                    <button recipe-id={recipe.id} class="button is-fullwidth is-info is-outlined is-rounded" onClick={this.application.handleEventShowRecipeDetails}>
+                    <button recipe-id={recipe.id} class="button     is-info is-outlined is-rounded" onClick={this.application.handleEventShowRecipeDetailsFromFavourites}>
                         <span recipe-id={recipe.id}>{recipe.name}</span>
                     </button>
-                    <button recipe-id={recipe.id} class="delete" onClick={this.application.handleEventRemoveRecipeFromFavourites}>
-                        <span recipe-id={recipe.id} className="icon is-small">
+                    <button recipe-id={recipe.id} class="delete mt-3 ml-2" onClick={this.application.handleEventRemoveRecipeFromFavourites}>
+                        <span recipe-id={recipe.id} className="icon is-large">
                             <i recipe-id={recipe.id} className="fas fa-times"></i>
                         </span>
                     </button>

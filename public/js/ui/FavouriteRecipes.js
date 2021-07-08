@@ -33,17 +33,17 @@ var FavouriteRecipes = /*#__PURE__*/function () {
       var recipesListElement = function recipesListElement() {
         return createElement("li", null, createElement("button", {
           "recipe-id": recipe.id,
-          class: "button is-fullwidth is-info is-outlined is-rounded",
-          onClick: _this.application.handleEventShowRecipeDetails
+          class: "button     is-info is-outlined is-rounded",
+          onClick: _this.application.handleEventShowRecipeDetailsFromFavourites
         }, createElement("span", {
           "recipe-id": recipe.id
         }, recipe.name)), createElement("button", {
           "recipe-id": recipe.id,
-          class: "delete",
+          class: "delete mt-3 ml-2",
           onClick: _this.application.handleEventRemoveRecipeFromFavourites
         }, createElement("span", {
           "recipe-id": recipe.id,
-          className: "icon is-small"
+          className: "icon is-large"
         }, createElement("i", {
           "recipe-id": recipe.id,
           className: "fas fa-times"

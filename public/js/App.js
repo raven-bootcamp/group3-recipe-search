@@ -28,7 +28,8 @@ class App {
         this.handleEventShowShoppingList = this.handleEventShowShoppingList.bind(this);
         this.handleEventShowFavouriteRecipes = this.handleEventShowFavouriteRecipes.bind(this);
         this.handleEventRemoveIngredientFromShoppingList = this.handleEventRemoveIngredientFromShoppingList.bind(this);
-        this.handleEventShowRecipeDetails = this.handleEventShowRecipeDetails.bind(this);
+        this.handleEventShowRecipeDetailsFromFavourites = this.handleEventShowRecipeDetailsFromFavourites.bind(this);
+        this.handleEventShowRecipeDetailsFromSearch = this.handleEventShowRecipeDetailsFromSearch.bind(this);
 
 
         this.controller.initialise();
@@ -92,26 +93,25 @@ class App {
           1.  Get the search parameters from the form
          */
         logger.log("Handling event - Start Recipe Search",1);
+        let queryText = event.target.value.trim();
 
         // code in here to collect the information from the elements of the page
-
-        let queryText = "";
-        let isBalancedDiet = false;
-        let isHighFiber = false;
-        let isHighProtein = false;
-        let isLowCarb = false;
-        let isLowFat = false;
-        let isLowSodium = false;
-        let isDiaryFree = false;
-        let isGlutenFree = false;
-        let isKosher = false;
-        let isVegan = false;
-        let isVegetarian = false;
-        let isDiabetic = false;
-        let isBreakfast = false;
-        let isLunch = false;
-        let isDinner = false;
-        let isSnack = false;
+        let isBalancedDiet = document.getElementById("balanced").checked;
+        let isHighFiber = document.getElementById("high-fiber").checked;
+        let isHighProtein = document.getElementById("high-protein").checked;
+        let isLowCarb = document.getElementById("low-carb").checked;
+        let isLowFat = document.getElementById("low-fat").checked;
+        let isLowSodium = document.getElementById("low-sodium").checked;
+        let isDiaryFree = document.getElementById("dairy-free").checked;
+        let isGlutenFree = document.getElementById("gluten-free").checked;
+        let isKosher = document.getElementById("kosher").checked;
+        let isVegan = document.getElementById("vegan").checked;
+        let isVegetarian = document.getElementById("vegetarian").checked;
+        let isDiabetic = document.getElementById("sugar-conscious").checked;
+        let isBreakfast = document.getElementById("breakfast").checked;
+        let isLunch = document.getElementById("dinner").checked;
+        let isDinner = document.getElementById("lunch").checked;
+        let isSnack = document.getElementById("snack").checked;
         this.controller.searchForRecipes(
             queryText,
             isBalancedDiet,
@@ -144,7 +144,7 @@ class App {
         collect the recipe Id attribute from the event
          */
 
-        let recipeId = ""; //TO-DO get from document element
+        let recipeId = event.target.getAttribute("recipe-id"); //TO-DO get from document element
 
 
         this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId));
@@ -172,7 +172,7 @@ class App {
         collect the recipe Id attribute from the event
          */
 
-        let recipeId = ""; // TO-DO get from document element
+        let recipeId = event.target.getAttribute("recipe-id"); // TO-DO get from document element
 
 
         this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromLastSearchResultsById(recipeId));
@@ -204,18 +204,36 @@ class App {
     /*
     This the event handler for when the user wants to see the recipe details
      */
-    handleEventShowRecipeDetails(event) {
-        logger.log("Handling event - Show Recipe Details",1);
+    handleEventShowRecipeDetailsFromFavourites(event) {
+        logger.log("Handling event - Show Recipe Details from Favourites",1);
         /*
-        collect the recipe Id attribute from the event
+        collect the recipe attribute from the event
          */
 
         let recipeId = event.target.getAttribute("recipe-id");
-        logger.log("Removing recipes with id " + recipeId,1);
-        let recipeDetails = this.controller.getRecipeFromLastSearchResultsById(recipeId);
+        logger.log("Show recipe with id " + recipeId,1);
+        let recipe = this.controller.getRecipeFromFavouritesById(recipeId);
+
 
         // TO-DO show the modal and display the details
-        this.recipeDetailsView.render(recipeDetails);
+        this.modalHandler.__closeAllModals();
+        this.recipeDetailsView.render(recipe);
+        this.recipeDetailsView.show();
+    }
+
+    handleEventShowRecipeDetailsFromSearch(event) {
+        logger.log("Handling event - Show Recipe Details from Search Results",1);
+        /*
+        collect the recipe attribute from the event
+         */
+
+        let recipeId = event.target.getAttribute("recipe-id");
+        logger.log("Show recipe with id " + recipeId,1);
+
+
+        // TO-DO show the modal and display the details
+        this.modalHandler.__closeAllModals();
+        this.recipeDetailsView.render(this.controller.getRecipeFromLastSearchResultsById(recipeId));
         this.recipeDetailsView.show();
     }
 

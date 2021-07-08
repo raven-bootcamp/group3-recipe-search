@@ -28,10 +28,10 @@ var RecipeDetails = /*#__PURE__*/function () {
 
     var recipeDetailsElement = function recipeDetailsElement() {
       return createElement("li", null, createElement("button", {
-        "recipe-id": recipe.id,
+        recipe: recipe,
         className: "button is-fullwidth is-info is-outlined is-rounded"
       }, createElement("span", {
-        "recipe-id": recipe.id
+        recipe: recipe
       }, recipe.name)));
     };
 

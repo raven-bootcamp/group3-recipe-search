@@ -113,7 +113,13 @@ export default class Controller {
 
     getRecipeFromLastSearchResultsById(recipeId) {
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
-        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id !== recipeId);
+        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
+        return arrayOfRecipes[foundIndex];
+    }
+
+    getRecipeFromFavouritesById(recipeId) {
+        let arrayOfRecipes = stateManager.getStateByName(this.favouriteRecipesKey);
+        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];
     }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "babel frontend/jsx --out-dir public/js",
     "watch": "babel frontend/jsx --out-dir public/js --watch --verbose",
-    "start": "nodemon -e js,env -w server -w .env  -w . server/server.js"
+    "start": "nodemon -e js,env,html -w public -w server -w .env  -w . server/server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
