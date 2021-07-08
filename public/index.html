@@ -1,233 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="./css/bulma.css"/>
     <link rel="stylesheet" href="./css/style.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <title>Chop 'n' Change</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root">
 
-      <div id="shopping-list" class="modal">
+    <div id="shopping-list" class="modal">
         <div class="modal-background">
-          <div class="modal-card pt-5">
-            <header class="modal-card-head">
-              <p class="modal-card-title">Shopping List</p>
-              <button id="close-shopping-list-delete-button" class="delete modal-close-button" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-              <div id="shopping-list-content" class="buttons">
+            <div class="modal-card pt-5">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Shopping List</p>
+                    <button id="close-shopping-list-delete-button" class="delete modal-close-button"
+                            aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div id="shopping-list-content" class="buttons">
 
-                  <!-- Shopping list items go here -->
+                        <!-- Shopping list items go here -->
 
-              </div>
-            </section>
-            <footer class="modal-card-foot">
-              <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
-            </footer>
-          </div>
-        </div>
-      </div>
-
-      <div id="favourite-recipes" class="modal">
-        <div class="modal-background">
-          <div class="modal-card pt-5">
-            <header class="modal-card-head">
-              <p class="modal-card-title">Favourite Recipes</p>
-              <button id="close-favourite-recipes-delete-button" class="delete modal-close-button" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-              <div class="favourite-recipes-content">
-                <ul id="favourite-recipes-content">
-                  <!-- Favourite Recipes list items go here -->
-                </ul>
-              </div>
-            </section>
-            <footer class="modal-card-foot">
-              <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
-            </footer>
-          </div>
-        </div>
-      </div>
-
-        <div id="recipe-details" class="modal">
-            <div class="modal-background">
-                <div class="modal-card pt-5">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Recipe Details</p>
-                        <button class="delete modal-close-button" aria-label="close"></button>
-                    </header>
-                    <section class="modal-card-body">
-                        <div class="recipe-details-content">
-                            <ul id="recipe-details-content">
-                                <!-- Recipe details go here -->
-                            </ul>
-                        </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <button class="button modal-close-button">Close</button>
-                    </footer>
-                </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
+                </footer>
             </div>
         </div>
+    </div>
+
+    <div id="favourite-recipes" class="modal">
+        <div class="modal-background">
+            <div class="modal-card pt-5">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Favourite Recipes</p>
+                    <button id="close-favourite-recipes-delete-button" class="delete modal-close-button"
+                            aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="favourite-recipes-content">
+                        <ul id="favourite-recipes-content">
+                            <!-- Favourite Recipes list items go here -->
+                        </ul>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div id="recipe-details" class="modal">
+        <div class="modal-background">
+            <div class="modal-card pt-5">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Recipe Details</p>
+                    <button class="delete modal-close-button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="recipe-details-content">
+                        <ul id="recipe-details-content">
+                            <!-- Recipe details go here -->
+                        </ul>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button modal-close-button">Close</button>
+                </footer>
+            </div>
+        </div>
+    </div>
 
     <!--Navbar-->
     <nav class="navbar" role="navigation">
 
-      <!-- Title holding the product name -->
-      <div class="navbar-brand">
-        <h1 class="navbar-item">Chop 'n' Change</h1>
-      </div>
-      <div class="navbar-menu" style="float: right;">
-        <div class="navbar-start">
-
-          <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="shopping-list-btn">
-            <i class="fas fa-shopping-cart"></i>
-          </a>
-
-          <!-- Have assigned temp id names feel free to change them -->
-          <a class="navbar-item" id="favourite-btn">
-            <i class="fas fa-star"></i>
-          </a>
+        <!-- Title holding the product name -->
+        <div class="navbar-brand">
+            <h1 class="navbar-item">Chop 'n' Change</h1>
         </div>
-      </div>
+        <div class="navbar-menu" style="float: right;">
+            <div class="navbar-start">
 
-  
+                <!-- Have assigned temp id names feel free to change them -->
+                <a class="navbar-item" id="shopping-list-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+
+                <!-- Have assigned temp id names feel free to change them -->
+                <a class="navbar-item" id="favourite-btn">
+                    <i class="fas fa-star"></i>
+                </a>
+            </div>
+        </div>
+
+
     </nav>
 
     <!-- Main section holding the search box with a background image -->
     <section class="main_section">
-      <div class="card">
-        <div class="card-content">
-          <p class="title">Search</p>
+        <div class="card">
+            <div class="card-content">
+                <p class="title">Search</p>
 
-          <!-- Have assigned a temp id for search can be changed -->
-          <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
+                <!-- Have assigned a temp id for search can be changed -->
+                <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- Results section -->
     <section class="results_section" id="search_results">
 
-      <!-- Have just copied Irene's placeholder cards from recipe_list.html -->
-      <div class="container">
-        <div class="columns">
-            <div class="column is-mobile is-3-tablet is-3-desktop recipe-1">
-                <div class="card recipe-card-1 ">
-                    <header class="card-header recipe-title-1">
-                        <!--Javascript to add in recipe name, meal type and diet-->
-                        <p class="card-header-title is-size-5">
+        <!-- Have just copied Irene's placeholder cards from recipe_list.html -->
+        <div class="container is-hidden">
+            <div class="columns">
+
+                <!-- Search result 1 -->
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-1">
+                    <div class="card recipe-card-1 ">
+                        <header class="card-header recipe-title-1">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <span class="card-header-title is-size-5" id="results-title-1">
                             Recipe title
-                        </p>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                        </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-heart"></i>
                             </span>
                         </span>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-list"></i>
                             </span>
                         </span>
-                    </header>
-                    <div class="card-image has-text-centered">
-                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img id="results-img-1" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--Recipe 2-->
-            <div class="column is-mobile is-3-tablet is-3-desktop recipe-2">
-                <div class="card recipe-card-2">
-                    <header class="card-header recipe-title-2">
-                        <!--Javascript to add in recipe name, meal type and diet-->
-                        <p class="card-header-title is-size-5 ">
+                <!--Search result 2-->
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-2">
+                    <div class="card recipe-card-2">
+                        <header class="card-header recipe-title-2">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <span class="card-header-title is-size-5" id="results-title-2">
                             Recipe title
-                        </p>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                        </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-heart"></i>
                             </span>
                         </span>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-list"></i>
                             </span>
                         </span>
-                    </header>
-                    <div class="card-image has-text-centered">
-                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img id="results-img-2" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--Recipe 3-->
-            <div class="column is-mobile is-3-tablet is-3-desktop recipe-3">
-                <div class="card recipe-card-3">
-                    <header class="card-header recipe-title-3">
-                        <!--Javascript to add in recipe name, meal type and diet-->
-                        <p class="card-header-title is-size-5 ">
+                <!--Search result 3-->
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-3">
+                    <div class="card recipe-card-3">
+                        <header class="card-header recipe-title-3">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <span class="card-header-title is-size-5 " id="results-title-3">
                             Recipe title
-                        </p>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                        </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-heart"></i>
                             </span>
                         </span>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-list"></i>
                             </span>
                         </span>
-                    </header>
-                    <div class="card-image has-text-centered">
-                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img id="results-img-3" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--Recipe 4-->
+                <!--Search result 4-->
 
-            <div class="column is-mobile is-3-tablet is-3-desktop recipe-4">
-                <div class="card recipe-card-4">
-                    <header class="card-header recipe-title-4">
-                        <!--Javascript to add in recipe name, meal type and diet-->
-                        <p class="card-header-title is-size-5 ">
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-4">
+                    <div class="card recipe-card-4">
+                        <header class="card-header recipe-title-4">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <span class="card-header-title is-size-5 " id="results-title-4">
                             Recipe title
-                        </p>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                        </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-heart"></i>
                             </span>
                         </span>
-                        <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                             <span class="icon">
                                 <i class="fas fa-list"></i>
                             </span>
                         </span>
-                    </header>
-                    <div class="card-image has-text-centered">
-                        <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img id="results-img-4" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
     </section>
 
 
-  <!-- Footer have left bare for now -->
-  <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
+    <!-- Footer have left bare for now -->
+    <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
 
-  </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script type="module" src="./js/App.js"></script>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script type="module" src="./js/App.js"></script>
 </html>
