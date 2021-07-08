@@ -243,7 +243,7 @@ var searchRefineEl = document.querySelector("#search-refine"); // the dropdown e
 var favBtn = document.querySelector("#favourite-btn"); // the button to open the favourites modal
 var shoppingListBtn = document.querySelector("#shopping-list-btn"); // the button to open the shopping list modal
 var supermarketButton = document.querySelector("#supermarket-btn"); // the button to open the supermarket map feature, may not need this
-var resultsList = document.querySelector("#results-list"); // the container that we will append our search results elements to
+var resultsList = document.querySelector("#search_results"); // the container that we will append our search results elements to
 var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
 
 
