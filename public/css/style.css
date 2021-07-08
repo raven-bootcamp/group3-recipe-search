@@ -24,6 +24,7 @@ nav {
     margin-top: 5%;
     margin-bottom: 5%;
     padding: 20px;
+    border-radius: 14px;
 }
 
 /* Custom chnages made on the input on top of Bulma */
@@ -37,3 +38,12 @@ input {
 }
 
 .modal-close-button {}
+
+#filters {
+    display: none;
+    padding: 20px;
+}
+
+.filter_sections {
+    margin-top: 7px;
+}
