@@ -17,14 +17,18 @@ export default class RecipeSearchResults {
             }
 
             for (var i = 0; i < results; i++) {
-                var recipeName = results[i].recipeName // UPDATE KEY
+                var recipeName = results[i].recipeName // UPDATE KEY to whatever this is
+                var recipeImg = results[i].recipeImg // Update to whatever this is
 
-                var recipeCard = document.createElement("div");
-                recipeCard.classList = "card";
+                // populate recipe name
+                var recipeCardTitle = document.querySelector("#results-title-" + i);
+                recipeCardTitle.textContent = recipeName
+                recipeCardTitle.setAttribute("href", handleEventShowRecipeDetails(recipeName));
 
-                var recipeCardTitle = document.createElement("p");
-                recipeCardTitle.classList = "card-header-title is-size-4";
-                
+                // populate recipe image
+                var recipeCardImg = document.querySelector("#results-img-" + i);
+                recipeCardImg.src = recipeImg;
+                recipeCardImg.setAttribute("href", handleEventShowRecipeDetails(recipeName));                
             }
         
             
