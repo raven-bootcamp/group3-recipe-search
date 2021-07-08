@@ -15,6 +15,8 @@ class App {
         this.searchResultsView = new RecipeSearchResults(this,document,this.modalHandler);
         this.recipeDetailsView = new RecipeDetails(this,document,this.modalHandler);
 
+        this.paginationDiv = document.getElementById("search-results-nav");
+
         // state change handlers (called when the data changes in the application)
         this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
         this.handleRecipeSearchResultsChange = this.handleRecipeSearchResultsChange.bind(this);
@@ -37,7 +39,9 @@ class App {
 
 
         this.currentPageNumber = 1;
-        this.resultsOffsetPerPage = 4;
+        this.resultsPerPage = 4;
+        this.numberOfPages = 5;
+        this.paginationDiv.classList.add("is-hidden");
 
         this.controller.initialise();
     }
@@ -52,7 +56,7 @@ class App {
     }
 
     getResultsPerPage() {
-        return this.resultsOffsetPerPage;
+        return this.resultsPerPage;
     }
 
     setCurrentPageNumber(currentPageNumber) {
@@ -68,7 +72,11 @@ class App {
     }
 
     getTotalPageNumber() {
-        return 5;
+        return this.numberOfPages;
+    }
+
+    setTotalPages(totalPages) {
+        this.numberOfPages = totalPages;
     }
 
     increasePageNumber() {
@@ -185,10 +193,32 @@ class App {
 
            if the array is empty (length 0) then there are no matching recipes or there was a web error (can't get data)
         */
-        // TO-DO display the recipes on the user interface
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling recipes change for display");
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(recipes);
+
         this.setCurrentPageNumber(1);
+        if (recipes.length > 0) {
+            // show the pagination
+            this.paginationDiv.classList.remove("is-hidden");
+            // how many pages are there?
+            let numberOfPages = Math.ceil(recipes.length/this.getResultsPerPage());
+            if (numberOfPages < 5) {
+                for (let index = 5;index > numberOfPages;index--) {
+                    document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-hidden");
+                }
+                this.setTotalPages(numberOfPages);
+            }
+            else {
+                this.setTotalPages(5);
+                for (let index = 1;index <= this.getTotalPageNumber();index++) {
+                    document.getElementById("page-" + index).classList.remove("is-hidden");
+                }
+            }
+        }
+        else {
+            // hide the pagination
+            this.paginationDiv.classList.add("is-hidden");
+        }
         this.searchResultsView.render(recipes);
     }
 

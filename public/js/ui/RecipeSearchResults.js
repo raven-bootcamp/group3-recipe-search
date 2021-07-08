@@ -82,7 +82,7 @@ var RecipeSearchResults = /*#__PURE__*/function () {
       index++;
     };
 
-    while (index < endIndex) {
+    while (index < endIndex && index < numberOfResults) {
       _loop();
     }
   };

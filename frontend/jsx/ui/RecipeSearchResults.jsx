@@ -33,7 +33,7 @@ export default class RecipeSearchResults {
         let endIndex = (currentPage * pageOffset);
 
         let index = startIndex;
-        while (index < endIndex ) {
+        while ((index < endIndex) && (index < numberOfResults)) {
             let recipe = arrayOfRecipes[index];
 
             let recipesSearchElement = () =>  (
