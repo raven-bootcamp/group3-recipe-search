@@ -1,41 +1,58 @@
+/** @jsx createElement */
+
+/*** @jsxFrag createFragment */
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
+import { createFragment, createElement } from "../util/ui/JsxProcessor.js";
+import modalHandler from "../util/ui/ModalHandler.js";
 
-export default class ShoppingList {
-    constructor(application,document) {
-        this.document = document;
-        this.application = application;
-        this.domutil = new DOMUtil(document);
-        this.hide = this.hide.bind(this);
+var ShoppingList = /*#__PURE__*/function () {
+  function ShoppingList(application, document, modalHandler) {
+    this.application = application;
+    this.document = document;
+    this.modalHandler = modalHandler;
+    this.elementId = "shopping-list";
+    this.domutil = new DOMUtil(document);
+    this.modalHandler.addNewModal(this.elementId);
+  }
 
-        let closeButtonEl = this.document.getElementById("close-shopping-list-delete-button");
-        closeButtonEl.addEventListener("click",this.hide);
-        closeButtonEl = this.document.getElementById("close-shopping-list-button");
-        closeButtonEl.addEventListener("click",this.hide);
+  var _proto = ShoppingList.prototype;
+
+  _proto.render = function render(shoppingList) {
+    var _this = this;
+
+    logger.log("Rendering shopping list", 10);
+    logger.log(shoppingList, 10); // clear the current shopping list and redraw dynamically
+
+    var element = this.document.getElementById(this.elementId + "-content");
+    this.domutil.removeAllChildNodes(element);
+
+    var _loop = function _loop(index) {
+      var shoppingListElement = function shoppingListElement() {
+        return createElement("button", {
+          class: "button is-fullwidth is-info is-outlined is-rounded",
+          onClick: _this.application.handleEventRemoveIngredientFromShoppingList
+        }, createElement("span", null, shoppingList[index]), createElement("span", {
+          class: "icon is-small"
+        }, createElement("i", {
+          class: "fas fa-times"
+        })));
+      };
+
+      element.appendChild(shoppingListElement());
+    };
+
+    for (var index = 0; index < shoppingList.length; index++) {
+      _loop(index);
     }
+  };
 
-    render(shoppingList) {
-        logger.log("Rendering shopping list",10);
-        logger.log(shoppingList,10);
-        // clear the current shopping list and redraw dynamically
-        let element = this.document.getElementById("shopping-list-content");
-        this.domutil.removeAllChildNodes(element);
-        // add the ingredients as buttons under list items
-        for (let index = 0;index < shoppingList.length;index++) {
-            let buttonEl = this.domutil.addDeleteButtonAsListItemOfParent(shoppingList[index],element);
-            buttonEl.addEventListener("click",this.application.handleEventRemoveIngredientFromShoppingList);
-        }
-    }
+  _proto.show = function show() {
+    logger.log("Showing shopping list", 10);
+    this.modalHandler.showModal(this.elementId);
+  };
 
-    show() {
-        logger.log("Showing shopping list",10);
-        let element = this.document.getElementById("shopping-list");
-        element.classList.add("is-active");
-    }
+  return ShoppingList;
+}();
 
-    hide(event) {
-        logger.log("Hiding shopping list",10);
-        let element = this.document.getElementById("shopping-list");
-        element.classList.remove("is-active");
-    }
-}
+export { ShoppingList as default };
