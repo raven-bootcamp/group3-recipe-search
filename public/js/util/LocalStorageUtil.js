@@ -69,4 +69,18 @@ export default class LocalStorageUtil {
         }
 
     }
+
+    isItemInKeyStorageWithFunctionForEquality(key,item,testForEqualityFunction) {
+        let result = false;
+        if (item !== null) {
+            let previousResults = this.getWithStorageKey(key);
+            let foundIndex = previousResults.findIndex((element) => {
+                return testForEqualityFunction(element,item)
+            });
+            if (foundIndex >= 0) {
+                result = true;
+            }
+        }
+        return result;
+    }
 }
