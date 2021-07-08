@@ -4,14 +4,16 @@ import ShoppingList from "./ui/ShoppingList.js";
 import FavouriteRecipes from "./ui/FavouriteRecipes.js";
 import RecipeSearchResults from "./ui/RecipeSearchResults.js";
 import RecipeDetails from "./ui/RecipeDetails.js";
+import ModalHandler from "./util/ui/ModalHandler.js";
 
 class App {
     constructor() {
         this.controller = new Controller(this, window.localStorage);
-        this.shoppingListView = new ShoppingList(this,document);
-        this.favouriteRecipesView = new FavouriteRecipes(this,document);
+        this.modalHandler = new ModalHandler(document,"is-active");
+        this.shoppingListView = new ShoppingList(this,document,this.modalHandler);
+        this.favouriteRecipesView = new FavouriteRecipes(this,document,this.modalHandler);
         this.searchResultsView = new RecipeSearchResults(document);
-        this.recipeDetailsView = new RecipeDetails(document);
+        this.recipeDetailsView = new RecipeDetails(this,document,this.modalHandler);
 
         // state change handlers (called when the data changes in the application)
         this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
@@ -153,8 +155,9 @@ class App {
       This is the event handler for when the user removes a recipe from the favourites
     */
     handleEventRemoveRecipeFromFavourites(event) {
-        logger.log("Handling event - Remove Recipe to Favourites List",1);
-        let recipeId = ""; // TO DO get from the document element
+        logger.log("Handling event - Remove Recipe from Favourites List",1);
+        let recipeId = event.target.getAttribute("recipe-id");
+        logger.log("Removing recipes with id " + recipeId,1);
 
         this.controller.removeRecipeFromFavouriteRecipesById(recipeId);
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
@@ -207,7 +210,8 @@ class App {
         collect the recipe Id attribute from the event
          */
 
-        let recipeId = ""; //get from document element
+        let recipeId = event.target.getAttribute("recipe-id");
+        logger.log("Removing recipes with id " + recipeId,1);
         let recipeDetails = this.controller.getRecipeFromLastSearchResultsById(recipeId);
 
         // TO-DO show the modal and display the details
@@ -229,7 +233,7 @@ class App {
 
 /* turn on console messages for development*/
 logger.setOn();
-logger.setLevel(200);
+logger.setLevel(1000);
 
 let app = new App();
 

@@ -1,40 +1,69 @@
+/** @jsx createElement */
+
+/*** @jsxFrag createFragment */
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
+import { createFragment, createElement } from "../util/ui/JsxProcessor.js";
+import modalHandler from "../util/ui/ModalHandler.js";
 
-export default class FavouriteRecipes {
-    constructor(application,document) {
-        this.document = document;
-        this.application = application;
-        this.domutil = new DOMUtil(document);
-        this.hide = this.hide.bind(this);
+var FavouriteRecipes = /*#__PURE__*/function () {
+  function FavouriteRecipes(application, document, modalHandler) {
+    this.application = application;
+    this.document = document;
+    this.modalHandler = modalHandler;
+    this.elementId = "favourite-recipes";
+    this.domutil = new DOMUtil(document);
+    this.modalHandler.addNewModal(this.elementId);
+  }
 
-        let closeButtonEl = this.document.getElementById("close-favourite-recipes-delete-button");
-        closeButtonEl.addEventListener("click",this.hide);
-        closeButtonEl = this.document.getElementById("close-favourite-recipes-button");
-        closeButtonEl.addEventListener("click",this.hide);
+  var _proto = FavouriteRecipes.prototype;
+
+  _proto.render = function render(arrayOfFavouriteRecipes) {
+    var _this = this;
+
+    logger.log("Rendering favourite recipe list", 10);
+    logger.log(arrayOfFavouriteRecipes, 10); // clear the current shopping list and redraw dynamically
+
+    var element = this.document.getElementById(this.elementId + "-content");
+    this.domutil.removeAllChildNodes(element);
+
+    var _loop = function _loop(index) {
+      var recipe = arrayOfFavouriteRecipes[index];
+
+      var recipesListElement = function recipesListElement() {
+        return createElement("li", null, createElement("button", {
+          "recipe-id": recipe.id,
+          class: "button is-fullwidth is-info is-outlined is-rounded",
+          onClick: _this.application.handleEventShowRecipeDetails
+        }, createElement("span", {
+          "recipe-id": recipe.id
+        }, recipe.name)), createElement("button", {
+          "recipe-id": recipe.id,
+          class: "delete",
+          onClick: _this.application.handleEventRemoveRecipeFromFavourites
+        }, createElement("span", {
+          "recipe-id": recipe.id,
+          className: "icon is-small"
+        }, createElement("i", {
+          "recipe-id": recipe.id,
+          className: "fas fa-times"
+        }))));
+      };
+
+      element.appendChild(recipesListElement());
+    };
+
+    for (var index = 0; index < arrayOfFavouriteRecipes.length; index++) {
+      _loop(index);
     }
+  };
 
-    render(arrayOfFavouriteRecipes) {
-        logger.log("Rendering favourite recipes",10);
-        logger.log(arrayOfFavouriteRecipes,10);
-        // clear the current favourite recipe list and redraw dynamically
-        let element = this.document.getElementById("favourite-recipes-content");
-        this.domutil.removeAllChildNodes(element);
-        // add the ingredients as buttons under list items
-        for (let index = 0;index < arrayOfFavouriteRecipes.length;index++) {
+  _proto.show = function show() {
+    logger.log("Showing favourite recipes", 10);
+    this.modalHandler.showModal(this.elementId);
+  };
 
-        }
-    }
+  return FavouriteRecipes;
+}();
 
-    show() {
-        logger.log("Showing favourite recipes",10);
-        let element = this.document.getElementById("favourite-recipes");
-        element.classList.add("is-active");
-    }
-
-    hide(event) {
-        logger.log("Hiding favourite recipes",10);
-        let element = this.document.getElementById("favourite-recipes");
-        element.classList.remove("is-active");
-    }
-}
+export { FavouriteRecipes as default };

@@ -4,17 +4,16 @@
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
 import { createFragment, createElement } from "../util/ui/JsxProcessor.js";
+import modalHandler from "../util/ui/ModalHandler.js";
 
 var ShoppingList = /*#__PURE__*/function () {
-  function ShoppingList(application, document) {
-    this.document = document;
+  function ShoppingList(application, document, modalHandler) {
     this.application = application;
+    this.document = document;
+    this.modalHandler = modalHandler;
+    this.elementId = "shopping-list";
     this.domutil = new DOMUtil(document);
-    this.hide = this.hide.bind(this);
-    var closeButtonEl = this.document.getElementById("close-shopping-list-delete-button");
-    closeButtonEl.addEventListener("click", this.hide);
-    closeButtonEl = this.document.getElementById("close-shopping-list-button");
-    closeButtonEl.addEventListener("click", this.hide);
+    this.modalHandler.addNewModal(this.elementId);
   }
 
   var _proto = ShoppingList.prototype;
@@ -25,7 +24,7 @@ var ShoppingList = /*#__PURE__*/function () {
     logger.log("Rendering shopping list", 10);
     logger.log(shoppingList, 10); // clear the current shopping list and redraw dynamically
 
-    var element = this.document.getElementById("shopping-list-content");
+    var element = this.document.getElementById(this.elementId + "-content");
     this.domutil.removeAllChildNodes(element);
 
     var _loop = function _loop(index) {
@@ -50,14 +49,7 @@ var ShoppingList = /*#__PURE__*/function () {
 
   _proto.show = function show() {
     logger.log("Showing shopping list", 10);
-    var element = this.document.getElementById("shopping-list");
-    element.classList.add("is-active");
-  };
-
-  _proto.hide = function hide(event) {
-    logger.log("Hiding shopping list", 10);
-    var element = this.document.getElementById("shopping-list");
-    element.classList.remove("is-active");
+    this.modalHandler.showModal(this.elementId);
   };
 
   return ShoppingList;

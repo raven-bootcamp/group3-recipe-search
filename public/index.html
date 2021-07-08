@@ -17,7 +17,7 @@
           <div class="modal-card pt-5">
             <header class="modal-card-head">
               <p class="modal-card-title">Shopping List</p>
-              <button id="close-shopping-list-delete-button" class="delete" aria-label="close"></button>
+              <button id="close-shopping-list-delete-button" class="delete modal-close-button" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
               <div id="shopping-list-content" class="buttons">
@@ -27,7 +27,7 @@
               </div>
             </section>
             <footer class="modal-card-foot">
-              <button id="close-shopping-list-button" class="button">Close</button>
+              <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
             </footer>
           </div>
         </div>
@@ -38,7 +38,7 @@
           <div class="modal-card pt-5">
             <header class="modal-card-head">
               <p class="modal-card-title">Favourite Recipes</p>
-              <button id="close-favourite-recipes-delete-button" class="delete" aria-label="close"></button>
+              <button id="close-favourite-recipes-delete-button" class="delete modal-close-button" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
               <div class="favourite-recipes-content">
@@ -48,12 +48,32 @@
               </div>
             </section>
             <footer class="modal-card-foot">
-              <button id="close-favourite-recipes-button" class="button">Close</button>
+              <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
             </footer>
           </div>
         </div>
       </div>
 
+        <div id="recipe-details" class="modal">
+            <div class="modal-background">
+                <div class="modal-card pt-5">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Favourite Recipes</p>
+                        <button class="delete modal-close-button" aria-label="close"></button>
+                    </header>
+                    <section class="modal-card-body">
+                        <div class="recipe-details-content">
+                            <ul id="recipe-details-content">
+                                <!-- Favourite Recipes list items go here -->
+                            </ul>
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button modal-close-button">Close</button>
+                    </footer>
+                </div>
+            </div>
+        </div>
 
     <!--Navbar-->
     <nav class="navbar" role="navigation">

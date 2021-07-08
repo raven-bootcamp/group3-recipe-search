@@ -207,7 +207,7 @@ export default class Controller {
 
     /* this function is used to compare a recipe with an id in the local storage using the id value */
     isSameRecipeById(recipe, id) {
-        return (recipe.id === id);
+        return (recipe.id == id);
     }
 
     isSameRecipe(recipe1, recipe2) {
