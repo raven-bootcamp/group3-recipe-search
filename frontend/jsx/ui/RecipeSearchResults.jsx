@@ -16,8 +16,8 @@ export default class RecipeSearchResults {
 
     render(arrayOfRecipes) {
         // clear the current results list and redraw dynamically
-        logger.log("Rendering search results",10);
-        logger.log(arrayOfRecipes,10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering search results");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfRecipes);
 
         this.domUtils.removeAllChildNodes(this.divElement);
 
@@ -30,7 +30,7 @@ export default class RecipeSearchResults {
                     <div class="card">
                         <header class="card-header">
                             <p class="card-header-title is-size-5">
-                                <a href={recipe.URL}>{recipe.name}</a>
+                                <a target="_blank" href={recipe.URL}>{recipe.name}</a>
                             </p>
                             <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                                 <span recipe-id={recipe.id} class="icon">
@@ -44,7 +44,7 @@ export default class RecipeSearchResults {
                             </span>
                         </header>
                         <div class="card-image has-text-centered">
-                            <img src={recipe.imageURL} alt={recipe.name}/>
+                            <img class="recipe-clickable-image" recipe-id={recipe.id} src={recipe.imageURL} alt={recipe.name} onClick={this.application.handleEventShowRecipeDetailsFromSearch}/>
                         </div>
                     </div>
                 </div>
@@ -53,34 +53,5 @@ export default class RecipeSearchResults {
             this.divElement.appendChild(recipesSearchElement());
             index++;
         }
-
-
-
-
-
-        var displaySearchResults = function (results) {
-            if (results.length === 0) {
-                resultsList.textContent = "No recipes found!";
-                return;
-            }
-
-            for (var i = 0; i < results; i++) {
-                var recipeName = results[i].recipeName // UPDATE KEY to whatever this is
-                var recipeImg = results[i].recipeImg // Update to whatever this is
-
-                // populate recipe name
-                var recipeCardTitle = document.querySelector("#results-title-" + i);
-                recipeCardTitle.textContent = recipeName
-                recipeCardTitle.setAttribute("href", handleEventShowRecipeDetails(recipeName));
-
-                // populate recipe image
-                var recipeCardImg = document.querySelector("#results-img-" + i);
-                recipeCardImg.src = recipeImg;
-                recipeCardImg.setAttribute("href", handleEventShowRecipeDetails(recipeName));
-            }
-
-
-        }
-
     }
 }

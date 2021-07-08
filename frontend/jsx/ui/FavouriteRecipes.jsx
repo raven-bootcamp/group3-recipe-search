@@ -19,8 +19,8 @@ export default class FavouriteRecipes {
     }
 
     render(arrayOfFavouriteRecipes) {
-        logger.log("Rendering favourite recipe list",10);
-        logger.log(arrayOfFavouriteRecipes,10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering favourite recipe list");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfFavouriteRecipes);
         // clear the current shopping list and redraw dynamically
         let element = this.document.getElementById(this.elementId + "-content");
         this.domutil.removeAllChildNodes(element);
@@ -46,7 +46,7 @@ export default class FavouriteRecipes {
     }
 
     show() {
-        logger.log("Showing favourite recipes",10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Showing favourite recipes");
         this.modalHandler.showModal(this.elementId);
     }
 

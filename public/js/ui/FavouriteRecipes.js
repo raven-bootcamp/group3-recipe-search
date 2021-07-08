@@ -21,8 +21,8 @@ var FavouriteRecipes = /*#__PURE__*/function () {
   _proto.render = function render(arrayOfFavouriteRecipes) {
     var _this = this;
 
-    logger.log("Rendering favourite recipe list", 10);
-    logger.log(arrayOfFavouriteRecipes, 10); // clear the current shopping list and redraw dynamically
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering favourite recipe list");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(arrayOfFavouriteRecipes); // clear the current shopping list and redraw dynamically
 
     var element = this.document.getElementById(this.elementId + "-content");
     this.domutil.removeAllChildNodes(element);
@@ -62,7 +62,7 @@ var FavouriteRecipes = /*#__PURE__*/function () {
   };
 
   _proto.show = function show() {
-    logger.log("Showing favourite recipes", 10);
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Showing favourite recipes");
     this.modalHandler.showModal(this.elementId);
   };
 

@@ -8,21 +8,21 @@ class StateManagementUtil {
     }
 
     /* private method */ __isStatePresent(name) {
-        logger.log(`Checking state of ${name} not already present`,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Checking state of ${name} not already present`);
         let result = (this.applicationState.findIndex((element) => element.name === name) >= 0);
-        logger.log(`Checking state of ${name} is already present ${result}`,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Checking state of ${name} is already present ${result}`,200);
         return result;
     }
 
     __informChangeListenersForStateWithName(name,stateObjValue) {
-        logger.log(`Informing state listeners of ${name}`,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Informing state listeners of ${name}`);
         let foundIndex = this.stateChangeListeners.findIndex((element) => element.name === name);
         if (foundIndex >= 0) {
-            logger.log(`Found state listeners of ${name}`,201);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Found state listeners of ${name}`);
             /* let each state change listener know */
             let changeListenersForName = this.stateChangeListeners[foundIndex];
             for (let index = 0;index < changeListenersForName.listeners.length;index++) {
-                logger.log(`Found state listener of ${name} - informing`,202);
+                if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Found state listener of ${name} - informing`);
                 let listener = changeListenersForName.listeners[index];
                 listener(name,stateObjValue);
             }
@@ -37,14 +37,14 @@ class StateManagementUtil {
       stateObjValue - object - the new state value
      */
     addChangeListenerForName(name,listener) {
-        logger.log(`Adding state listener for ${name}`,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Adding state listener for ${name}`);
         let foundIndex = this.stateChangeListeners.findIndex((element) => element.name === name);
         if (foundIndex >= 0) {
             let changeListenersForName = this.stateChangeListeners[foundIndex];
             changeListenersForName.listeners.push(listener);
         }
         else {
-            logger.log(`Adding state listener for ${name} - first occurrence`,201);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Adding state listener for ${name} - first occurrence`);
             let listenersNameArrayPair = {
                 name: name,
                 listeners: [listener]
@@ -55,15 +55,15 @@ class StateManagementUtil {
     }
 
     getStateByName(name) {
-        logger.log(`Getting state for ${name}`,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Getting state for ${name}`);
         let stateValueObj = {};
         let foundIndex = this.applicationState.findIndex((element) => element.name == name);
         if (foundIndex >= 0) {
             // get the current state
             let stateNameValuePair = this.applicationState[foundIndex];
             stateValueObj = stateNameValuePair.value;
-            logger.log(`Found previous state for ${name}`,201);
-            logger.log(stateValueObj);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Found previous state for ${name}`);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(stateValueObj);
         }
         else {
             // create the state if not already present
@@ -73,19 +73,18 @@ class StateManagementUtil {
     }
 
     setStateByName(name, stateObjectForName) {
-        logger.log(`Setting state for ${name}`,200);
-        logger.log(stateObjectForName,200);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Setting state for ${name}`);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(stateObjectForName);
         let foundIndex = this.applicationState.findIndex((element) => element.name == name);
         if (foundIndex >= 0) {
-            logger.log(`Setting state for ${name} into current value of state manager`,201);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Setting state for ${name} into current value of state manager`);
             // set the current state
             let stateNameValuePair = this.applicationState[foundIndex];
             stateNameValuePair.value = stateObjectForName;
-            logger.log(stateNameValuePair,202);
-            logger.log(this.applicationState[foundIndex],203);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(this.applicationState[foundIndex]);
         }
         else {
-            logger.log(`State ${name} doesn't exist yet, adding`,201);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`State ${name} doesn't exist yet, adding`);
             // create the state if not already present
             this.addStateByName(name,stateObjectForName);
         }
@@ -96,7 +95,7 @@ class StateManagementUtil {
     addStateByName(name, stateObjForName) {
         /* create a new state attribute for the application state */
         if (!this.__isStatePresent(name)) {
-            logger.log(`Adding state for ${name} - first occurrence`,201);
+            if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(`Adding state for ${name} - first occurrence`);
             let stateNameValuePair = {
                 name: name,
                 value: stateObjForName

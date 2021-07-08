@@ -30,6 +30,7 @@ class App {
         this.handleEventRemoveIngredientFromShoppingList = this.handleEventRemoveIngredientFromShoppingList.bind(this);
         this.handleEventShowRecipeDetailsFromFavourites = this.handleEventShowRecipeDetailsFromFavourites.bind(this);
         this.handleEventShowRecipeDetailsFromSearch = this.handleEventShowRecipeDetailsFromSearch.bind(this);
+        this.handleEventAddFavouriteRecipeToShoppingList = this.handleEventAddFavouriteRecipeToShoppingList.bind(this);
 
 
         this.controller.initialise();
@@ -57,22 +58,22 @@ class App {
            if the array is empty (length 0) then there are no matching recipes or there was a web error (can't get data)
         */
         // TO-DO display the recipes on the user interface
-        logger.log("Handling recipes change for display", 1);
-        logger.log(recipes, 100);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling recipes change for display");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(recipes);
         this.searchResultsView.render(recipes);
     }
 
     /*  This method is called from the Controller when favourite recipes are loaded or changed */
     handleFavouriteRecipesChange(arrayOfFavouriteRecipes) {
-        logger.log("Handling favourite recipes change for display", 1);
-        logger.log(arrayOfFavouriteRecipes);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling favourite recipes change for display");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfFavouriteRecipes);
         this.favouriteRecipesView.render(arrayOfFavouriteRecipes);
     }
 
     /*  This method is called from the Controller when the shopping list is loaded or changed */
     handleShoppingListChange(arrayOfIngredientStrings) {
-        logger.log("Handling shopping list change for display", 1);
-        logger.log(arrayOfIngredientStrings);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling shopping list change for display");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfIngredientStrings);
         this.shoppingListView.render(arrayOfIngredientStrings);
     }
 
@@ -92,7 +93,7 @@ class App {
         if (event.keyCode === 13) {
             event.preventDefault();
 
-            logger.log("Handling event - Start Recipe Search", 1);
+            if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
             let queryText = event.target.value.trim();
 
             // code in here to collect the information from the elements of the page
@@ -109,8 +110,8 @@ class App {
             let isVegetarian = document.getElementById("vegetarian").checked;
             let isDiabetic = document.getElementById("sugar-conscious").checked;
             let isBreakfast = document.getElementById("breakfast").checked;
-            let isLunch = document.getElementById("dinner").checked;
-            let isDinner = document.getElementById("lunch").checked;
+            let isLunch = document.getElementById("lunch").checked;
+            let isDinner = document.getElementById("dinner").checked;
             let isSnack = document.getElementById("snack").checked;
             this.controller.searchForRecipes(
                 queryText,
@@ -140,13 +141,13 @@ class App {
     This the event handler for when the user adds a recipe to the favourites
      */
     handleEventAddRecipeToFavourites(event) {
-        logger.log("Handling event - Add Recipe to Favourites List",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Favourites List");
         /*
         collect the recipe Id attribute from the event
          */
 
         let recipeId = event.target.getAttribute("recipe-id");
-        logger.log("Handling event - Add Recipe to Favourites List with id " + recipeId,1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Favourites List with id " + recipeId);
 
         this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId));
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
@@ -156,24 +157,29 @@ class App {
       This is the event handler for when the user removes a recipe from the favourites
     */
     handleEventRemoveRecipeFromFavourites(event) {
-        logger.log("Handling event - Remove Recipe from Favourites List",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove Recipe from Favourites List");
         let recipeId = event.target.getAttribute("recipe-id");
-        logger.log("Removing recipes with id " + recipeId,1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Removing recipes with id " + recipeId);
 
         this.controller.removeRecipeFromFavouriteRecipesById(recipeId);
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
     }
 
+    handleEventAddFavouriteRecipeToShoppingList(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - add Favourite Recipe to Shopping List");
+        let recipeId = event.target.getAttribute("recipe-id");
+        this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromFavouritesById(recipeId));
+    }
     /*
       This is the event handler for when the user adds a recipe to the shopping list
     */
     handleEventAddRecipeToShoppingList(event) {
-        logger.log("Handling event - Add Recipe to Shopping List",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Shopping List");
         /*
         collect the recipe Id attribute from the event
          */
 
-        let recipeId = event.target.getAttribute("recipe-id"); // TO-DO get from document element
+        let recipeId = event.target.getAttribute("recipe-id");
 
 
         this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromLastSearchResultsById(recipeId));
@@ -184,7 +190,7 @@ class App {
      This the event handler for when the user wants to see the shopping list
       */
     handleEventShowShoppingList(event) {
-        logger.log("Handling event - Show Shopping List",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Shopping List");
         // ask the controller to change the state and get the favourite recipes list
         this.controller.getShoppingList();
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
@@ -195,7 +201,7 @@ class App {
      This the event handler for when the user wants to see the favourite recipes list
       */
     handleEventShowFavouriteRecipes(event) {
-        logger.log("Handling event - Show Favourite Recipe List",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Favourite Recipe List");
         // ask the controller to change the state and get the favourite recipes list
         this.controller.getFavouriteRecipes();
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
@@ -206,30 +212,28 @@ class App {
     This the event handler for when the user wants to see the recipe details
      */
     handleEventShowRecipeDetailsFromFavourites(event) {
-        logger.log("Handling event - Show Recipe Details from Favourites",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Recipe Details from Favourites");
         /*
         collect the recipe attribute from the event
          */
 
         let recipeId = event.target.getAttribute("recipe-id");
-        logger.log("Show recipe with id " + recipeId,1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Show recipe with id " + recipeId);
         let recipe = this.controller.getRecipeFromFavouritesById(recipeId);
 
-
-        // TO-DO show the modal and display the details
         this.modalHandler.__closeAllModals();
-        this.recipeDetailsView.render(recipe);
+        this.recipeDetailsView.render(recipe,true);
         this.recipeDetailsView.show();
     }
 
     handleEventShowRecipeDetailsFromSearch(event) {
-        logger.log("Handling event - Show Recipe Details from Search Results",1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Recipe Details from Search Results");
         /*
         collect the recipe attribute from the event
          */
 
         let recipeId = event.target.getAttribute("recipe-id");
-        logger.log("Show recipe with id " + recipeId,1);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Show recipe with id " + recipeId);
 
 
         // TO-DO show the modal and display the details
@@ -242,8 +246,8 @@ class App {
       This is the event handler for when the user removes an ingredient from the shopping list
     */
     handleEventRemoveIngredientFromShoppingList(event) {
-        logger.log("Handling event - Remove Ingredient from Shopping List",1);
-        let ingredient = event.target.innerText; // GET FROM the document element via the event
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove Ingredient from Shopping List");
+        let ingredient = event.target.getAttribute("ingredient"); // GET FROM the document element via the event
 
         this.controller.removeIngredientFromShoppingList(ingredient);
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
@@ -263,7 +267,8 @@ class App {
 
 /* turn on console messages for development*/
 logger.setOn();
-logger.setLevel(1000);
+logger.setLevel(200);
+logger.setMinLevel(0);
 
 let app = new App();
 

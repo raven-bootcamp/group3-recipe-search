@@ -40,6 +40,7 @@ export default class Controller {
         // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
         this.getFavouriteRecipes();
         this.getShoppingList();
+        this.getPreviousSearch();
     }
 
     listenForRecipeSearchResultsStateChange(name, newState) {
@@ -70,8 +71,8 @@ export default class Controller {
             name: edamamRecipe.label,
             imageURL: edamamRecipe.image,
             calories: Math.round(edamamRecipe.calories),
-            mealType: mealTypes[0],
-            diet: dietLabels[0],
+            mealType: mealTypes,
+            diet: dietLabels,
             ingredients: edamamRecipe.ingredientLines,
             URL: edamamRecipe.url
         }
@@ -79,17 +80,17 @@ export default class Controller {
     }
 
     callbackForRecipeSearch(jsonData, httpStatus = 200) {
-        logger.log(`Callback Recipe Search with status ${httpStatus}`, 3);
+        if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(`Callback Recipe Search with status ${httpStatus}`, 3);
         let rootEl = document.getElementById("root");
         let recipes = [];
 
         if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
-            logger.log(jsonData, 100);
+            if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(jsonData);
             let edamamRecipes = jsonData.hits;
-            logger.log(edamamRecipes, 100);
+            if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(edamamRecipes);
             for (let index = 0; index < edamamRecipes.length; index++) {
                 let edamamRecipe = edamamRecipes[index].recipe;
-                logger.log(edamamRecipe, 100);
+                if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(edamamRecipe);
                 /*
                    recipes is an array of objects that contain the following information:
                    id  - is the EDAMAM id - will be needed for a new call
@@ -106,20 +107,18 @@ export default class Controller {
                 recipes.push(recipe);
             }
         }
+        this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
 
     }
 
     getRecipeFromLastSearchResultsById(recipeId) {
-        logger.log("Getting Recipe with id " + recipeId + " from last search results",5);
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
-        logger.log(arrayOfRecipes,10);
         let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];
     }
 
     getRecipeFromFavouritesById(recipeId) {
-        logger.log("Getting Recipe with id " + recipeId + " from favourites",5);
         let arrayOfRecipes = stateManager.getStateByName(this.favouriteRecipesKey);
         let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];
@@ -186,6 +185,12 @@ export default class Controller {
         let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
         stateManager.setStateByName(this.shoppingListKey,shoppingList);
         return shoppingList;
+    }
+
+    getPreviousSearch() {
+        let previousSearch = this.lsUtil.getWithStorageKey(this.recipeSearchResultsKey);
+        stateManager.setStateByName(this.recipeSearchResultsKey,previousSearch);
+        return previousSearch;
     }
 
     /*
