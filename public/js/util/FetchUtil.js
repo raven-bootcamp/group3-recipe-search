@@ -14,13 +14,13 @@ class FetchUtil {
           c)  A server error will give that code and no data
     */
     fetchQLJSON(url, parameters, callback) {
-        logger.log(`Executing fetch with URL ${url} with body ${parameters}`, 100);
+        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log(`Executing fetch with URL ${url} with body ${parameters}`);
         try {
             JSON.stringify({parameters});
 
         } catch (error) {
-            logger.log("Unable to convert parameters to JSON", 100);
-            logger.log(parameters, 100);
+            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Unable to convert parameters to JSON");
+            if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log(parameters);
             callback(null, 404);
         }
         const postParameters = {
@@ -32,7 +32,7 @@ class FetchUtil {
 
         fetch(url, postParameters)
             .then((response) => {
-                logger.log("Response code was " + response.status);
+                if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Response code was " + response.status);
                 if (response.status >= 200 && response.status <= 299) {
                     return response.json();
                 } else {

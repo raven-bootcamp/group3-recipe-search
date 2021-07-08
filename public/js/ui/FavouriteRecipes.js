@@ -21,29 +21,30 @@ var FavouriteRecipes = /*#__PURE__*/function () {
   _proto.render = function render(arrayOfFavouriteRecipes) {
     var _this = this;
 
-    logger.log("Rendering favourite recipe list", 10);
-    logger.log(arrayOfFavouriteRecipes, 10); // clear the current shopping list and redraw dynamically
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering favourite recipe list");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(arrayOfFavouriteRecipes); // clear the current shopping list and redraw dynamically
 
     var element = this.document.getElementById(this.elementId + "-content");
     this.domutil.removeAllChildNodes(element);
 
     var _loop = function _loop(index) {
       var recipe = arrayOfFavouriteRecipes[index];
+      if (recipe == null) return "break";
 
       var recipesListElement = function recipesListElement() {
         return createElement("li", null, createElement("button", {
           "recipe-id": recipe.id,
-          class: "button is-fullwidth is-info is-outlined is-rounded",
-          onClick: _this.application.handleEventShowRecipeDetails
+          class: "button     is-info is-outlined is-rounded",
+          onClick: _this.application.handleEventShowRecipeDetailsFromFavourites
         }, createElement("span", {
           "recipe-id": recipe.id
         }, recipe.name)), createElement("button", {
           "recipe-id": recipe.id,
-          class: "delete",
+          class: "delete mt-3 ml-2",
           onClick: _this.application.handleEventRemoveRecipeFromFavourites
         }, createElement("span", {
           "recipe-id": recipe.id,
-          className: "icon is-small"
+          className: "icon is-large"
         }, createElement("i", {
           "recipe-id": recipe.id,
           className: "fas fa-times"
@@ -54,12 +55,14 @@ var FavouriteRecipes = /*#__PURE__*/function () {
     };
 
     for (var index = 0; index < arrayOfFavouriteRecipes.length; index++) {
-      _loop(index);
+      var _ret = _loop(index);
+
+      if (_ret === "break") break;
     }
   };
 
   _proto.show = function show() {
-    logger.log("Showing favourite recipes", 10);
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Showing favourite recipes");
     this.modalHandler.showModal(this.elementId);
   };
 

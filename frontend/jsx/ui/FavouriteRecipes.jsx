@@ -19,21 +19,22 @@ export default class FavouriteRecipes {
     }
 
     render(arrayOfFavouriteRecipes) {
-        logger.log("Rendering favourite recipe list",10);
-        logger.log(arrayOfFavouriteRecipes,10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering favourite recipe list");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfFavouriteRecipes);
         // clear the current shopping list and redraw dynamically
         let element = this.document.getElementById(this.elementId + "-content");
         this.domutil.removeAllChildNodes(element);
 
         for (let index = 0; index < arrayOfFavouriteRecipes.length; index++) {
             let recipe = arrayOfFavouriteRecipes[index];
+            if (recipe == null) break;
             let recipesListElement = () =>  (
                 <li>
-                    <button recipe-id={recipe.id} class="button is-fullwidth is-info is-outlined is-rounded" onClick={this.application.handleEventShowRecipeDetails}>
+                    <button recipe-id={recipe.id} class="button     is-info is-outlined is-rounded" onClick={this.application.handleEventShowRecipeDetailsFromFavourites}>
                         <span recipe-id={recipe.id}>{recipe.name}</span>
                     </button>
-                    <button recipe-id={recipe.id} class="delete" onClick={this.application.handleEventRemoveRecipeFromFavourites}>
-                        <span recipe-id={recipe.id} className="icon is-small">
+                    <button recipe-id={recipe.id} class="delete mt-3 ml-2" onClick={this.application.handleEventRemoveRecipeFromFavourites}>
+                        <span recipe-id={recipe.id} className="icon is-large">
                             <i recipe-id={recipe.id} className="fas fa-times"></i>
                         </span>
                     </button>
@@ -45,7 +46,7 @@ export default class FavouriteRecipes {
     }
 
     show() {
-        logger.log("Showing favourite recipes",10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Showing favourite recipes");
         this.modalHandler.showModal(this.elementId);
     }
 

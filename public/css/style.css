@@ -47,3 +47,7 @@ input {
 .filter_sections {
     margin-top: 7px;
 }
+
+.recipe-clickable-image:hover {
+  cursor:pointer;
+}

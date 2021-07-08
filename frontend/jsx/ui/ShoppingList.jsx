@@ -3,12 +3,11 @@
 
 import logger from "../util/SimpleDebug.js";
 import DOMUtil from "../util/ui/DOMUtil.js";
-import {createFragment,createElement} from "../util/ui/JsxProcessor.js";
-import modalHandler from "../util/ui/ModalHandler.js";
+import {createElement} from "../util/ui/JsxProcessor.js";
 
 
 export default class ShoppingList {
-    constructor(application,document,modalHandler) {
+    constructor(application, document, modalHandler) {
         this.application = application;
         this.document = document;
         this.modalHandler = modalHandler;
@@ -19,20 +18,22 @@ export default class ShoppingList {
     }
 
     render(shoppingList) {
-        logger.log("Rendering shopping list",10);
-        logger.log(shoppingList,10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering shopping list");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(shoppingList);
         // clear the current shopping list and redraw dynamically
         let element = this.document.getElementById(this.elementId + "-content");
         this.domutil.removeAllChildNodes(element);
 
         for (let index = 0; index < shoppingList.length; index++) {
-            let shoppingListElement = () =>  (
-                    <button class="button is-fullwidth is-info is-outlined is-rounded" onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
-                        <span>{shoppingList[index]}</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-times"></i>
+            let ingredient = shoppingList[index];
+            let shoppingListElement = () => (
+                <button ingredient={ingredient} class="button is-fullwidth is-info is-outlined is-rounded"
+                        onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
+                    <span ingredient={ingredient}>{ingredient}</span>
+                    <span ingredient={ingredient} class="icon is-small">
+                            <i ingredient={ingredient} class="fas fa-times"></i>
                         </span>
-                    </button>
+                </button>
             );
             element.appendChild(shoppingListElement());
         }
@@ -40,7 +41,7 @@ export default class ShoppingList {
     }
 
     show() {
-        logger.log("Showing shopping list",10);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Showing shopping list");
         this.modalHandler.showModal(this.elementId);
     }
 

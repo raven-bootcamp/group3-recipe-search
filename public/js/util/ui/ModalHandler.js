@@ -9,12 +9,12 @@ export default class ModalHandler {
     }
 
     addNewModal(modalDOMElementId) {
-        logger.log("Add new modal " + modalDOMElementId,300);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log("Add new modal " + modalDOMElementId);
         let modalDOMElement = this.document.getElementById(modalDOMElementId);
-        logger.log(modalDOMElement,301);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log(modalDOMElement);
         this.modals.push({id: modalDOMElementId, element: modalDOMElement});
         // register for the close button events
-        logger.log("Add new modal " + modalDOMElementId + " close button event handler",300);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log("Add new modal " + modalDOMElementId + " close button event handler");
         let closeButtons = modalDOMElement.querySelectorAll(".modal-close-button");
         for (let index = 0;index < closeButtons.length;index++) {
             let closeButtonEl = closeButtons[index];
@@ -31,7 +31,7 @@ export default class ModalHandler {
     }
 
     showModal(modalDOMElementId) {
-        logger.log("Showing modal " + modalDOMElementId,300);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log("Showing modal " + modalDOMElementId);
         let foundIndex = this.modals.findIndex((nvp,index) => nvp.id === modalDOMElementId);
         if (foundIndex >= 0) {
             let nameValuePair = this.modals[foundIndex];
@@ -40,7 +40,7 @@ export default class ModalHandler {
     }
 
     hideModal(event) {
-        logger.log("Hiding modal window ",300);
+        if (logger.isOn() && (600 <= logger.level()) && (600 >= logger.minlevel())) console.log("Hiding modal windows");
         this.__closeAllModals();
     }
 }

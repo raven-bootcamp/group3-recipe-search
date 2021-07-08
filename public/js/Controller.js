@@ -10,6 +10,7 @@ export default class Controller {
         this.applicationView = applicationView;
         this.lsUtil = new LocalStorageUtil(clientSideStorage);
 
+
         // setup query URLs
         this.queryURLRecipesSearch = "/recipes";
 
@@ -33,14 +34,13 @@ export default class Controller {
 
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
-
     }
 
     initialise() {
         // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
         this.getFavouriteRecipes();
         this.getShoppingList();
-        stateManager.setStateByName(this.recipeSearchResultsKey,[]);
+        this.getPreviousSearch();
     }
 
     listenForRecipeSearchResultsStateChange(name, newState) {
@@ -71,8 +71,8 @@ export default class Controller {
             name: edamamRecipe.label,
             imageURL: edamamRecipe.image,
             calories: Math.round(edamamRecipe.calories),
-            mealType: mealTypes[0],
-            diet: dietLabels[0],
+            mealType: mealTypes,
+            diet: dietLabels,
             ingredients: edamamRecipe.ingredientLines,
             URL: edamamRecipe.url
         }
@@ -80,17 +80,17 @@ export default class Controller {
     }
 
     callbackForRecipeSearch(jsonData, httpStatus = 200) {
-        logger.log(`Callback Recipe Search with status ${httpStatus}`, 3);
+        if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(`Callback Recipe Search with status ${httpStatus}`, 3);
         let rootEl = document.getElementById("root");
         let recipes = [];
 
         if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
-            logger.log(jsonData, 100);
+            if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(jsonData);
             let edamamRecipes = jsonData.hits;
-            logger.log(edamamRecipes, 100);
+            if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(edamamRecipes);
             for (let index = 0; index < edamamRecipes.length; index++) {
                 let edamamRecipe = edamamRecipes[index].recipe;
-                logger.log(edamamRecipe, 100);
+                if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(edamamRecipe);
                 /*
                    recipes is an array of objects that contain the following information:
                    id  - is the EDAMAM id - will be needed for a new call
@@ -107,13 +107,24 @@ export default class Controller {
                 recipes.push(recipe);
             }
         }
+        this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
+        this.currentPageNumber = 1;
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
-
     }
+
+
+
+
 
     getRecipeFromLastSearchResultsById(recipeId) {
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
-        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id !== recipeId);
+        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
+        return arrayOfRecipes[foundIndex];
+    }
+
+    getRecipeFromFavouritesById(recipeId) {
+        let arrayOfRecipes = stateManager.getStateByName(this.favouriteRecipesKey);
+        let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];
     }
 
@@ -178,6 +189,12 @@ export default class Controller {
         let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
         stateManager.setStateByName(this.shoppingListKey,shoppingList);
         return shoppingList;
+    }
+
+    getPreviousSearch(isStateChange = true) {
+        let previousSearch = this.lsUtil.getWithStorageKey(this.recipeSearchResultsKey);
+        if (isStateChange) stateManager.setStateByName(this.recipeSearchResultsKey,previousSearch);
+        return previousSearch;
     }
 
     /*
