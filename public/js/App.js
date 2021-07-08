@@ -12,7 +12,7 @@ class App {
         this.modalHandler = new ModalHandler(document,"is-active");
         this.shoppingListView = new ShoppingList(this,document,this.modalHandler);
         this.favouriteRecipesView = new FavouriteRecipes(this,document,this.modalHandler);
-        this.searchResultsView = new RecipeSearchResults(document);
+        this.searchResultsView = new RecipeSearchResults(this,document,this.modalHandler);
         this.recipeDetailsView = new RecipeDetails(this,document,this.modalHandler);
 
         // state change handlers (called when the data changes in the application)
@@ -88,49 +88,50 @@ class App {
     and construct a search request to send to the controller.
      */
     handleEventStartRecipeSearch(event) {
-        /*
-          TO-DO
-          1.  Get the search parameters from the form
-         */
-        logger.log("Handling event - Start Recipe Search",1);
-        let queryText = event.target.value.trim();
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            event.preventDefault();
 
-        // code in here to collect the information from the elements of the page
-        let isBalancedDiet = document.getElementById("balanced").checked;
-        let isHighFiber = document.getElementById("high-fiber").checked;
-        let isHighProtein = document.getElementById("high-protein").checked;
-        let isLowCarb = document.getElementById("low-carb").checked;
-        let isLowFat = document.getElementById("low-fat").checked;
-        let isLowSodium = document.getElementById("low-sodium").checked;
-        let isDiaryFree = document.getElementById("dairy-free").checked;
-        let isGlutenFree = document.getElementById("gluten-free").checked;
-        let isKosher = document.getElementById("kosher").checked;
-        let isVegan = document.getElementById("vegan").checked;
-        let isVegetarian = document.getElementById("vegetarian").checked;
-        let isDiabetic = document.getElementById("sugar-conscious").checked;
-        let isBreakfast = document.getElementById("breakfast").checked;
-        let isLunch = document.getElementById("dinner").checked;
-        let isDinner = document.getElementById("lunch").checked;
-        let isSnack = document.getElementById("snack").checked;
-        this.controller.searchForRecipes(
-            queryText,
-            isBalancedDiet,
-            isHighFiber,
-            isHighProtein,
-            isLowCarb,
-            isLowFat,
-            isLowSodium,
-            isDiaryFree,
-            isGlutenFree,
-            isKosher,
-            isVegan,
-            isVegetarian,
-            isDiabetic,
-            isBreakfast,
-            isLunch,
-            isDinner,
-            isSnack
-        );
+            logger.log("Handling event - Start Recipe Search", 1);
+            let queryText = event.target.value.trim();
+
+            // code in here to collect the information from the elements of the page
+            let isBalancedDiet = document.getElementById("balanced").checked;
+            let isHighFiber = document.getElementById("high-fiber").checked;
+            let isHighProtein = document.getElementById("high-protein").checked;
+            let isLowCarb = document.getElementById("low-carb").checked;
+            let isLowFat = document.getElementById("low-fat").checked;
+            let isLowSodium = document.getElementById("low-sodium").checked;
+            let isDiaryFree = document.getElementById("dairy-free").checked;
+            let isGlutenFree = document.getElementById("gluten-free").checked;
+            let isKosher = document.getElementById("kosher").checked;
+            let isVegan = document.getElementById("vegan").checked;
+            let isVegetarian = document.getElementById("vegetarian").checked;
+            let isDiabetic = document.getElementById("sugar-conscious").checked;
+            let isBreakfast = document.getElementById("breakfast").checked;
+            let isLunch = document.getElementById("dinner").checked;
+            let isDinner = document.getElementById("lunch").checked;
+            let isSnack = document.getElementById("snack").checked;
+            this.controller.searchForRecipes(
+                queryText,
+                isBalancedDiet,
+                isHighFiber,
+                isHighProtein,
+                isLowCarb,
+                isLowFat,
+                isLowSodium,
+                isDiaryFree,
+                isGlutenFree,
+                isKosher,
+                isVegan,
+                isVegetarian,
+                isDiabetic,
+                isBreakfast,
+                isLunch,
+                isDinner,
+                isSnack
+            );
+        }
         // this app will be notified when the application state changes and will see a call to handleRecipeSearchResultsChange (ABOVE)
 
     }
@@ -265,7 +266,7 @@ var resultsList = document.querySelector("#search_results"); // the container th
 var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
 
 
-searchBtn.addEventListener("click",app.handleEventStartRecipeSearch);
+searchBtn.addEventListener("keyup",app.handleEventStartRecipeSearch);
 
 shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
 

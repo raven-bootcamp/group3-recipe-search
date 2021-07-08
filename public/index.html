@@ -60,18 +60,35 @@
         <div class="modal-background">
             <div class="modal-card pt-5">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Recipe Details</p>
+                    <p class="modal-card-title"></p>
                     <button class="delete modal-close-button" aria-label="close"></button>
                 </header>
                 <section class="modal-card-body">
                     <div class="recipe-details-content">
+                        <div class="recipe-image has-text-centered">
+                            <img src="./img/main_img.jpg" alt="">
+                        </div>
                         <ul id="recipe-details-content">
-                            <!-- Recipe details go here -->
+                            <!-- Recipe ingredients go here -->
                         </ul>
+                        <div>
+                            <p id="allergy"></p>
+                            <p id="dietary"></p>
+                            <p id="mealType"></p>
+                        </div>
                     </div>
+
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button modal-close-button">Close</button>
+                    <div>
+                        <a class="modal-shopping-item" id="ingredient-add-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <a class="modal-fav-item" id="recipe-favourite-btn">
+                            <i class="fas fa-star"></i>
+                        </a>
+                    </div>
                 </footer>
             </div>
         </div>
@@ -119,32 +136,32 @@
 
               <div class="control">
                 <label class="radio">
-                  <input type="radio" id="diary-free" name="choice">
+                  <input type="radio" id="dairy-free" name="choice1">
                   Dairy Free
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="gluten-free" name="choice">
+                  <input type="radio" id="gluten-free" name="choice1">
                   Gluten Free
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="kosher" name="choice">
+                  <input type="radio" id="kosher" name="choice1">
                   Kosher
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="vegan" name="choice">
+                  <input type="radio" id="vegan" name="choice1">
                   Vegan
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="vegetarian" name="choice">
+                  <input type="radio" id="vegetarian" name="choice1">
                   Vegetarian
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="sugar-conscious" name="choice">
+                  <input type="radio" id="sugar-conscious" name="choice1">
                   Sugar Conscious
                 </label>
               </div>
@@ -156,22 +173,22 @@
 
               <div class="control">
                 <label class="radio">
-                  <input type="radio" id="breakfast" name="choice">
+                  <input type="radio" id="breakfast" name="choice2">
                   Breakfast
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="lunch" name="choice">
+                  <input type="radio" id="lunch" name="choice2">
                   Lunch
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="snack" name="choice">
+                  <input type="radio" id="snack" name="choice2">
                   Snack
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="dinner" name="choice">
+                  <input type="radio" id="dinner" name="choice2">
                   Dinner
                 </label>
 
@@ -182,32 +199,32 @@
 
               <div class="control">
                 <label class="radio">
-                  <input type="radio" id="balanced" name="choice">
+                  <input type="radio" id="balanced" name="choice3">
                   Balanced
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="high-fiber" name="choice">
+                  <input type="radio" id="high-fiber" name="choice3">
                   High Fiber
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="high-protein"name="choice">
+                  <input type="radio" id="high-protein"name="choice3">
                   High Protein
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="low-carb" name="choice">
+                  <input type="radio" id="low-carb" name="choice3">
                   Low Carb
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="low-fat" name="choice">
+                  <input type="radio" id="low-fat" name="choice3">
                   Low Fat
                 </label>
 
                 <label class="radio">
-                  <input type="radio" id="low-sodium" name="choice">
+                  <input type="radio" id="low-sodium" name="choice3">
                   Low Sodium
                 </label>
               </div>
@@ -221,113 +238,9 @@
     </section>
 
     <!-- Results section -->
-    <section class="results_section" id="search_results">
-
-        <!-- Have just copied Irene's placeholder cards from recipe_list.html -->
-        <div class="container is-hidden">
-            <div class="columns">
-
-                <!-- Search result 1 -->
-                <div class="column is-mobile is-3-tablet is-3-desktop recipe-1">
-                    <div class="card recipe-card-1 ">
-                        <header class="card-header recipe-title-1">
-                            <!--Javascript to add in recipe name, meal type and diet-->
-                            <span class="card-header-title is-size-5" id="results-title-1">
-                            Recipe title
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-list"></i>
-                            </span>
-                        </span>
-                        </header>
-                        <div class="card-image has-text-centered">
-                            <img id="results-img-1" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
-
-                        </div>
-                    </div>
-                </div>
-
-                <!--Search result 2-->
-                <div class="column is-mobile is-3-tablet is-3-desktop recipe-2">
-                    <div class="card recipe-card-2">
-                        <header class="card-header recipe-title-2">
-                            <!--Javascript to add in recipe name, meal type and diet-->
-                            <span class="card-header-title is-size-5" id="results-title-2">
-                            Recipe title
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-list"></i>
-                            </span>
-                        </span>
-                        </header>
-                        <div class="card-image has-text-centered">
-                            <img id="results-img-2" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-
-                <!--Search result 3-->
-                <div class="column is-mobile is-3-tablet is-3-desktop recipe-3">
-                    <div class="card recipe-card-3">
-                        <header class="card-header recipe-title-3">
-                            <!--Javascript to add in recipe name, meal type and diet-->
-                            <span class="card-header-title is-size-5 " id="results-title-3">
-                            Recipe title
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-list"></i>
-                            </span>
-                        </span>
-                        </header>
-                        <div class="card-image has-text-centered">
-                            <img id="results-img-3" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-
-                <!--Search result 4-->
-
-                <div class="column is-mobile is-3-tablet is-3-desktop recipe-4">
-                    <div class="card recipe-card-4">
-                        <header class="card-header recipe-title-4">
-                            <!--Javascript to add in recipe name, meal type and diet-->
-                            <span class="card-header-title is-size-5 " id="results-title-4">
-                            Recipe title
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                        </span>
-                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
-                            <span class="icon">
-                                <i class="fas fa-list"></i>
-                            </span>
-                        </span>
-                        </header>
-                        <div class="card-image has-text-centered">
-                            <img id="results-img-4" src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
+    <section class="results_section">
+        <div class="container">
+            <div id="search-results" class="columns is-wrapped is-align-content-space-between">
             </div>
         </div>
     </section>
