@@ -10,6 +10,7 @@ export default class Controller {
         this.applicationView = applicationView;
         this.lsUtil = new LocalStorageUtil(clientSideStorage);
 
+
         // setup query URLs
         this.queryURLRecipesSearch = "/recipes";
 
@@ -33,7 +34,6 @@ export default class Controller {
 
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
-
     }
 
     initialise() {
@@ -108,9 +108,13 @@ export default class Controller {
             }
         }
         this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
+        this.currentPageNumber = 1;
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
-
     }
+
+
+
+
 
     getRecipeFromLastSearchResultsById(recipeId) {
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
@@ -187,9 +191,9 @@ export default class Controller {
         return shoppingList;
     }
 
-    getPreviousSearch() {
+    getPreviousSearch(isStateChange = true) {
         let previousSearch = this.lsUtil.getWithStorageKey(this.recipeSearchResultsKey);
-        stateManager.setStateByName(this.recipeSearchResultsKey,previousSearch);
+        if (isStateChange) stateManager.setStateByName(this.recipeSearchResultsKey,previousSearch);
         return previousSearch;
     }
 

@@ -31,11 +31,139 @@ class App {
         this.handleEventShowRecipeDetailsFromFavourites = this.handleEventShowRecipeDetailsFromFavourites.bind(this);
         this.handleEventShowRecipeDetailsFromSearch = this.handleEventShowRecipeDetailsFromSearch.bind(this);
         this.handleEventAddFavouriteRecipeToShoppingList = this.handleEventAddFavouriteRecipeToShoppingList.bind(this);
+        this.handleEventPaginationPageNumberPressed = this.handleEventPaginationPageNumberPressed.bind(this);
+        this.handleEventPaginationPreviousPressed = this.handleEventPaginationPreviousPressed.bind(this);
+        this.handleEventPaginationNextPressed = this.handleEventPaginationNextPressed.bind(this);
 
+
+        this.currentPageNumber = 1;
+        this.resultsOffsetPerPage = 4;
 
         this.controller.initialise();
     }
 
+    ////
+    ////
+    ////  Pagination
+    ////
+    ////
+    getCurrentPageNumber() {
+        return this.currentPageNumber;
+    }
+
+    getResultsPerPage() {
+        return this.resultsOffsetPerPage;
+    }
+
+    setCurrentPageNumber(currentPageNumber) {
+        this.currentPageNumber = currentPageNumber;
+    }
+
+    isFirstPage() {
+        return (this.currentPageNumber === 1);
+    }
+
+    isLastPage() {
+        return (this.currentPageNumber === 5)
+    }
+
+    getTotalPageNumber() {
+        return 5;
+    }
+
+    increasePageNumber() {
+        if (!this.isLastPage()) {
+            this.currentPageNumber++;
+        }
+    }
+
+    decreasePageNumber() {
+        if (!this.isFirstPage()) {
+            this.currentPageNumber--;
+        }
+    }
+
+    handleEventPaginationNextPressed(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Next Pressed");
+        if (event.target === undefined) return;
+        if (!this.isLastPage()) {
+            // unset the is-current the current page
+            document.getElementById("page-" + this.getCurrentPageNumber()).classList.remove("is-current");
+            // set the next page to current
+            this.increasePageNumber();
+            document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
+            // are we on the last page
+            if (this.isLastPage()) {
+                // disable the next button
+                document.getElementById("search-results-next").disabled = true;
+            }
+            else {
+                // enable the next button
+                document.getElementById("search-results-next").disabled = false;
+            }
+            // enable the previous button
+            document.getElementById("search-results-previous").disabled = false;
+            // ask the results search view to re-render
+            this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
+        }
+    }
+
+    handleEventPaginationPreviousPressed(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Previous Pressed");
+        if (event.target === undefined) return;
+        if (!this.isFirstPage()) {
+            // unset the is-current the current page
+            document.getElementById("page-" + this.getCurrentPageNumber()).classList.remove("is-current");
+            // set the next page to current
+            this.decreasePageNumber();
+            document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
+            if (this.isFirstPage()) {
+                // disable the next button
+                document.getElementById("search-results-previous").disabled = true;
+            }
+            else {
+                // enable the next button
+                document.getElementById("search-results-previous").disabled = false;
+            }
+            // enable the previous button
+            document.getElementById("search-results-next").disabled = false;
+            // ask the results search view to re-render
+            this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
+        }
+    }
+
+    handleEventPaginationPageNumberPressed(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Page Number Pressed");
+        if (event.target === undefined) return;
+        // get the page selected from the event target
+        let pageNumber = event.target.getAttribute("page-number");
+        // unselect all pages
+        for (let index = 1;index <= this.getTotalPageNumber();index++) {
+            document.getElementById("page-" + index).classList.remove("is-current");
+        }
+        this.setCurrentPageNumber(pageNumber);
+        // select the current page
+        document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
+        // check for the next and previous button changes
+        if (this.isFirstPage()) {
+            // disable the next button
+            document.getElementById("search-results-previous").disabled = true;
+        }
+        else {
+            // enable the next button
+            document.getElementById("search-results-previous").disabled = false;
+        }
+        if (this.isLastPage()) {
+            // disable the next button
+            document.getElementById("search-results-next").disabled = true;
+        }
+        else {
+            // enable the next button
+            document.getElementById("search-results-next").disabled = false;
+        }
+        // ask the results search view to re-render
+        this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
+    }
     ///
     ///
     ///  STATE CHANGE HANDLERS SECTION
@@ -60,6 +188,7 @@ class App {
         // TO-DO display the recipes on the user interface
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling recipes change for display");
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(recipes);
+        this.setCurrentPageNumber(1);
         this.searchResultsView.render(recipes);
     }
 
@@ -288,3 +417,12 @@ shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
 
 favBtn.addEventListener("click",app.handleEventShowFavouriteRecipes);
 document.getElementById("filter-button").addEventListener("click",app.handleEventToggleFilter);
+document.getElementById("search-results-previous").addEventListener("click",app.handleEventPaginationPreviousPressed);
+document.getElementById("search-results-next").addEventListener("click",app.handleEventPaginationNextPressed);
+document.getElementById("page-1").addEventListener("click",app.handleEventPaginationPageNumberPressed);
+document.getElementById("page-2").addEventListener("click",app.handleEventPaginationPageNumberPressed);
+document.getElementById("page-3").addEventListener("click",app.handleEventPaginationPageNumberPressed);
+document.getElementById("page-4").addEventListener("click",app.handleEventPaginationPageNumberPressed);
+document.getElementById("page-5").addEventListener("click",app.handleEventPaginationPageNumberPressed);
+
+

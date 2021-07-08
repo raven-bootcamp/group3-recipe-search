@@ -22,8 +22,16 @@ var RecipeSearchResults = /*#__PURE__*/function () {
     // clear the current results list and redraw dynamically
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering search results");
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(arrayOfRecipes);
-    this.domUtils.removeAllChildNodes(this.divElement);
-    var index = 0;
+    this.domUtils.removeAllChildNodes(this.divElement); // look for page offset
+
+    var currentPage = this.application.getCurrentPageNumber();
+    var pageOffset = this.application.getResultsPerPage(); // how many results to we have
+
+    var numberOfResults = arrayOfRecipes.length; // assume 20 results for now
+
+    var startIndex = (currentPage - 1) * pageOffset;
+    var endIndex = currentPage * pageOffset;
+    var index = startIndex;
 
     var _loop = function _loop() {
       var recipe = arrayOfRecipes[index];
@@ -74,7 +82,7 @@ var RecipeSearchResults = /*#__PURE__*/function () {
       index++;
     };
 
-    while (index < 4 && index < arrayOfRecipes.length) {
+    while (index < endIndex) {
       _loop();
     }
   };

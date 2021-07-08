@@ -21,8 +21,19 @@ export default class RecipeSearchResults {
 
         this.domUtils.removeAllChildNodes(this.divElement);
 
-        let index = 0
-        while((index < 4) && (index < arrayOfRecipes.length)) {
+        // look for page offset
+        let currentPage = this.application.getCurrentPageNumber();
+        let pageOffset = this.application.getResultsPerPage();
+
+        // how many results to we have
+        let numberOfResults = arrayOfRecipes.length;
+        // assume 20 results for now
+
+        let startIndex = (currentPage - 1) * pageOffset;
+        let endIndex = (currentPage * pageOffset);
+
+        let index = startIndex;
+        while (index < endIndex ) {
             let recipe = arrayOfRecipes[index];
 
             let recipesSearchElement = () =>  (
