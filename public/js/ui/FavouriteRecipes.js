@@ -29,6 +29,7 @@ var FavouriteRecipes = /*#__PURE__*/function () {
 
     var _loop = function _loop(index) {
       var recipe = arrayOfFavouriteRecipes[index];
+      if (recipe == null) return "break";
 
       var recipesListElement = function recipesListElement() {
         return createElement("li", null, createElement("button", {
@@ -54,7 +55,9 @@ var FavouriteRecipes = /*#__PURE__*/function () {
     };
 
     for (var index = 0; index < arrayOfFavouriteRecipes.length; index++) {
-      _loop(index);
+      var _ret = _loop(index);
+
+      if (_ret === "break") break;
     }
   };
 

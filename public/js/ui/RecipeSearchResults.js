@@ -30,36 +30,35 @@ var RecipeSearchResults = /*#__PURE__*/function () {
 
       var recipesSearchElement = function recipesSearchElement() {
         return createElement("div", {
-          className: "column is-mobile is-3-tablet is-3-desktop recipe-1"
+          class: "column is-mobile is-3-tablet is-3-desktop"
         }, createElement("div", {
-          className: "card"
+          class: "card"
         }, createElement("header", {
-          className: "card-header"
-        }, createElement("span", {
-          className: "card-header-title is-size-5",
-          id: "results-title-1"
+          class: "card-header"
+        }, createElement("p", {
+          class: "card-header-title is-size-5"
         }, createElement("a", {
           href: recipe.URL
         }, recipe.name)), createElement("span", {
-          className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
-        }), createElement("span", {
+          class: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+        }, createElement("span", {
           "recipe-id": recipe.id,
-          className: "icon"
+          class: "icon"
         }, createElement("i", {
           "recipe-id": recipe.id,
-          className: "fas fa-heart",
+          class: "fas fa-star",
           onClick: _this.application.handleEventAddRecipeToFavourites
-        })), createElement("span", {
-          className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
-        }), createElement("span", {
+        }))), createElement("span", {
+          class: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+        }, createElement("span", {
           "recipe-id": recipe.id,
-          className: "icon"
+          class: "icon"
         }, createElement("i", {
           "recipe-id": recipe.id,
-          className: "fas fa-list",
+          class: "fas fa-shopping-cart",
           onClick: _this.application.handleEventAddRecipeToShoppingList
-        }))), createElement("div", {
-          className: "card-image has-text-centered"
+        })))), createElement("div", {
+          class: "card-image has-text-centered"
         }, createElement("img", {
           src: recipe.imageURL,
           alt: recipe.name

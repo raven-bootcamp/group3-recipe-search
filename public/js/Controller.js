@@ -40,7 +40,6 @@ export default class Controller {
         // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
         this.getFavouriteRecipes();
         this.getShoppingList();
-        stateManager.setStateByName(this.recipeSearchResultsKey,[]);
     }
 
     listenForRecipeSearchResultsStateChange(name, newState) {
@@ -112,12 +111,15 @@ export default class Controller {
     }
 
     getRecipeFromLastSearchResultsById(recipeId) {
+        logger.log("Getting Recipe with id " + recipeId + " from last search results",5);
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
+        logger.log(arrayOfRecipes,10);
         let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];
     }
 
     getRecipeFromFavouritesById(recipeId) {
+        logger.log("Getting Recipe with id " + recipeId + " from favourites",5);
         let arrayOfRecipes = stateManager.getStateByName(this.favouriteRecipesKey);
         let foundIndex = arrayOfRecipes.findIndex((recipe) => recipe.id == recipeId);
         return arrayOfRecipes[foundIndex];

@@ -27,6 +27,7 @@ export default class FavouriteRecipes {
 
         for (let index = 0; index < arrayOfFavouriteRecipes.length; index++) {
             let recipe = arrayOfFavouriteRecipes[index];
+            if (recipe == null) break;
             let recipesListElement = () =>  (
                 <li>
                     <button recipe-id={recipe.id} class="button     is-info is-outlined is-rounded" onClick={this.application.handleEventShowRecipeDetailsFromFavourites}>

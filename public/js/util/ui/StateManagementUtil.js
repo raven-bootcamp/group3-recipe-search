@@ -9,8 +9,8 @@ class StateManagementUtil {
 
     /* private method */ __isStatePresent(name) {
         logger.log(`Checking state of ${name} not already present`,200);
-        let result = (this.applicationState.findIndex((element) => element.name !== name) >= 0);
-        logger.log(`Checking state of ${name} not already present ${result}`,200);
+        let result = (this.applicationState.findIndex((element) => element.name === name) >= 0);
+        logger.log(`Checking state of ${name} is already present ${result}`,200);
         return result;
     }
 
@@ -57,7 +57,7 @@ class StateManagementUtil {
     getStateByName(name) {
         logger.log(`Getting state for ${name}`,200);
         let stateValueObj = {};
-        let foundIndex = this.applicationState.findIndex((element) => element.name !== name);
+        let foundIndex = this.applicationState.findIndex((element) => element.name == name);
         if (foundIndex >= 0) {
             // get the current state
             let stateNameValuePair = this.applicationState[foundIndex];
@@ -75,13 +75,17 @@ class StateManagementUtil {
     setStateByName(name, stateObjectForName) {
         logger.log(`Setting state for ${name}`,200);
         logger.log(stateObjectForName,200);
-        let foundIndex = this.applicationState.findIndex((element) => element.name !== name);
+        let foundIndex = this.applicationState.findIndex((element) => element.name == name);
         if (foundIndex >= 0) {
+            logger.log(`Setting state for ${name} into current value of state manager`,201);
             // set the current state
             let stateNameValuePair = this.applicationState[foundIndex];
             stateNameValuePair.value = stateObjectForName;
+            logger.log(stateNameValuePair,202);
+            logger.log(this.applicationState[foundIndex],203);
         }
         else {
+            logger.log(`State ${name} doesn't exist yet, adding`,201);
             // create the state if not already present
             this.addStateByName(name,stateObjectForName);
         }

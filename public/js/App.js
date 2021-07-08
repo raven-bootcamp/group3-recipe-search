@@ -145,8 +145,8 @@ class App {
         collect the recipe Id attribute from the event
          */
 
-        let recipeId = event.target.getAttribute("recipe-id"); //TO-DO get from document element
-
+        let recipeId = event.target.getAttribute("recipe-id");
+        logger.log("Handling event - Add Recipe to Favourites List with id " + recipeId,1);
 
         this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId));
         // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
@@ -248,6 +248,17 @@ class App {
         this.controller.removeIngredientFromShoppingList(ingredient);
         // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
     }
+
+    handleEventToggleFilter() {
+        let filtersDiv = document.getElementById("filters");
+
+        if (filtersDiv.style.display === "none") {
+            filtersDiv.style.display = "block";
+        }
+        else {
+            filtersDiv.style.display = "none";
+        }
+    }
 }
 
 /* turn on console messages for development*/
@@ -271,3 +282,4 @@ searchBtn.addEventListener("keyup",app.handleEventStartRecipeSearch);
 shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
 
 favBtn.addEventListener("click",app.handleEventShowFavouriteRecipes);
+document.getElementById("filter-button").addEventListener("click",app.handleEventToggleFilter);

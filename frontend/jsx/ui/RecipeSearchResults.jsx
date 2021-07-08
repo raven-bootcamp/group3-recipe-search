@@ -26,23 +26,24 @@ export default class RecipeSearchResults {
             let recipe = arrayOfRecipes[index];
 
             let recipesSearchElement = () =>  (
-                <div className="column is-mobile is-3-tablet is-3-desktop recipe-1">
-                    <div className="card">
-                        <header className="card-header">
-                            <span className="card-header-title is-size-5" id="results-title-1">
+                <div class="column is-mobile is-3-tablet is-3-desktop">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title is-size-5">
                                 <a href={recipe.URL}>{recipe.name}</a>
+                            </p>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span recipe-id={recipe.id} class="icon">
+                                    <i recipe-id={recipe.id} class="fas fa-star" onClick={this.application.handleEventAddRecipeToFavourites}></i>
+                                </span>
                             </span>
-                            <span className="icon-text is-size-5 is-pulled-right pr-4 mt-4"></span>
-                            <span recipe-id={recipe.id} className="icon">
-                                <i recipe-id={recipe.id} className="fas fa-heart" onClick={this.application.handleEventAddRecipeToFavourites}></i>
-                            </span>
-
-                            <span className="icon-text is-size-5 is-pulled-right pr-4 mt-4"></span>
-                            <span recipe-id={recipe.id} className="icon">
-                                <i recipe-id={recipe.id} className="fas fa-list" onClick={this.application.handleEventAddRecipeToShoppingList}></i>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span recipe-id={recipe.id} class="icon">
+                                    <i recipe-id={recipe.id} class="fas fa-shopping-cart" onClick={this.application.handleEventAddRecipeToShoppingList}></i>
+                                </span>
                             </span>
                         </header>
-                        <div className="card-image has-text-centered">
+                        <div class="card-image has-text-centered">
                             <img src={recipe.imageURL} alt={recipe.name}/>
                         </div>
                     </div>
