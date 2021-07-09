@@ -1,48 +1,45 @@
-/** @jsx createElement */
-/*** @jsxFrag createFragment */
-
 import logger from "../util/SimpleDebug.js";
-import DOMUtil from "../util/ui/DOMUtil.js";
-import {createElement} from "../util/ui/JsxProcessor.js";
 
+export default function ShoppingList(props) {
 
-export default class ShoppingList {
-    constructor(application, document, modalHandler) {
-        this.application = application;
-        this.document = document;
-        this.modalHandler = modalHandler;
-        this.elementId = "shopping-list";
+    let shoppingList = props.shoppingList;
+    let deleteHandler = props.deleteHandler;
+    let closeHandler = props.closeHandler;
+    let isShowing = props.shouldShow;
 
-        this.domutil = new DOMUtil(document);
-        this.modalHandler.addNewModal(this.elementId);
-    }
+    if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering shopping list");
+    if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(shoppingList);
 
-    render(shoppingList) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering shopping list");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(shoppingList);
-        // clear the current shopping list and redraw dynamically
-        let element = this.document.getElementById(this.elementId + "-content");
-        this.domutil.removeAllChildNodes(element);
+    const listItems = shoppingList.map((ingredient, index) =>
+        <button key={index} ingredient={ingredient} className="button is-fullwidth is-info is-outlined is-rounded"
+                onClick={deleteHandler}>
+            <span ingredient={ingredient}>{ingredient}</span>
+            <span ingredient={ingredient} className="icon is-small">
+                    <i ingredient={ingredient} className="fas fa-times"></i>
+                </span>
+        </button>
+    );
 
-        for (let index = 0; index < shoppingList.length; index++) {
-            let ingredient = shoppingList[index];
-            let shoppingListElement = () => (
-                <button ingredient={ingredient} class="button is-fullwidth is-info is-outlined is-rounded"
-                        onClick={this.application.handleEventRemoveIngredientFromShoppingList}>
-                    <span ingredient={ingredient}>{ingredient}</span>
-                    <span ingredient={ingredient} class="icon is-small">
-                            <i ingredient={ingredient} class="fas fa-times"></i>
-                        </span>
-                </button>
-            );
-            element.appendChild(shoppingListElement());
-        }
-
-    }
-
-    show() {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Showing shopping list");
-        this.modalHandler.showModal(this.elementId);
-    }
-
+    return (
+        <div id="shopping-list" className={isShowing ? "modal is-active" : "modal"}>
+            <div className="modal-background">
+                <div className="modal-card pt-5">
+                    <header className="modal-card-head">
+                        <p className="modal-card-title">Shopping List</p>
+                        <button className="delete" aria-label="close" onClick={closeHandler}></button>
+                    </header>
+                    <section className="modal-card-body">
+                        <div id="shopping-list-content" className="buttons">
+                            {listItems}
+                        </div>
+                    </section>
+                    <footer className="modal-card-foot">
+                        <button id="close-shopping-list-button" className="button" onClick={closeHandler}>Close</button>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    );
 }
+
+

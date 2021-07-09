@@ -1,7 +1,7 @@
 import logger from './util/SimpleDebug.js';
 import fetchUtil from "./util/FetchUtil.js";
 import LocalStorageUtil from "./util/LocalStorageUtil.js";
-import stateManager from "./util/ui/StateManagementUtil.js";
+import stateManager from "./util/StateManagementUtil.js";
 
 
 export default class Controller {
@@ -36,23 +36,17 @@ export default class Controller {
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
     }
 
-    initialise() {
-        // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
-        this.getFavouriteRecipes();
-        this.getShoppingList();
-        this.getPreviousSearch();
+    listenForRecipeSearchResultsStateChange(name, recipes) {
+        let totalPages = Math.ceil(recipes.length/this.applicationView.state.resultsPerPage);
+        this.applicationView.setState({searchResults:recipes,selectedRecipe:null,selectedRecipeIsFavourite:false,currentPageNumber:1,totalPages:totalPages});
     }
 
-    listenForRecipeSearchResultsStateChange(name, newState) {
-        this.applicationView.handleRecipeSearchResultsChange(newState);
+    listenForFavouriteRecipesStateChange(name, favouriteRecipes) {
+        this.applicationView.setState({favouriteRecipes:favouriteRecipes});
     }
 
-    listenForFavouriteRecipesStateChange(name, newState) {
-        this.applicationView.handleFavouriteRecipesChange(newState);
-    }
-
-    listenForShoppingListStateChange(name, newState) {
-        this.applicationView.handleShoppingListChange(newState);
+    listenForShoppingListStateChange(name, shoppingList) {
+        this.applicationView.setState({shoppingList:shoppingList});
     }
 
     _createRecipeFromEdamamRecipe(edamamRecipe) {
@@ -108,13 +102,8 @@ export default class Controller {
             }
         }
         this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
-        this.currentPageNumber = 1;
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
     }
-
-
-
-
 
     getRecipeFromLastSearchResultsById(recipeId) {
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
@@ -150,7 +139,7 @@ export default class Controller {
         isSnack = false
     ) {
         // Do we have a diet restriction?
-        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium);
+        let hasDietSelection = (isBalancedDiet || false || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
         let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
         let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
         // construct the parameters for the JSON call
@@ -160,7 +149,7 @@ export default class Controller {
             hasHealthSelection: hasHealthSelection,
             hasMealTypeSelection: hasMealTypeSelection,
             isBalancedDiet: isBalancedDiet,
-            isHighFiber: isHighFiber,
+            isHighFiber: false, // error when using this despite being in the API document
             isHighProtein: isHighProtein,
             isLowCarb: isLowCarb,
             isLowFat: isLowFat,

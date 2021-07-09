@@ -10,227 +10,165 @@
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root">
 
-    <div id="shopping-list" class="modal">
-        <div class="modal-background">
-            <div class="modal-card pt-5">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Shopping List</p>
-                    <button id="close-shopping-list-delete-button" class="delete modal-close-button"
-                            aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div id="shopping-list-content" class="buttons">
 
-                        <!-- Shopping list items go here -->
+<!--Navbar-->
+<nav class="navbar" role="navigation">
+
+    <!-- Title holding the product name -->
+    <div class="navbar-brand">
+        <h1 class="navbar-item">Chop 'n' Change</h1>
+    </div>
+    <div class="navbar-menu" style="float: right;">
+        <div class="navbar-start">
+
+            <!-- Have assigned temp id names feel free to change them -->
+            <a class="navbar-item" id="shopping-list-btn">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+
+            <!-- Have assigned temp id names feel free to change them -->
+            <a class="navbar-item" id="favourite-btn">
+                <i class="fas fa-star"></i>
+            </a>
+        </div>
+    </div>
+
+
+</nav>
+
+<!-- Main section holding the search box with a background image -->
+<section class="main_section">
+    <div class="card">
+        <div class="card-content">
+            <p class="title">Search</p>
+
+            <!-- Have assigned a temp id for search can be changed -->
+            <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
+
+            <!-- Button to toggle filters -->
+            <button id="filter-button" class="button is-primary is-rounded">Filters</button>
+
+            <!-- Filters Section -->
+            <div id="filters" class="content" style="display:none">
+
+                <div id="filter_diet">
+                    <p>Diet</p>
+
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" id="dairy-free" name="choice1">
+                            Dairy Free
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="gluten-free" name="choice1">
+                            Gluten Free
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="kosher" name="choice1">
+                            Kosher
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="vegan" name="choice1">
+                            Vegan
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="vegetarian" name="choice1">
+                            Vegetarian
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="sugar-conscious" name="choice1">
+                            Sugar Conscious
+                        </label>
+                    </div>
+
+                </div>
+
+                <div id="filter_mealtype">
+                    <p>Meal Type</p>
+
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" id="breakfast" name="choice2">
+                            Breakfast
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="lunch" name="choice2">
+                            Lunch
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="snack" name="choice2">
+                            Snack
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" id="dinner" name="choice2">
+                            Dinner
+                        </label>
 
                     </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
-                </footer>
-            </div>
-        </div>
-    </div>
 
-    <div id="favourite-recipes" class="modal">
-        <div class="modal-background">
-            <div class="modal-card pt-5">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Favourite Recipes</p>
-                    <button id="close-favourite-recipes-delete-button" class="delete modal-close-button"
-                            aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div class="favourite-recipes-content">
-                        <ul id="favourite-recipes-content">
-                            <!-- Favourite Recipes list items go here -->
-                        </ul>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
-                </footer>
-            </div>
-        </div>
-    </div>
-
-    <div id="recipe-details" class="modal">
-
-    </div>
-
-    <!--Navbar-->
-    <nav class="navbar" role="navigation">
-
-        <!-- Title holding the product name -->
-        <div class="navbar-brand">
-            <h1 class="navbar-item">Chop 'n' Change</h1>
-        </div>
-        <div class="navbar-menu" style="float: right;">
-            <div class="navbar-start">
-
-                <!-- Have assigned temp id names feel free to change them -->
-                <a class="navbar-item" id="shopping-list-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-
-                <!-- Have assigned temp id names feel free to change them -->
-                <a class="navbar-item" id="favourite-btn">
-                    <i class="fas fa-star"></i>
-                </a>
-            </div>
-        </div>
-
-
-    </nav>
-
-    <!-- Main section holding the search box with a background image -->
-    <section class="main_section">
-        <div class="card">
-            <div class="card-content">
-                <p class="title">Search</p>
-
-                <!-- Have assigned a temp id for search can be changed -->
-                <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
-
-                <!-- Button to toggle filters -->
-                <button id="filter-button" class="button is-primary is-rounded">Filters</button>
-
-                <!-- Filters Section -->
-                <div id="filters" class="content" style="display:none">
-
-                    <div id="filter_diet">
-                        <p>Diet</p>
+                    <div id="filter_diet_type">
+                        <p>Diet Type</p>
 
                         <div class="control">
                             <label class="radio">
-                                <input type="radio" id="dairy-free" name="choice1">
-                                Dairy Free
+                                <input type="radio" id="balanced" name="choice3">
+                                Balanced
                             </label>
 
                             <label class="radio">
-                                <input type="radio" id="gluten-free" name="choice1">
-                                Gluten Free
+                                <input type="radio" id="high-fiber" name="choice3">
+                                High Fiber
                             </label>
 
                             <label class="radio">
-                                <input type="radio" id="kosher" name="choice1">
-                                Kosher
+                                <input type="radio" id="high-protein" name="choice3">
+                                High Protein
                             </label>
 
                             <label class="radio">
-                                <input type="radio" id="vegan" name="choice1">
-                                Vegan
+                                <input type="radio" id="low-carb" name="choice3">
+                                Low Carb
                             </label>
 
                             <label class="radio">
-                                <input type="radio" id="vegetarian" name="choice1">
-                                Vegetarian
+                                <input type="radio" id="low-fat" name="choice3">
+                                Low Fat
                             </label>
 
                             <label class="radio">
-                                <input type="radio" id="sugar-conscious" name="choice1">
-                                Sugar Conscious
+                                <input type="radio" id="low-sodium" name="choice3">
+                                Low Sodium
                             </label>
-                        </div>
-
-                    </div>
-
-                    <div id="filter_mealtype">
-                        <p>Meal Type</p>
-
-                        <div class="control">
-                            <label class="radio">
-                                <input type="radio" id="breakfast" name="choice2">
-                                Breakfast
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio" id="lunch" name="choice2">
-                                Lunch
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio" id="snack" name="choice2">
-                                Snack
-                            </label>
-
-                            <label class="radio">
-                                <input type="radio" id="dinner" name="choice2">
-                                Dinner
-                            </label>
-
-                        </div>
-
-                        <div id="filter_diet_type">
-                            <p>Diet Type</p>
-
-                            <div class="control">
-                                <label class="radio">
-                                    <input type="radio" id="balanced" name="choice3">
-                                    Balanced
-                                </label>
-
-                                <label class="radio">
-                                    <input type="radio" id="high-fiber" name="choice3">
-                                    High Fiber
-                                </label>
-
-                                <label class="radio">
-                                    <input type="radio" id="high-protein" name="choice3">
-                                    High Protein
-                                </label>
-
-                                <label class="radio">
-                                    <input type="radio" id="low-carb" name="choice3">
-                                    Low Carb
-                                </label>
-
-                                <label class="radio">
-                                    <input type="radio" id="low-fat" name="choice3">
-                                    Low Fat
-                                </label>
-
-                                <label class="radio">
-                                    <input type="radio" id="low-sodium" name="choice3">
-                                    Low Sodium
-                                </label>
-                            </div>
-
                         </div>
 
                     </div>
 
                 </div>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<div id="root">
+    <!-- React App goes here -->
+</div>
 
-    <!-- Results section -->
-    <section class="results_section">
-        <div class="container">
-            <div id="search-results" class="columns is-justify-content-space-between">
-            </div>
-        </div>
-    </section>
 
-    <nav id="search-results-nav" offset=4 class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-        <a id="search-results-previous" class="pagination-previous">Previous</a>
-        <a id="search-results-next" class="pagination-next">Next page</a>
-        <ul class="pagination-list">
-            <li><a id="page-1" page-number=1 class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-            <li><a id="page-2" page-number=2 class="pagination-link" aria-label="Goto page 2">2</a></li>
-            <li><a id="page-3" page-number=3 class="pagination-link" aria-label="Goto page 3">3</a></li>
-            <li><a id="page-4" page-number=4 class="pagination-link" aria-label="Goto page 4">4</a></li>
-            <li><a id="page-5" page-number=5 class="pagination-link" aria-label="Goto page 5">5</a></li>
-        </ul>
-    </nav>
-    <!-- Footer have left bare for now -->
-    <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://unpkg.com/@babel/polyfill@7/dist/polyfill.min.js"></script>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 <script type="module" src="./js/App.js"></script>
 </html>

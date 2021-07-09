@@ -1,93 +1,76 @@
-/** @jsx createElement */
-
-/*** @jsxFrag createFragment */
 import logger from "../util/SimpleDebug.js";
-import DOMUtil from "../util/ui/DOMUtil.js";
-import { createFragment, createElement } from "../util/ui/JsxProcessor.js";
+export default function RecipeSearchResults(props) {
+  var recipes = props.recipes;
+  var currentPageNumber = props.currentPageNumber;
+  var resultsPerPage = props.resultsPerPage;
+  var favouriteHandler = props.favouriteHandler;
+  var shoppingListHandler = props.shoppingListHandler;
+  var detailsHandler = props.detailsHandler; // clear the current results list and redraw dynamically
 
-var RecipeSearchResults = /*#__PURE__*/function () {
-  function RecipeSearchResults(application, document) {
-    this.application = application;
-    this.document = document;
-    this.elementId = "search-results";
-    this.divElement = this.document.getElementById(this.elementId);
-    this.domUtils = new DOMUtil(this.document);
+  if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering search results");
+  if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(recipes); // how many results to we have
+
+  var numberOfResults = recipes.length; // assume 20 results for now
+
+  var startIndex = (currentPageNumber - 1) * resultsPerPage;
+  var endIndex = currentPageNumber * resultsPerPage;
+  var index = startIndex; // get the subset of recipes for display
+
+  var recipesForDisplay = [];
+
+  while (index < endIndex && index < numberOfResults) {
+    var recipe = recipes[index];
+    recipesForDisplay.push(recipe);
+    index++;
   }
 
-  var _proto = RecipeSearchResults.prototype;
-
-  _proto.render = function render(arrayOfRecipes) {
-    var _this = this;
-
-    // clear the current results list and redraw dynamically
-    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering search results");
-    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(arrayOfRecipes);
-    this.domUtils.removeAllChildNodes(this.divElement); // look for page offset
-
-    var currentPage = this.application.getCurrentPageNumber();
-    var pageOffset = this.application.getResultsPerPage(); // how many results to we have
-
-    var numberOfResults = arrayOfRecipes.length; // assume 20 results for now
-
-    var startIndex = (currentPage - 1) * pageOffset;
-    var endIndex = currentPage * pageOffset;
-    var index = startIndex;
-
-    var _loop = function _loop() {
-      var recipe = arrayOfRecipes[index];
-
-      var recipesSearchElement = function recipesSearchElement() {
-        return createElement("div", {
-          class: "column is-mobile is-3-tablet is-3-desktop"
-        }, createElement("div", {
-          class: "card"
-        }, createElement("header", {
-          class: "card-header"
-        }, createElement("p", {
-          class: "card-header-title is-size-5"
-        }, createElement("a", {
-          target: "_blank",
-          href: recipe.URL
-        }, recipe.name)), createElement("span", {
-          class: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
-        }, createElement("span", {
-          "recipe-id": recipe.id,
-          class: "icon"
-        }, createElement("i", {
-          "recipe-id": recipe.id,
-          class: "fas fa-star",
-          onClick: _this.application.handleEventAddRecipeToFavourites
-        }))), createElement("span", {
-          class: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
-        }, createElement("span", {
-          "recipe-id": recipe.id,
-          class: "icon"
-        }, createElement("i", {
-          "recipe-id": recipe.id,
-          class: "fas fa-shopping-cart",
-          onClick: _this.application.handleEventAddRecipeToShoppingList
-        })))), createElement("div", {
-          class: "card-image has-text-centered"
-        }, createElement("img", {
-          class: "recipe-clickable-image",
-          "recipe-id": recipe.id,
-          src: recipe.imageURL,
-          alt: recipe.name,
-          onClick: _this.application.handleEventShowRecipeDetailsFromSearch
-        }))));
-      };
-
-      _this.divElement.appendChild(recipesSearchElement());
-
-      index++;
-    };
-
-    while (index < endIndex && index < numberOfResults) {
-      _loop();
-    }
-  };
-
-  return RecipeSearchResults;
-}();
-
-export { RecipeSearchResults as default };
+  var listItems = recipesForDisplay.map(function (recipe, index) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: index,
+      className: "column is-mobile is-3-tablet is-3-desktop"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "card"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "card-header"
+    }, /*#__PURE__*/React.createElement("p", {
+      className: "card-header-title is-size-5"
+    }, /*#__PURE__*/React.createElement("a", {
+      target: "_blank",
+      href: recipe.URL
+    }, recipe.name)), /*#__PURE__*/React.createElement("span", {
+      className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+    }, /*#__PURE__*/React.createElement("span", {
+      "recipe-id": recipe.id,
+      className: "icon"
+    }, /*#__PURE__*/React.createElement("i", {
+      "recipe-id": recipe.id,
+      className: "fas fa-star",
+      onClick: favouriteHandler
+    }))), /*#__PURE__*/React.createElement("span", {
+      className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+    }, /*#__PURE__*/React.createElement("span", {
+      "recipe-id": recipe.id,
+      className: "icon"
+    }, /*#__PURE__*/React.createElement("i", {
+      "recipe-id": recipe.id,
+      className: "fas fa-shopping-cart",
+      onClick: shoppingListHandler
+    })))), /*#__PURE__*/React.createElement("div", {
+      className: "card-image has-text-centered"
+    }, /*#__PURE__*/React.createElement("img", {
+      className: "recipe-clickable-image",
+      "recipe-id": recipe.id,
+      src: recipe.imageURL,
+      alt: recipe.name,
+      onClick: detailsHandler
+    }))));
+  });
+  return /*#__PURE__*/React.createElement("section", {
+    className: "results_section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("div", {
+    id: "search-results",
+    className: "columns is-justify-content-space-between"
+  }, listItems)));
+}
