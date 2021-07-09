@@ -13,7 +13,7 @@ export default function ShoppingList(props) {
     const listItems = shoppingList.map((ingredient, index) =>
         <button key={index} ingredient={ingredient} className="button is-fullwidth is-info is-outlined is-rounded"
                 onClick={deleteHandler}>
-            <span ingredient={ingredient}>{ingredient}</span>
+            <span ingredient={ingredient}>{(ingredient.length > 60)?ingredient.substr(0,57) + "...":ingredient}</span>
             <span ingredient={ingredient} className="icon is-small">
                     <i ingredient={ingredient} className="fas fa-times"></i>
                 </span>
@@ -29,12 +29,12 @@ export default function ShoppingList(props) {
                         <button className="delete" aria-label="close" onClick={closeHandler}></button>
                     </header>
                     <section className="modal-card-body">
-                        <div id="shopping-list-content" className="buttons">
+                        <div className="buttons">
                             {listItems}
                         </div>
                     </section>
                     <footer className="modal-card-foot">
-                        <button id="close-shopping-list-button" className="button" onClick={closeHandler}>Close</button>
+                        <button className="button is-rounded" onClick={closeHandler}>Close</button>
                     </footer>
                 </div>
             </div>

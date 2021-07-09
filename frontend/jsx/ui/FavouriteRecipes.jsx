@@ -12,9 +12,9 @@ export default function FavouriteRecipes(props) {
     if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(favouriteRecipes);
 
     const listItems = favouriteRecipes.map((recipe, index) =>
-        <li key={index}>
+        <li className={"pt-1 pb-1"} key={index}>
             <button recipe-id={recipe.id} className="button is-info is-outlined is-rounded" onClick={detailsHandler}>
-                <span recipe-id={recipe.id}>{recipe.name}</span>
+                <span recipe-id={recipe.id}>{(recipe.name.length > 60)?recipe.name.substr(0,57) + "...":recipe.name}</span>
             </button>
             <button recipe-id={recipe.id} className="delete mt-3 ml-2" onClick={deleteHandler}>
                 <span recipe-id={recipe.id} className="icon is-large">
@@ -40,7 +40,7 @@ export default function FavouriteRecipes(props) {
                         </div>
                     </section>
                     <footer className="modal-card-foot">
-                        <button className="button" onClick={closeHandler}>Close</button>
+                        <button className="button is-rounded" onClick={closeHandler}>Close</button>
                     </footer>
                 </div>
             </div>

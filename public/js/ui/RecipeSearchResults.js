@@ -33,12 +33,12 @@ export default function RecipeSearchResults(props) {
     }, /*#__PURE__*/React.createElement("header", {
       className: "card-header"
     }, /*#__PURE__*/React.createElement("p", {
-      className: "card-header-title is-size-5"
+      className: "card-header-title is-size-6"
     }, /*#__PURE__*/React.createElement("a", {
       target: "_blank",
       href: recipe.URL
-    }, recipe.name)), /*#__PURE__*/React.createElement("span", {
-      className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+    }, recipe.name.length > 23 ? recipe.name.substr(0, 19) + "..." : recipe.name)), /*#__PURE__*/React.createElement("span", {
+      className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"
     }, /*#__PURE__*/React.createElement("span", {
       "recipe-id": recipe.id,
       className: "icon"
@@ -47,7 +47,7 @@ export default function RecipeSearchResults(props) {
       className: "fas fa-star",
       onClick: favouriteHandler
     }))), /*#__PURE__*/React.createElement("span", {
-      className: "icon-text is-size-5 is-pulled-right pr-4 mt-4"
+      className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"
     }, /*#__PURE__*/React.createElement("span", {
       "recipe-id": recipe.id,
       className: "icon"
@@ -57,20 +57,20 @@ export default function RecipeSearchResults(props) {
       onClick: shoppingListHandler
     })))), /*#__PURE__*/React.createElement("div", {
       className: "card-image has-text-centered"
+    }, /*#__PURE__*/React.createElement("figure", {
+      className: "image is-4by3"
     }, /*#__PURE__*/React.createElement("img", {
       className: "recipe-clickable-image",
       "recipe-id": recipe.id,
       src: recipe.imageURL,
       alt: recipe.name,
       onClick: detailsHandler
-    }))));
+    })))));
   });
-  return /*#__PURE__*/React.createElement("section", {
-    className: "results_section"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "container"
+  return /*#__PURE__*/React.createElement("div", {
+    className: "column is-full"
   }, /*#__PURE__*/React.createElement("div", {
     id: "search-results",
     className: "columns is-justify-content-space-between"
-  }, listItems)));
+  }, listItems));
 }

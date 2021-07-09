@@ -9,6 +9,7 @@ export default function FavouriteRecipes(props) {
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(favouriteRecipes);
   var listItems = favouriteRecipes.map(function (recipe, index) {
     return /*#__PURE__*/React.createElement("li", {
+      className: "pt-1 pb-1",
       key: index
     }, /*#__PURE__*/React.createElement("button", {
       "recipe-id": recipe.id,
@@ -16,7 +17,7 @@ export default function FavouriteRecipes(props) {
       onClick: detailsHandler
     }, /*#__PURE__*/React.createElement("span", {
       "recipe-id": recipe.id
-    }, recipe.name)), /*#__PURE__*/React.createElement("button", {
+    }, recipe.name.length > 60 ? recipe.name.substr(0, 57) + "..." : recipe.name)), /*#__PURE__*/React.createElement("button", {
       "recipe-id": recipe.id,
       className: "delete mt-3 ml-2",
       onClick: deleteHandler
@@ -52,7 +53,7 @@ export default function FavouriteRecipes(props) {
   }, listItems))), /*#__PURE__*/React.createElement("footer", {
     className: "modal-card-foot"
   }, /*#__PURE__*/React.createElement("button", {
-    className: "button",
+    className: "button is-rounded",
     onClick: closeHandler
   }, "Close")))));
 }

@@ -10,12 +10,16 @@ class App extends React.Component {
     constructor() {
         super();
         this.controller = new Controller(this, window.localStorage);
+        this.searchInProgress = false;
+
         /* turn on console messages for development*/
         logger.setOn();
         logger.setLevel(200);
         logger.setMinLevel(0);
+
         // Event handlers
         this.handleEventStartRecipeSearch = this.handleEventStartRecipeSearch.bind(this);
+        this.handleEventStartRecipeSearchKeyUp = this.handleEventStartRecipeSearchKeyUp.bind(this);
         this.handleEventAddRecipeToFavourites = this.handleEventAddRecipeToFavourites.bind(this);
         this.handleEventRemoveRecipeFromFavourites = this.handleEventRemoveRecipeFromFavourites.bind(this);
         this.handleEventAddRecipeToShoppingList = this.handleEventAddRecipeToShoppingList.bind(this);
@@ -32,6 +36,9 @@ class App extends React.Component {
         this.handleCloseModals = this.handleCloseModals.bind(this);
         this.doNothingHandler = this.doNothingHandler.bind(this);
 
+        this.searchStarted = this.searchStarted.bind(this);
+        this.searchEnded = this.searchEnded.bind(this);
+
         this.state = {
             searchResults: [],
             shoppingList: [],
@@ -43,7 +50,7 @@ class App extends React.Component {
             selectedRecipeIsFavourite: false,
             currentPageNumber: 1,
             totalPages: 1,
-            resultsPerPage: 4
+            resultsPerPage: 5
         };
 
     }
@@ -94,10 +101,12 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementById("search-btn").addEventListener("keyup", this.handleEventStartRecipeSearch);
+        document.getElementById("search-btn").addEventListener("click", this.handleEventStartRecipeSearch);
+        document.getElementById("search-text").addEventListener("keyup", this.handleEventStartRecipeSearchKeyUp);
         document.getElementById("shopping-list-btn").addEventListener("click", this.handleEventShowShoppingList);
         document.getElementById("favourite-btn").addEventListener("click", this.handleEventShowFavouriteRecipes);
         document.getElementById("filter-button").addEventListener("click", this.handleEventToggleFilter);
+        document.getElementById("filter-reset").addEventListener("click", this.handleEventClearFilters);
         this.setState({
             searchResults: this.controller.getPreviousSearch(),
             shoppingList: this.controller.getShoppingList(),
@@ -152,56 +161,73 @@ class App extends React.Component {
     ///
     ///
 
+    searchStarted() {
+        document.getElementById("search-btn").classList.add("is-loading");
+        this.searchInProgress = true;
+    }
+
+    searchEnded() {
+        document.getElementById("search-btn").classList.remove("is-loading");
+        this.searchInProgress = false;
+    }
 
     /*
     This event should collect the details from the search form (query, meal type, diet type, and allergies)
     and construct a search request to send to the controller.
     */
-    handleEventStartRecipeSearch(event) {
+    handleEventStartRecipeSearchKeyUp(event) {
+
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {
-            event.preventDefault();
-
-            if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
-            let queryText = event.target.value.trim();
-
-            // code in here to collect the information from the elements of the page
-            let isBalancedDiet = document.getElementById("balanced").checked;
-            let isHighFiber = document.getElementById("high-fiber").checked;
-            let isHighProtein = document.getElementById("high-protein").checked;
-            let isLowCarb = document.getElementById("low-carb").checked;
-            let isLowFat = document.getElementById("low-fat").checked;
-            let isLowSodium = document.getElementById("low-sodium").checked;
-            let isDiaryFree = document.getElementById("dairy-free").checked;
-            let isGlutenFree = document.getElementById("gluten-free").checked;
-            let isKosher = document.getElementById("kosher").checked;
-            let isVegan = document.getElementById("vegan").checked;
-            let isVegetarian = document.getElementById("vegetarian").checked;
-            let isDiabetic = document.getElementById("sugar-conscious").checked;
-            let isBreakfast = document.getElementById("breakfast").checked;
-            let isLunch = document.getElementById("lunch").checked;
-            let isDinner = document.getElementById("dinner").checked;
-            let isSnack = document.getElementById("snack").checked;
-            this.controller.searchForRecipes(
-                queryText,
-                isBalancedDiet,
-                isHighFiber,
-                isHighProtein,
-                isLowCarb,
-                isLowFat,
-                isLowSodium,
-                isDiaryFree,
-                isGlutenFree,
-                isKosher,
-                isVegan,
-                isVegetarian,
-                isDiabetic,
-                isBreakfast,
-                isLunch,
-                isDinner,
-                isSnack
-            );
+            this.handleEventStartRecipeSearch(event);
         }
+    }
+
+    handleEventStartRecipeSearch(event) {
+        if (this.searchInProgress) return; // don't run another search if one running
+
+        event.preventDefault();
+
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
+        let queryText = document.getElementById("search-text").value.trim();
+
+        // code in here to collect the information from the elements of the page
+        let isBalancedDiet = document.getElementById("balanced").checked;
+        let isHighFiber = false;//document.getElementById("high-fiber").checked;
+        let isHighProtein = document.getElementById("high-protein").checked;
+        let isLowCarb = document.getElementById("low-carb").checked;
+        let isLowFat = document.getElementById("low-fat").checked;
+        let isLowSodium = document.getElementById("low-sodium").checked;
+        let isDiaryFree = document.getElementById("dairy-free").checked;
+        let isGlutenFree = document.getElementById("gluten-free").checked;
+        let isKosher = document.getElementById("kosher").checked;
+        let isVegan = document.getElementById("vegan").checked;
+        let isVegetarian = document.getElementById("vegetarian").checked;
+        let isDiabetic = document.getElementById("sugar-conscious").checked;
+        let isBreakfast = document.getElementById("breakfast").checked;
+        let isLunch = document.getElementById("lunch").checked;
+        let isDinner = document.getElementById("dinner").checked;
+        let isSnack = document.getElementById("snack").checked;
+        this.controller.searchForRecipes(
+            queryText,
+            isBalancedDiet,
+            isHighFiber,
+            isHighProtein,
+            isLowCarb,
+            isLowFat,
+            isLowSodium,
+            isDiaryFree,
+            isGlutenFree,
+            isKosher,
+            isVegan,
+            isVegetarian,
+            isDiabetic,
+            isBreakfast,
+            isLunch,
+            isDinner,
+            isSnack
+        );
+
         // this app will be notified when the application state changes
 
     }
@@ -328,6 +354,14 @@ class App extends React.Component {
         } else {
             filtersDiv.style.display = "none";
         }
+    }
+
+    handleEventClearFilters() {
+        let filtersDiv = document.getElementById("filters");
+        let filters = filtersDiv.querySelectorAll("input");
+        filters.forEach((filter,index) => {
+           filter.checked = false;
+        });
     }
 }
 

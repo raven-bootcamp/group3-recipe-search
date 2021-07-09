@@ -52,11 +52,11 @@ export default class Controller {
     _createRecipeFromEdamamRecipe(edamamRecipe) {
         let recipeId = edamamRecipe.uri.split("_",2)[1];
         let mealTypes = edamamRecipe.mealType;
-        if ((mealTypes === null) || (mealTypes === undefined)) {
+        if ((mealTypes === null) || (mealTypes === undefined) || (mealTypes.length === 0)) {
             mealTypes = ["Not supplied"];
         }
         let dietLabels = edamamRecipe.dietLabels;
-        if ((dietLabels === null) || (dietLabels === undefined)) {
+        if ((dietLabels === null) || (dietLabels === undefined) || (dietLabels.length === 0)) {
             dietLabels = ["Not supplied"];
         }
 
@@ -103,6 +103,7 @@ export default class Controller {
         }
         this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
+        this.applicationView.searchEnded();
     }
 
     getRecipeFromLastSearchResultsById(recipeId) {
@@ -139,7 +140,7 @@ export default class Controller {
         isSnack = false
     ) {
         // Do we have a diet restriction?
-        let hasDietSelection = (isBalancedDiet || false || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
+        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
         let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
         let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
         // construct the parameters for the JSON call
@@ -149,7 +150,7 @@ export default class Controller {
             hasHealthSelection: hasHealthSelection,
             hasMealTypeSelection: hasMealTypeSelection,
             isBalancedDiet: isBalancedDiet,
-            isHighFiber: false, // error when using this despite being in the API document
+            isHighFiber: isHighFiber,
             isHighProtein: isHighProtein,
             isLowCarb: isLowCarb,
             isLowFat: isLowFat,
@@ -167,6 +168,8 @@ export default class Controller {
 
         };
         /* execute the asychronous fetch request and receive the results in the callback function */
+        this.applicationView.searchStarted();
+
         fetchUtil.fetchQLJSON(this.queryURLRecipesSearch, parameters, this.callbackForRecipeSearch);
     }
 

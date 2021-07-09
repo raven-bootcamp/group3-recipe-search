@@ -35,36 +35,38 @@ export default function RecipeSearchResults(props) {
         <div key={index} className="column is-mobile is-3-tablet is-3-desktop">
             <div className="card">
                 <header className="card-header">
-                    <p className="card-header-title is-size-5">
-                        <a target="_blank" href={recipe.URL}>{recipe.name}</a>
+                    <p className="card-header-title is-size-6">
+                        <a target="_blank" href={recipe.URL}>{(recipe.name.length > 23)?recipe.name.substr(0,19)+"...":recipe.name}</a>
                     </p>
-                    <span className="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                    <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">
                             <i recipe-id={recipe.id} className="fas fa-star" onClick={favouriteHandler}></i>
                         </span>
                     </span>
-                    <span className="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                    <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">
                             <i recipe-id={recipe.id} className="fa fa-cart-plus" onClick={shoppingListHandler}></i>
                         </span>
                     </span>
                 </header>
                 <div className="card-image has-text-centered">
+                    <figure className={"image is-4by3"}>
                     <img className="recipe-clickable-image" recipe-id={recipe.id} src={recipe.imageURL}
                          alt={recipe.name} onClick={detailsHandler}/>
+                    </figure>
                 </div>
             </div>
         </div>
     );
 
     return (
-        <section className="results_section">
-            <div className="container">
+
+            <div className="column is-full">
                 <div id="search-results" className="columns is-justify-content-space-between">
                     {listItems}
                 </div>
             </div>
-        </section>
+
     );
 
 }

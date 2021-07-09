@@ -14,7 +14,7 @@ export default function ShoppingList(props) {
       onClick: deleteHandler
     }, /*#__PURE__*/React.createElement("span", {
       ingredient: ingredient
-    }, ingredient), /*#__PURE__*/React.createElement("span", {
+    }, ingredient.length > 60 ? ingredient.substr(0, 57) + "..." : ingredient), /*#__PURE__*/React.createElement("span", {
       ingredient: ingredient,
       className: "icon is-small"
     }, /*#__PURE__*/React.createElement("i", {
@@ -40,13 +40,11 @@ export default function ShoppingList(props) {
   })), /*#__PURE__*/React.createElement("section", {
     className: "modal-card-body"
   }, /*#__PURE__*/React.createElement("div", {
-    id: "shopping-list-content",
     className: "buttons"
   }, listItems)), /*#__PURE__*/React.createElement("footer", {
     className: "modal-card-foot"
   }, /*#__PURE__*/React.createElement("button", {
-    id: "close-shopping-list-button",
-    className: "button",
+    className: "button is-rounded",
     onClick: closeHandler
   }, "Close")))));
 }

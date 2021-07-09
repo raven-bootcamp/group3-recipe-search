@@ -18,8 +18,28 @@ export default function RecipeDetails(props) {
   var listItems = recipe.ingredients.map(function (ingredient, index) {
     return /*#__PURE__*/React.createElement("li", {
       key: index
-    }, ingredient);
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "ml-2"
+    }, ingredient), " ");
   });
+  var mealTypesForDisplay = "";
+  recipe.mealType.map(function (typeText, index) {
+    mealTypesForDisplay += typeText + " ";
+  });
+
+  if (mealTypesForDisplay.trim().length > 0) {
+    mealTypesForDisplay = "Meal Timing: " + mealTypesForDisplay;
+  }
+
+  var dietTypesForDisplay = "";
+  recipe.diet.map(function (typeText, index) {
+    dietTypesForDisplay += typeText + " ";
+  });
+
+  if (dietTypesForDisplay.trim().length > 0) {
+    dietTypesForDisplay = "Diet Types: " + dietTypesForDisplay;
+  }
+
   return /*#__PURE__*/React.createElement("div", {
     id: "recipe-details",
     className: isShowing ? "modal is-active" : "modal"
@@ -46,37 +66,42 @@ export default function RecipeDetails(props) {
   }, /*#__PURE__*/React.createElement("div", {
     className: "recipe-image has-text-centered"
   }, /*#__PURE__*/React.createElement("img", {
-    id: "recipe-details-img",
     src: recipe.imageURL,
     alt: recipe.name
-  })), /*#__PURE__*/React.createElement("ul", {
-    id: "recipe-details-content"
-  }, listItems), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    id: "recipe-details-dietary"
-  }, recipe.diet), /*#__PURE__*/React.createElement("p", {
-    id: "recipe-details-mealType"
-  }, recipe.mealType)))), /*#__PURE__*/React.createElement("footer", {
+  })), /*#__PURE__*/React.createElement("ol", {
+    className: "pl-3"
+  }, listItems), /*#__PURE__*/React.createElement("div", {
+    className: "pt-3 pb-3 mt-2 mr-5 has-background-info-dark has-text-white"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "ml-3"
+  }, dietTypesForDisplay), /*#__PURE__*/React.createElement("p", {
+    className: "ml-3"
+  }, mealTypesForDisplay)))), /*#__PURE__*/React.createElement("footer", {
     className: "modal-card-foot"
   }, /*#__PURE__*/React.createElement("button", {
-    className: "button modal-close-button",
+    className: "button is-rounded modal-close-button",
     onClick: closeHandler
   }, "Close"), /*#__PURE__*/React.createElement("div", {
     className: "is-pulled-right"
-  }, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("button", {
     "recipe-id": recipe.id,
-    className: "modal-shopping-item is-pulled-right",
-    id: "ingredient-add-btn",
-    onClick: shoppingListHandler
-  }, /*#__PURE__*/React.createElement("i", {
-    "recipe-id": recipe.id,
-    className: "fa fa-cart-plus"
-  })), /*#__PURE__*/React.createElement("a", {
-    "recipe-id": recipe.id,
-    className: "modal-fav-item is-pulled-right",
-    id: "recipe-favourite-btn",
+    className: "button is-rounded ",
     onClick: favouriteHandler
+  }, /*#__PURE__*/React.createElement("span", {
+    "recipe-id": recipe.id,
+    className: "icon"
   }, /*#__PURE__*/React.createElement("i", {
     "recipe-id": recipe.id,
     className: "fas fa-star"
-  })))))));
+  }))), /*#__PURE__*/React.createElement("button", {
+    "recipe-id": recipe.id,
+    className: "button is-rounded ",
+    onClick: shoppingListHandler
+  }, /*#__PURE__*/React.createElement("span", {
+    "recipe-id": recipe.id,
+    className: "icon"
+  }, /*#__PURE__*/React.createElement("i", {
+    "recipe-id": recipe.id,
+    className: "fa fa-cart-plus"
+  }))))))));
 }

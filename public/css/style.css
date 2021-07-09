@@ -10,8 +10,8 @@ nav {
     padding: 12px;
 }
 
-/* Atm seems like how we could have it. Prone to chnage in the future */
-.main_section {
+/* Atm seems like how we could have it. Prone to change in the future */
+.main-section {
     background-image: url('../img/main_img.jpg');
     background-size: cover;
     padding: 10px;
@@ -19,22 +19,12 @@ nav {
 
 /* Custom chnages made on the card class on top of Bulma */
 .card {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
     margin-top: 5%;
     margin-bottom: 5%;
-    padding: 20px;
+    padding: 15px;
     border-radius: 14px;
-}
-
-/* Custom chnages made on the input on top of Bulma */
-input {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.results_section {
-    padding: 30px;
 }
 
 .modal-close-button {}

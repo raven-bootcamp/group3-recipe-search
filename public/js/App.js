@@ -20,6 +20,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 
     _this = _React$Component.call(this) || this;
     _this.controller = new Controller(_assertThisInitialized(_this), window.localStorage);
+    _this.searchInProgress = false;
     /* turn on console messages for development*/
 
     logger.setOn();
@@ -27,6 +28,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     logger.setMinLevel(0); // Event handlers
 
     _this.handleEventStartRecipeSearch = _this.handleEventStartRecipeSearch.bind(_assertThisInitialized(_this));
+    _this.handleEventStartRecipeSearchKeyUp = _this.handleEventStartRecipeSearchKeyUp.bind(_assertThisInitialized(_this));
     _this.handleEventAddRecipeToFavourites = _this.handleEventAddRecipeToFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventRemoveRecipeFromFavourites = _this.handleEventRemoveRecipeFromFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventAddRecipeToShoppingList = _this.handleEventAddRecipeToShoppingList.bind(_assertThisInitialized(_this));
@@ -41,6 +43,8 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.handleEventPaginationNextPressed = _this.handleEventPaginationNextPressed.bind(_assertThisInitialized(_this));
     _this.handleCloseModals = _this.handleCloseModals.bind(_assertThisInitialized(_this));
     _this.doNothingHandler = _this.doNothingHandler.bind(_assertThisInitialized(_this));
+    _this.searchStarted = _this.searchStarted.bind(_assertThisInitialized(_this));
+    _this.searchEnded = _this.searchEnded.bind(_assertThisInitialized(_this));
     _this.state = {
       searchResults: [],
       shoppingList: [],
@@ -52,7 +56,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       selectedRecipeIsFavourite: false,
       currentPageNumber: 1,
       totalPages: 1,
-      resultsPerPage: 4
+      resultsPerPage: 5
     };
     return _this;
   }
@@ -114,10 +118,12 @@ var App = /*#__PURE__*/function (_React$Component) {
   };
 
   _proto.componentDidMount = function componentDidMount() {
-    document.getElementById("search-btn").addEventListener("keyup", this.handleEventStartRecipeSearch);
+    document.getElementById("search-btn").addEventListener("click", this.handleEventStartRecipeSearch);
+    document.getElementById("search-text").addEventListener("keyup", this.handleEventStartRecipeSearchKeyUp);
     document.getElementById("shopping-list-btn").addEventListener("click", this.handleEventShowShoppingList);
     document.getElementById("favourite-btn").addEventListener("click", this.handleEventShowFavouriteRecipes);
     document.getElementById("filter-button").addEventListener("click", this.handleEventToggleFilter);
+    document.getElementById("filter-reset").addEventListener("click", this.handleEventClearFilters);
     this.setState({
       searchResults: this.controller.getPreviousSearch(),
       shoppingList: this.controller.getShoppingList(),
@@ -175,39 +181,55 @@ var App = /*#__PURE__*/function (_React$Component) {
   ///  EVENT HANDLERS SECTION
   ///
   ///
+  ;
 
+  _proto.searchStarted = function searchStarted() {
+    document.getElementById("search-btn").classList.add("is-loading");
+    this.searchInProgress = true;
+  };
+
+  _proto.searchEnded = function searchEnded() {
+    document.getElementById("search-btn").classList.remove("is-loading");
+    this.searchInProgress = false;
+  }
   /*
   This event should collect the details from the search form (query, meal type, diet type, and allergies)
   and construct a search request to send to the controller.
   */
   ;
 
-  _proto.handleEventStartRecipeSearch = function handleEventStartRecipeSearch(event) {
+  _proto.handleEventStartRecipeSearchKeyUp = function handleEventStartRecipeSearchKeyUp(event) {
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
-      event.preventDefault();
-      if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Start Recipe Search");
-      var queryText = event.target.value.trim(); // code in here to collect the information from the elements of the page
+      this.handleEventStartRecipeSearch(event);
+    }
+  };
 
-      var isBalancedDiet = document.getElementById("balanced").checked;
-      var isHighFiber = document.getElementById("high-fiber").checked;
-      var isHighProtein = document.getElementById("high-protein").checked;
-      var isLowCarb = document.getElementById("low-carb").checked;
-      var isLowFat = document.getElementById("low-fat").checked;
-      var isLowSodium = document.getElementById("low-sodium").checked;
-      var isDiaryFree = document.getElementById("dairy-free").checked;
-      var isGlutenFree = document.getElementById("gluten-free").checked;
-      var isKosher = document.getElementById("kosher").checked;
-      var isVegan = document.getElementById("vegan").checked;
-      var isVegetarian = document.getElementById("vegetarian").checked;
-      var isDiabetic = document.getElementById("sugar-conscious").checked;
-      var isBreakfast = document.getElementById("breakfast").checked;
-      var isLunch = document.getElementById("lunch").checked;
-      var isDinner = document.getElementById("dinner").checked;
-      var isSnack = document.getElementById("snack").checked;
-      this.controller.searchForRecipes(queryText, isBalancedDiet, isHighFiber, isHighProtein, isLowCarb, isLowFat, isLowSodium, isDiaryFree, isGlutenFree, isKosher, isVegan, isVegetarian, isDiabetic, isBreakfast, isLunch, isDinner, isSnack);
-    } // this app will be notified when the application state changes
+  _proto.handleEventStartRecipeSearch = function handleEventStartRecipeSearch(event) {
+    if (this.searchInProgress) return; // don't run another search if one running
 
+    event.preventDefault();
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Start Recipe Search");
+    var queryText = document.getElementById("search-text").value.trim(); // code in here to collect the information from the elements of the page
+
+    var isBalancedDiet = document.getElementById("balanced").checked;
+    var isHighFiber = false; //document.getElementById("high-fiber").checked;
+
+    var isHighProtein = document.getElementById("high-protein").checked;
+    var isLowCarb = document.getElementById("low-carb").checked;
+    var isLowFat = document.getElementById("low-fat").checked;
+    var isLowSodium = document.getElementById("low-sodium").checked;
+    var isDiaryFree = document.getElementById("dairy-free").checked;
+    var isGlutenFree = document.getElementById("gluten-free").checked;
+    var isKosher = document.getElementById("kosher").checked;
+    var isVegan = document.getElementById("vegan").checked;
+    var isVegetarian = document.getElementById("vegetarian").checked;
+    var isDiabetic = document.getElementById("sugar-conscious").checked;
+    var isBreakfast = document.getElementById("breakfast").checked;
+    var isLunch = document.getElementById("lunch").checked;
+    var isDinner = document.getElementById("dinner").checked;
+    var isSnack = document.getElementById("snack").checked;
+    this.controller.searchForRecipes(queryText, isBalancedDiet, isHighFiber, isHighProtein, isLowCarb, isLowFat, isLowSodium, isDiaryFree, isGlutenFree, isKosher, isVegan, isVegetarian, isDiabetic, isBreakfast, isLunch, isDinner, isSnack); // this app will be notified when the application state changes
   }
   /*
   This the event handler for when the user adds a recipe to the favourites
@@ -335,6 +357,14 @@ var App = /*#__PURE__*/function (_React$Component) {
     } else {
       filtersDiv.style.display = "none";
     }
+  };
+
+  _proto.handleEventClearFilters = function handleEventClearFilters() {
+    var filtersDiv = document.getElementById("filters");
+    var filters = filtersDiv.querySelectorAll("input");
+    filters.forEach(function (filter, index) {
+      filter.checked = false;
+    });
   };
 
   return App;
