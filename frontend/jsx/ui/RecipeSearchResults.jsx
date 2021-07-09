@@ -45,7 +45,7 @@ export default function RecipeSearchResults(props) {
                     </span>
                     <span className="icon-text is-size-5 is-pulled-right pr-4 mt-4">
                         <span recipe-id={recipe.id} className="icon">
-                            <i recipe-id={recipe.id} className="fas fa-shopping-cart" onClick={shoppingListHandler}></i>
+                            <i recipe-id={recipe.id} className="fa fa-cart-plus" onClick={shoppingListHandler}></i>
                         </span>
                     </span>
                 </header>

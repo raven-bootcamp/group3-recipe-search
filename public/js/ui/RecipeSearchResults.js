@@ -53,7 +53,7 @@ export default function RecipeSearchResults(props) {
       className: "icon"
     }, /*#__PURE__*/React.createElement("i", {
       "recipe-id": recipe.id,
-      className: "fas fa-shopping-cart",
+      className: "fa fa-cart-plus",
       onClick: shoppingListHandler
     })))), /*#__PURE__*/React.createElement("div", {
       className: "card-image has-text-centered"

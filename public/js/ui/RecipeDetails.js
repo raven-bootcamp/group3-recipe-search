@@ -69,7 +69,7 @@ export default function RecipeDetails(props) {
     onClick: shoppingListHandler
   }, /*#__PURE__*/React.createElement("i", {
     "recipe-id": recipe.id,
-    className: "fas fa-shopping-cart"
+    className: "fa fa-cart-plus"
   })), /*#__PURE__*/React.createElement("a", {
     "recipe-id": recipe.id,
     className: "modal-fav-item is-pulled-right",

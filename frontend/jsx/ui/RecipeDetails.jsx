@@ -55,7 +55,7 @@ export default function RecipeDetails(props) {
                         <div className="is-pulled-right">
                             <a recipe-id={recipe.id} className="modal-shopping-item is-pulled-right"
                                id="ingredient-add-btn" onClick={shoppingListHandler}>
-                                <i recipe-id={recipe.id} className="fas fa-shopping-cart"></i>
+                                <i recipe-id={recipe.id} className="fa fa-cart-plus"></i>
                             </a>
                             <a recipe-id={recipe.id} className="modal-fav-item is-pulled-right"
                                id="recipe-favourite-btn" onClick={favouriteHandler}>
