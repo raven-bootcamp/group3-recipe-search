@@ -29,6 +29,11 @@ export default function RecipeDetails(props) {
   recipe.diet.map(function (typeText, index) {
     hashTagsForDisplay += "#" + typeText + " ";
   });
+
+  var goToExternalPage = function goToExternalPage(event) {
+    window.open(recipe.URL, "_blank");
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     id: "recipe-details",
     className: isShowing ? "modal is-active" : "modal"
@@ -45,7 +50,12 @@ export default function RecipeDetails(props) {
     className: "has-text-info-dark",
     target: "_blank",
     href: recipe.URL
-  }, recipe.name)), /*#__PURE__*/React.createElement("button", {
+  }, recipe.name)), /*#__PURE__*/React.createElement("p", {
+    className: "is-pulled-right p-1 has-text-info-dark"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "cursor-link fas fa-share-square",
+    onClick: goToExternalPage
+  })), /*#__PURE__*/React.createElement("button", {
     className: "delete",
     "aria-label": "close",
     onClick: closeHandler

@@ -35,8 +35,9 @@ export default function RecipeSearchResults(props) {
     }, /*#__PURE__*/React.createElement("p", {
       className: "card-header-title is-size-6-mobile is-size-5-tablet is-size-4-desktop"
     }, /*#__PURE__*/React.createElement("a", {
-      target: "_blank",
-      href: recipe.URL
+      "recipe-id": recipe.id,
+      href: "",
+      onClick: detailsHandler
     }, recipe.name.length > 23 ? recipe.name.substr(0, 19) + "..." : recipe.name)), /*#__PURE__*/React.createElement("span", {
       className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"
     }, /*#__PURE__*/React.createElement("span", {
@@ -44,7 +45,7 @@ export default function RecipeSearchResults(props) {
       className: "icon"
     }, /*#__PURE__*/React.createElement("i", {
       "recipe-id": recipe.id,
-      className: "fas fa-star",
+      className: "cursor-link fas fa-star",
       onClick: favouriteHandler
     }))), /*#__PURE__*/React.createElement("span", {
       className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"
@@ -53,14 +54,14 @@ export default function RecipeSearchResults(props) {
       className: "icon"
     }, /*#__PURE__*/React.createElement("i", {
       "recipe-id": recipe.id,
-      className: "fa fa-cart-plus",
+      className: "cursor-link fa fa-cart-plus",
       onClick: shoppingListHandler
     })))), /*#__PURE__*/React.createElement("div", {
       className: "card-image has-text-centered"
     }, /*#__PURE__*/React.createElement("figure", {
       className: "image is-4by3"
     }, /*#__PURE__*/React.createElement("img", {
-      className: "recipe-clickable-image",
+      className: "cursor-link",
       "recipe-id": recipe.id,
       src: recipe.imageURL,
       alt: recipe.name,

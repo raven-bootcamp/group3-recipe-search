@@ -33,6 +33,10 @@ export default function RecipeDetails(props) {
         hashTagsForDisplay += "#" + typeText + " ";
     });
 
+    let goToExternalPage = function(event) {
+        window.open(recipe.URL,"_blank");
+    }
+
 
     return (
         <div id="recipe-details" className={isShowing ? "modal is-active" : "modal"}>
@@ -41,6 +45,9 @@ export default function RecipeDetails(props) {
                     <header className="modal-card-head">
                         <p id="recipe-details-title" className="modal-card-title">
                             <a className="has-text-info-dark" target="_blank" href={recipe.URL}>{recipe.name}</a>
+                        </p>
+                        <p className={"is-pulled-right p-1 has-text-info-dark"}>
+                            <i className="cursor-link fas fa-share-square" onClick={goToExternalPage}></i>
                         </p>
                         <button className="delete" aria-label="close" onClick={closeHandler}></button>
                     </header>
