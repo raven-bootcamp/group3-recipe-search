@@ -1,458 +1,376 @@
-import logger from './util/SimpleDebug.js'
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 import Controller from "./Controller.js";
 import ShoppingList from "./ui/ShoppingList.js";
 import FavouriteRecipes from "./ui/FavouriteRecipes.js";
-import RecipeSearchResults from "./ui/RecipeSearchResults.js";
 import RecipeDetails from "./ui/RecipeDetails.js";
-import ModalHandler from "./util/ui/ModalHandler.js";
+import RecipeSearchResults from "./ui/RecipeSearchResults.js";
+import Pagination from "./ui/Pagination.js";
+import logger from "./util/SimpleDebug.js";
 
-class App {
-    constructor() {
-        this.controller = new Controller(this, window.localStorage);
-        this.modalHandler = new ModalHandler(document,"is-active");
-        this.shoppingListView = new ShoppingList(this,document,this.modalHandler);
-        this.favouriteRecipesView = new FavouriteRecipes(this,document,this.modalHandler);
-        this.searchResultsView = new RecipeSearchResults(this,document,this.modalHandler);
-        this.recipeDetailsView = new RecipeDetails(this,document,this.modalHandler);
+var App = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(App, _React$Component);
 
-        this.paginationDiv = document.getElementById("search-results-nav");
+  function App() {
+    var _this;
 
-        // state change handlers (called when the data changes in the application)
-        this.handleFavouriteRecipesChange = this.handleFavouriteRecipesChange.bind(this);
-        this.handleRecipeSearchResultsChange = this.handleRecipeSearchResultsChange.bind(this);
-        this.handleShoppingListChange = this.handleShoppingListChange.bind(this);
+    _this = _React$Component.call(this) || this;
+    _this.controller = new Controller(_assertThisInitialized(_this), window.localStorage);
+    _this.searchInProgress = false;
+    /* turn on console messages for development*/
 
-        // Event handlers
-        this.handleEventStartRecipeSearch = this.handleEventStartRecipeSearch.bind(this);
-        this.handleEventAddRecipeToFavourites = this.handleEventAddRecipeToFavourites.bind(this);
-        this.handleEventRemoveRecipeFromFavourites = this.handleEventRemoveRecipeFromFavourites.bind(this);
-        this.handleEventAddRecipeToShoppingList = this.handleEventAddRecipeToShoppingList.bind(this);
-        this.handleEventShowShoppingList = this.handleEventShowShoppingList.bind(this);
-        this.handleEventShowFavouriteRecipes = this.handleEventShowFavouriteRecipes.bind(this);
-        this.handleEventRemoveIngredientFromShoppingList = this.handleEventRemoveIngredientFromShoppingList.bind(this);
-        this.handleEventShowRecipeDetailsFromFavourites = this.handleEventShowRecipeDetailsFromFavourites.bind(this);
-        this.handleEventShowRecipeDetailsFromSearch = this.handleEventShowRecipeDetailsFromSearch.bind(this);
-        this.handleEventAddFavouriteRecipeToShoppingList = this.handleEventAddFavouriteRecipeToShoppingList.bind(this);
-        this.handleEventPaginationPageNumberPressed = this.handleEventPaginationPageNumberPressed.bind(this);
-        this.handleEventPaginationPreviousPressed = this.handleEventPaginationPreviousPressed.bind(this);
-        this.handleEventPaginationNextPressed = this.handleEventPaginationNextPressed.bind(this);
+    logger.setOff();
+    logger.setLevel(200);
+    logger.setMinLevel(0); // Event handlers
 
+    _this.handleEventStartRecipeSearch = _this.handleEventStartRecipeSearch.bind(_assertThisInitialized(_this));
+    _this.handleEventStartRecipeSearchKeyUp = _this.handleEventStartRecipeSearchKeyUp.bind(_assertThisInitialized(_this));
+    _this.handleEventAddRecipeToFavourites = _this.handleEventAddRecipeToFavourites.bind(_assertThisInitialized(_this));
+    _this.handleEventRemoveRecipeFromFavourites = _this.handleEventRemoveRecipeFromFavourites.bind(_assertThisInitialized(_this));
+    _this.handleEventAddRecipeToShoppingList = _this.handleEventAddRecipeToShoppingList.bind(_assertThisInitialized(_this));
+    _this.handleEventShowShoppingList = _this.handleEventShowShoppingList.bind(_assertThisInitialized(_this));
+    _this.handleEventShowFavouriteRecipes = _this.handleEventShowFavouriteRecipes.bind(_assertThisInitialized(_this));
+    _this.handleEventRemoveIngredientFromShoppingList = _this.handleEventRemoveIngredientFromShoppingList.bind(_assertThisInitialized(_this));
+    _this.handleEventShowRecipeDetailsFromFavourites = _this.handleEventShowRecipeDetailsFromFavourites.bind(_assertThisInitialized(_this));
+    _this.handleEventShowRecipeDetailsFromSearch = _this.handleEventShowRecipeDetailsFromSearch.bind(_assertThisInitialized(_this));
+    _this.handleEventAddFavouriteRecipeToShoppingList = _this.handleEventAddFavouriteRecipeToShoppingList.bind(_assertThisInitialized(_this));
+    _this.handleEventPaginationPageNumberPressed = _this.handleEventPaginationPageNumberPressed.bind(_assertThisInitialized(_this));
+    _this.handleEventPaginationPreviousPressed = _this.handleEventPaginationPreviousPressed.bind(_assertThisInitialized(_this));
+    _this.handleEventPaginationNextPressed = _this.handleEventPaginationNextPressed.bind(_assertThisInitialized(_this));
+    _this.handleCloseModals = _this.handleCloseModals.bind(_assertThisInitialized(_this));
+    _this.doNothingHandler = _this.doNothingHandler.bind(_assertThisInitialized(_this));
+    _this.searchStarted = _this.searchStarted.bind(_assertThisInitialized(_this));
+    _this.searchEnded = _this.searchEnded.bind(_assertThisInitialized(_this));
+    _this.state = {
+      searchResults: [],
+      shoppingList: [],
+      favouriteRecipes: [],
+      showShoppingList: false,
+      showFavouriteRecipes: false,
+      showRecipeDetails: false,
+      selectedRecipe: null,
+      selectedRecipeIsFavourite: false,
+      currentPageNumber: 1,
+      totalPages: 1,
+      resultsPerPage: 5
+    };
+    return _this;
+  }
 
-        this.currentPageNumber = 1;
-        this.resultsPerPage = 4;
-        this.numberOfPages = 5;
-        this.paginationDiv.classList.add("is-hidden");
+  var _proto = App.prototype;
 
-        this.controller.initialise();
+  _proto.handleCloseModals = function handleCloseModals(event) {
+    this.setState({
+      showShoppingList: false,
+      showFavouriteRecipes: false,
+      showRecipeDetails: false
+    });
+  };
+
+  _proto.doNothingHandler = function doNothingHandler(event) {};
+
+  _proto.render = function render() {
+    return /*#__PURE__*/React.createElement("div", {
+      id: "App"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "columns"
+    }, /*#__PURE__*/React.createElement(ShoppingList, {
+      shoppingList: this.state.shoppingList,
+      deleteHandler: this.handleEventRemoveIngredientFromShoppingList,
+      closeHandler: this.handleCloseModals,
+      shouldShow: this.state.showShoppingList
+    }), /*#__PURE__*/React.createElement(FavouriteRecipes, {
+      favouriteRecipes: this.state.favouriteRecipes,
+      deleteHandler: this.handleEventRemoveRecipeFromFavourites,
+      closeHandler: this.handleCloseModals,
+      shouldShow: this.state.showFavouriteRecipes,
+      detailsHandler: this.handleEventShowRecipeDetailsFromFavourites
+    }), /*#__PURE__*/React.createElement(RecipeDetails, {
+      recipe: this.state.selectedRecipe,
+      closeHandler: this.handleCloseModals,
+      shouldShow: this.state.showRecipeDetails,
+      favouriteHandler: this.state.selectedRecipeIsFavourite ? this.doNothingHandler : this.handleEventAddRecipeToFavourites,
+      shoppingListHandler: this.state.selectedRecipeIsFavourite ? this.handleEventAddFavouriteRecipeToShoppingList : this.handleEventAddRecipeToShoppingList
+    }), /*#__PURE__*/React.createElement(RecipeSearchResults, {
+      recipes: this.state.searchResults,
+      currentPageNumber: this.state.currentPageNumber,
+      resultsPerPage: 4,
+      favouriteHandler: this.handleEventAddRecipeToFavourites,
+      shoppingListHandler: this.handleEventAddRecipeToShoppingList,
+      detailsHandler: this.handleEventShowRecipeDetailsFromSearch
+    })), /*#__PURE__*/React.createElement(Pagination, {
+      recipes: this.state.searchResults,
+      currentPageNumber: this.state.currentPageNumber,
+      totalNumberOfPages: this.state.totalPages,
+      nextHandler: this.handleEventPaginationNextPressed,
+      previousHandler: this.handleEventPaginationPreviousPressed,
+      pageHandler: this.handleEventPaginationPageNumberPressed
+    }), /*#__PURE__*/React.createElement("footer", {
+      className: "footer",
+      style: {
+        textAlign: "center"
+      }
+    }, "Chop 'n' Change"));
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    document.getElementById("search-btn").addEventListener("click", this.handleEventStartRecipeSearch);
+    document.getElementById("search-text").addEventListener("keyup", this.handleEventStartRecipeSearchKeyUp);
+    document.getElementById("shopping-list-btn").addEventListener("click", this.handleEventShowShoppingList);
+    document.getElementById("favourite-btn").addEventListener("click", this.handleEventShowFavouriteRecipes);
+    document.getElementById("filter-button").addEventListener("click", this.handleEventToggleFilter);
+    document.getElementById("filter-reset").addEventListener("click", this.handleEventClearFilters);
+    this.setState({
+      searchResults: this.controller.getPreviousSearch(),
+      shoppingList: this.controller.getShoppingList(),
+      favouriteRecipes: this.controller.getFavouriteRecipes()
+    });
+  } ///
+  ///
+  /// Pagination
+  ///
+  ///
+  ;
+
+  _proto.isLastPage = function isLastPage() {
+    return this.state.currentPageNumber === this.state.totalPages;
+  };
+
+  _proto.isFirstPage = function isFirstPage() {
+    return this.state.currentPageNumber === 1;
+  };
+
+  _proto.handleEventPaginationNextPressed = function handleEventPaginationNextPressed(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling Pagination Next Pressed");
+    if (event.target === undefined) return;
+
+    if (!this.isLastPage()) {
+      var newPageNumber = this.state.currentPageNumber + 1;
+      this.setState({
+        currentPageNumber: newPageNumber
+      });
     }
+  };
 
-    ////
-    ////
-    ////  Pagination
-    ////
-    ////
-    getCurrentPageNumber() {
-        return this.currentPageNumber;
+  _proto.handleEventPaginationPreviousPressed = function handleEventPaginationPreviousPressed(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling Pagination Previous Pressed");
+    if (event.target === undefined) return;
+
+    if (!this.isFirstPage()) {
+      var newPageNumber = this.state.currentPageNumber - 1;
+      this.setState({
+        currentPageNumber: newPageNumber
+      });
     }
+  };
 
-    getResultsPerPage() {
-        return this.resultsPerPage;
+  _proto.handleEventPaginationPageNumberPressed = function handleEventPaginationPageNumberPressed(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling Pagination Page Number Pressed");
+    if (event.target === undefined) return; // get the page selected from the event target
+
+    var pageNumber = parseInt(event.target.getAttribute("page-number"));
+    this.setState({
+      currentPageNumber: pageNumber
+    });
+  } ///
+  ///
+  ///  EVENT HANDLERS SECTION
+  ///
+  ///
+  ;
+
+  _proto.searchStarted = function searchStarted() {
+    document.getElementById("search-btn").classList.add("is-loading");
+    this.searchInProgress = true;
+  };
+
+  _proto.searchEnded = function searchEnded() {
+    document.getElementById("search-btn").classList.remove("is-loading");
+    this.searchInProgress = false;
+  }
+  /*
+  This event should collect the details from the search form (query, meal type, diet type, and allergies)
+  and construct a search request to send to the controller.
+  */
+  ;
+
+  _proto.handleEventStartRecipeSearchKeyUp = function handleEventStartRecipeSearchKeyUp(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      this.handleEventStartRecipeSearch(event);
     }
+  };
 
-    setCurrentPageNumber(currentPageNumber) {
-        this.currentPageNumber = currentPageNumber;
-    }
+  _proto.handleEventStartRecipeSearch = function handleEventStartRecipeSearch(event) {
+    if (this.searchInProgress) return; // don't run another search if one running
 
-    isFirstPage() {
-        return (this.currentPageNumber === 1);
-    }
+    event.preventDefault();
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Start Recipe Search");
+    var queryText = document.getElementById("search-text").value.trim(); // code in here to collect the information from the elements of the page
 
-    isLastPage() {
-        return (this.currentPageNumber === 5)
-    }
+    var isBalancedDiet = document.getElementById("balanced").checked;
+    var isHighFiber = false; //document.getElementById("high-fiber").checked;
 
-    getTotalPageNumber() {
-        return this.numberOfPages;
-    }
+    var isHighProtein = document.getElementById("high-protein").checked;
+    var isLowCarb = document.getElementById("low-carb").checked;
+    var isLowFat = document.getElementById("low-fat").checked;
+    var isLowSodium = document.getElementById("low-sodium").checked;
+    var isDiaryFree = document.getElementById("dairy-free").checked;
+    var isGlutenFree = document.getElementById("gluten-free").checked;
+    var isKosher = document.getElementById("kosher").checked;
+    var isVegan = document.getElementById("vegan").checked;
+    var isVegetarian = document.getElementById("vegetarian").checked;
+    var isDiabetic = document.getElementById("sugar-conscious").checked;
+    var isBreakfast = document.getElementById("breakfast").checked;
+    var isLunch = document.getElementById("lunch").checked;
+    var isDinner = document.getElementById("dinner").checked;
+    var isSnack = document.getElementById("snack").checked;
+    this.controller.searchForRecipes(queryText, isBalancedDiet, isHighFiber, isHighProtein, isLowCarb, isLowFat, isLowSodium, isDiaryFree, isGlutenFree, isKosher, isVegan, isVegetarian, isDiabetic, isBreakfast, isLunch, isDinner, isSnack); // this app will be notified when the application state changes
+  }
+  /*
+  This the event handler for when the user adds a recipe to the favourites
+  */
+  ;
 
-    setTotalPages(totalPages) {
-        this.numberOfPages = totalPages;
-    }
-
-    increasePageNumber() {
-        if (!this.isLastPage()) {
-            this.currentPageNumber++;
-        }
-    }
-
-    decreasePageNumber() {
-        if (!this.isFirstPage()) {
-            this.currentPageNumber--;
-        }
-    }
-
-    handleEventPaginationNextPressed(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Next Pressed");
-        if (event.target === undefined) return;
-        if (!this.isLastPage()) {
-            // unset the is-current the current page
-            document.getElementById("page-" + this.getCurrentPageNumber()).classList.remove("is-current");
-            // set the next page to current
-            this.increasePageNumber();
-            document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
-            // are we on the last page
-            if (this.isLastPage()) {
-                // disable the next button
-                document.getElementById("search-results-next").disabled = true;
-            }
-            else {
-                // enable the next button
-                document.getElementById("search-results-next").disabled = false;
-            }
-            // enable the previous button
-            document.getElementById("search-results-previous").disabled = false;
-            // ask the results search view to re-render
-            this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
-        }
-    }
-
-    handleEventPaginationPreviousPressed(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Previous Pressed");
-        if (event.target === undefined) return;
-        if (!this.isFirstPage()) {
-            // unset the is-current the current page
-            document.getElementById("page-" + this.getCurrentPageNumber()).classList.remove("is-current");
-            // set the next page to current
-            this.decreasePageNumber();
-            document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
-            if (this.isFirstPage()) {
-                // disable the next button
-                document.getElementById("search-results-previous").disabled = true;
-            }
-            else {
-                // enable the next button
-                document.getElementById("search-results-previous").disabled = false;
-            }
-            // enable the previous button
-            document.getElementById("search-results-next").disabled = false;
-            // ask the results search view to re-render
-            this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
-        }
-    }
-
-    handleEventPaginationPageNumberPressed(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling Pagination Page Number Pressed");
-        if (event.target === undefined) return;
-        // get the page selected from the event target
-        let pageNumber = event.target.getAttribute("page-number");
-        // unselect all pages
-        for (let index = 1;index <= this.getTotalPageNumber();index++) {
-            document.getElementById("page-" + index).classList.remove("is-current");
-        }
-        this.setCurrentPageNumber(pageNumber);
-        // select the current page
-        document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-current");
-        // check for the next and previous button changes
-        if (this.isFirstPage()) {
-            // disable the next button
-            document.getElementById("search-results-previous").disabled = true;
-        }
-        else {
-            // enable the next button
-            document.getElementById("search-results-previous").disabled = false;
-        }
-        if (this.isLastPage()) {
-            // disable the next button
-            document.getElementById("search-results-next").disabled = true;
-        }
-        else {
-            // enable the next button
-            document.getElementById("search-results-next").disabled = false;
-        }
-        // ask the results search view to re-render
-        this.searchResultsView.render(this.controller.getPreviousSearch(false)); // don't fire a state change
-    }
-    ///
-    ///
-    ///  STATE CHANGE HANDLERS SECTION
-    ///
-    ///
-
-
-    /*  This method is called from the Controller when recipe search results have returned */
-    handleRecipeSearchResultsChange(recipes) {
-        /*
-           recipes is an array of objects that contain the following information:
-           id  - EDAMAM id - will be needed for a new call
-           name,
-           imageURL,
-           calories,
-           ingredients - an array of strings
-           mealType - string [Breakfast|Dinner|etc]
-           diet - string [Balanced|Gluten-free|etc]
-
-           if the array is empty (length 0) then there are no matching recipes or there was a web error (can't get data)
-        */
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling recipes change for display");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(recipes);
-
-        this.setCurrentPageNumber(1);
-        if (recipes.length > 0) {
-            // show the pagination
-            this.paginationDiv.classList.remove("is-hidden");
-            // how many pages are there?
-            let numberOfPages = Math.ceil(recipes.length/this.getResultsPerPage());
-            if (numberOfPages < 5) {
-                for (let index = 5;index > numberOfPages;index--) {
-                    document.getElementById("page-" + this.getCurrentPageNumber()).classList.add("is-hidden");
-                }
-                this.setTotalPages(numberOfPages);
-            }
-            else {
-                this.setTotalPages(5);
-                for (let index = 1;index <= this.getTotalPageNumber();index++) {
-                    document.getElementById("page-" + index).classList.remove("is-hidden");
-                }
-            }
-        }
-        else {
-            // hide the pagination
-            this.paginationDiv.classList.add("is-hidden");
-        }
-        this.searchResultsView.render(recipes);
-    }
-
-    /*  This method is called from the Controller when favourite recipes are loaded or changed */
-    handleFavouriteRecipesChange(arrayOfFavouriteRecipes) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling favourite recipes change for display");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfFavouriteRecipes);
-        this.favouriteRecipesView.render(arrayOfFavouriteRecipes);
-    }
-
-    /*  This method is called from the Controller when the shopping list is loaded or changed */
-    handleShoppingListChange(arrayOfIngredientStrings) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling shopping list change for display");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(arrayOfIngredientStrings);
-        this.shoppingListView.render(arrayOfIngredientStrings);
-    }
-
-    ///
-    ///
-    ///  EVENT HANDLERS SECTION
-    ///
-    ///
-
-
+  _proto.handleEventAddRecipeToFavourites = function handleEventAddRecipeToFavourites(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Add Recipe to Favourites List");
     /*
-    This event should collect the details from the search form (query, meal type, diet type, and allergies)
-    and construct a search request to send to the controller.
-     */
-    handleEventStartRecipeSearch(event) {
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.keyCode === 13) {
-            event.preventDefault();
-
-            if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
-            let queryText = event.target.value.trim();
-
-            // code in here to collect the information from the elements of the page
-            let isBalancedDiet = document.getElementById("balanced").checked;
-            let isHighFiber = document.getElementById("high-fiber").checked;
-            let isHighProtein = document.getElementById("high-protein").checked;
-            let isLowCarb = document.getElementById("low-carb").checked;
-            let isLowFat = document.getElementById("low-fat").checked;
-            let isLowSodium = document.getElementById("low-sodium").checked;
-            let isDiaryFree = document.getElementById("dairy-free").checked;
-            let isGlutenFree = document.getElementById("gluten-free").checked;
-            let isKosher = document.getElementById("kosher").checked;
-            let isVegan = document.getElementById("vegan").checked;
-            let isVegetarian = document.getElementById("vegetarian").checked;
-            let isDiabetic = document.getElementById("sugar-conscious").checked;
-            let isBreakfast = document.getElementById("breakfast").checked;
-            let isLunch = document.getElementById("lunch").checked;
-            let isDinner = document.getElementById("dinner").checked;
-            let isSnack = document.getElementById("snack").checked;
-            this.controller.searchForRecipes(
-                queryText,
-                isBalancedDiet,
-                isHighFiber,
-                isHighProtein,
-                isLowCarb,
-                isLowFat,
-                isLowSodium,
-                isDiaryFree,
-                isGlutenFree,
-                isKosher,
-                isVegan,
-                isVegetarian,
-                isDiabetic,
-                isBreakfast,
-                isLunch,
-                isDinner,
-                isSnack
-            );
-        }
-        // this app will be notified when the application state changes and will see a call to handleRecipeSearchResultsChange (ABOVE)
-
-    }
-
-    /*
-    This the event handler for when the user adds a recipe to the favourites
-     */
-    handleEventAddRecipeToFavourites(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Favourites List");
-        /*
-        collect the recipe Id attribute from the event
-         */
-
-        let recipeId = event.target.getAttribute("recipe-id");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Favourites List with id " + recipeId);
-
-        this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId));
-        // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
-    }
-
-    /*
-      This is the event handler for when the user removes a recipe from the favourites
+    collect the recipe Id attribute from the event
     */
-    handleEventRemoveRecipeFromFavourites(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove Recipe from Favourites List");
-        let recipeId = event.target.getAttribute("recipe-id");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Removing recipes with id " + recipeId);
 
-        this.controller.removeRecipeFromFavouriteRecipesById(recipeId);
-        // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
-    }
+    var recipeId = event.target.getAttribute("recipe-id");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Add Recipe to Favourites List with id " + recipeId);
+    this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId)); // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+  }
+  /*
+  This is the event handler for when the user removes a recipe from the favourites
+  */
+  ;
 
-    handleEventAddFavouriteRecipeToShoppingList(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - add Favourite Recipe to Shopping List");
-        let recipeId = event.target.getAttribute("recipe-id");
-        this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromFavouritesById(recipeId));
-    }
+  _proto.handleEventRemoveRecipeFromFavourites = function handleEventRemoveRecipeFromFavourites(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Remove Recipe from Favourites List");
+    var recipeId = event.target.getAttribute("recipe-id");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Removing recipes with id " + recipeId);
+    this.controller.removeRecipeFromFavouriteRecipesById(recipeId); // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+  };
+
+  _proto.handleEventAddFavouriteRecipeToShoppingList = function handleEventAddFavouriteRecipeToShoppingList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - add Favourite Recipe to Shopping List");
+    var recipeId = event.target.getAttribute("recipe-id");
+    this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromFavouritesById(recipeId));
+  }
+  /*
+  This is the event handler for when the user adds a recipe to the shopping list
+  */
+  ;
+
+  _proto.handleEventAddRecipeToShoppingList = function handleEventAddRecipeToShoppingList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Add Recipe to Shopping List");
     /*
-      This is the event handler for when the user adds a recipe to the shopping list
+    collect the recipe Id attribute from the event
     */
-    handleEventAddRecipeToShoppingList(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Shopping List");
-        /*
-        collect the recipe Id attribute from the event
-         */
 
-        let recipeId = event.target.getAttribute("recipe-id");
+    var recipeId = event.target.getAttribute("recipe-id");
+    this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromLastSearchResultsById(recipeId)); // this app will be notified when the application state changes
+  }
+  /*
+  This the event handler for when the user wants to see the shopping list
+  */
+  ;
 
+  _proto.handleEventShowShoppingList = function handleEventShowShoppingList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Shopping List"); // ask the controller to change the state and get the shopping list
 
-        this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromLastSearchResultsById(recipeId));
-        // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
-    }
+    this.setState({
+      showShoppingList: true,
+      shoppingList: this.controller.getShoppingList()
+    });
+  }
+  /*
+  This the event handler for when the user wants to see the favourite recipes list
+  */
+  ;
 
+  _proto.handleEventShowFavouriteRecipes = function handleEventShowFavouriteRecipes(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Favourite Recipe List"); // ask the controller to change the state and get the favourite recipes list
+
+    this.setState({
+      showFavouriteRecipes: true,
+      favouriteRecipes: this.controller.getFavouriteRecipes()
+    });
+  }
+  /*
+  This the event handler for when the user wants to see the recipe details
+  */
+  ;
+
+  _proto.handleEventShowRecipeDetailsFromFavourites = function handleEventShowRecipeDetailsFromFavourites(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Recipe Details from Favourites");
     /*
-     This the event handler for when the user wants to see the shopping list
-      */
-    handleEventShowShoppingList(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Shopping List");
-        // ask the controller to change the state and get the favourite recipes list
-        this.controller.getShoppingList();
-        // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
-        this.shoppingListView.show();
-    }
-
-    /*
-     This the event handler for when the user wants to see the favourite recipes list
-      */
-    handleEventShowFavouriteRecipes(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Favourite Recipe List");
-        // ask the controller to change the state and get the favourite recipes list
-        this.controller.getFavouriteRecipes();
-        // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
-        this.favouriteRecipesView.show();
-    }
-
-    /*
-    This the event handler for when the user wants to see the recipe details
-     */
-    handleEventShowRecipeDetailsFromFavourites(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Recipe Details from Favourites");
-        /*
-        collect the recipe attribute from the event
-         */
-
-        let recipeId = event.target.getAttribute("recipe-id");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Show recipe with id " + recipeId);
-        let recipe = this.controller.getRecipeFromFavouritesById(recipeId);
-
-        this.modalHandler.__closeAllModals();
-        this.recipeDetailsView.render(recipe,true);
-        this.recipeDetailsView.show();
-    }
-
-    handleEventShowRecipeDetailsFromSearch(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Show Recipe Details from Search Results");
-        /*
-        collect the recipe attribute from the event
-         */
-
-        let recipeId = event.target.getAttribute("recipe-id");
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Show recipe with id " + recipeId);
-
-
-        // TO-DO show the modal and display the details
-        this.modalHandler.__closeAllModals();
-        this.recipeDetailsView.render(this.controller.getRecipeFromLastSearchResultsById(recipeId));
-        this.recipeDetailsView.show();
-    }
-
-    /*
-      This is the event handler for when the user removes an ingredient from the shopping list
+    collect the recipe attribute from the event
     */
-    handleEventRemoveIngredientFromShoppingList(event) {
-        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove Ingredient from Shopping List");
-        let ingredient = event.target.getAttribute("ingredient"); // GET FROM the document element via the event
 
-        this.controller.removeIngredientFromShoppingList(ingredient);
-        // this app will be notified when the application state changes and will see a call to handleShoppingListChange (ABOVE)
+    var recipeId = event.target.getAttribute("recipe-id");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Show recipe with id " + recipeId);
+    this.setState({
+      showRecipeDetails: true,
+      selectedRecipe: this.controller.getRecipeFromFavouritesById(recipeId),
+      selectedRecipeIsFavourite: true
+    });
+  };
+
+  _proto.handleEventShowRecipeDetailsFromSearch = function handleEventShowRecipeDetailsFromSearch(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Recipe Details from Search Results");
+    /*
+    collect the recipe attribute from the event
+    */
+
+    var recipeId = event.target.getAttribute("recipe-id");
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Show recipe with id " + recipeId);
+    this.setState({
+      showRecipeDetails: true,
+      selectedRecipe: this.controller.getRecipeFromLastSearchResultsById(recipeId),
+      selectedRecipeIsFavourite: false
+    });
+  }
+  /*
+  This is the event handler for when the user removes an ingredient from the shopping list
+  */
+  ;
+
+  _proto.handleEventRemoveIngredientFromShoppingList = function handleEventRemoveIngredientFromShoppingList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Remove Ingredient from Shopping List");
+    var ingredient = event.target.getAttribute("ingredient"); // GET FROM the document element via the event
+
+    this.controller.removeIngredientFromShoppingList(ingredient); // this app will be notified when the application state changes
+  };
+
+  _proto.handleEventToggleFilter = function handleEventToggleFilter() {
+    var filtersDiv = document.getElementById("filters");
+
+    if (filtersDiv.style.display === "none") {
+      filtersDiv.style.display = "block";
+    } else {
+      filtersDiv.style.display = "none";
     }
+  };
 
-    handleEventToggleFilter() {
-        let filtersDiv = document.getElementById("filters");
+  _proto.handleEventClearFilters = function handleEventClearFilters() {
+    var filtersDiv = document.getElementById("filters");
+    var filters = filtersDiv.querySelectorAll("input");
+    filters.forEach(function (filter, index) {
+      filter.checked = false;
+    });
+  };
 
-        if (filtersDiv.style.display === "none") {
-            filtersDiv.style.display = "block";
-        }
-        else {
-            filtersDiv.style.display = "none";
-        }
-    }
-}
+  return App;
+}(React.Component);
 
-/* turn on console messages for development*/
-logger.setOn();
-logger.setLevel(200);
-logger.setMinLevel(0);
-
-let app = new App();
-
-var searchInput = document.querySelector("#search-input");
-var searchBtn = document.querySelector("#search-btn");
-var searchRefineEl = document.querySelector("#search-refine"); // the dropdown element to refine the search
-var favBtn = document.querySelector("#favourite-btn"); // the button to open the favourites modal
-var shoppingListBtn = document.querySelector("#shopping-list-btn"); // the button to open the shopping list modal
-var supermarketButton = document.querySelector("#supermarket-btn"); // the button to open the supermarket map feature, may not need this
-var resultsList = document.querySelector("#search_results"); // the container that we will append our search results elements to
-var recipeDetail = document.querySelector("#recipe-detail"); // the modal window for recipe detail
-
-
-searchBtn.addEventListener("keyup",app.handleEventStartRecipeSearch);
-
-shoppingListBtn.addEventListener("click",app.handleEventShowShoppingList);
-
-favBtn.addEventListener("click",app.handleEventShowFavouriteRecipes);
-document.getElementById("filter-button").addEventListener("click",app.handleEventToggleFilter);
-document.getElementById("search-results-previous").addEventListener("click",app.handleEventPaginationPreviousPressed);
-document.getElementById("search-results-next").addEventListener("click",app.handleEventPaginationNextPressed);
-document.getElementById("page-1").addEventListener("click",app.handleEventPaginationPageNumberPressed);
-document.getElementById("page-2").addEventListener("click",app.handleEventPaginationPageNumberPressed);
-document.getElementById("page-3").addEventListener("click",app.handleEventPaginationPageNumberPressed);
-document.getElementById("page-4").addEventListener("click",app.handleEventPaginationPageNumberPressed);
-document.getElementById("page-5").addEventListener("click",app.handleEventPaginationPageNumberPressed);
-
-
+var element = /*#__PURE__*/React.createElement(App, {
+  className: "columns"
+});
+ReactDOM.render(element, document.getElementById("root"));

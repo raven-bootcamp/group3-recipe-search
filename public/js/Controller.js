@@ -1,7 +1,7 @@
 import logger from './util/SimpleDebug.js';
 import fetchUtil from "./util/FetchUtil.js";
 import LocalStorageUtil from "./util/LocalStorageUtil.js";
-import stateManager from "./util/ui/StateManagementUtil.js";
+import stateManager from "./util/StateManagementUtil.js";
 
 
 export default class Controller {
@@ -13,6 +13,7 @@ export default class Controller {
 
         // setup query URLs
         this.queryURLRecipesSearch = "/recipes";
+        this.supermarketURLSearch = "/supermarkets";
 
         // setup local storage key and previous searches array
         this.shoppingListKey = "shoppinglist";
@@ -36,33 +37,27 @@ export default class Controller {
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
     }
 
-    initialise() {
-        // get the initial state for display - shopping list and favourite recipes and blank set of recipes for search
-        this.getFavouriteRecipes();
-        this.getShoppingList();
-        this.getPreviousSearch();
+    listenForRecipeSearchResultsStateChange(name, recipes) {
+        let totalPages = Math.ceil(recipes.length/this.applicationView.state.resultsPerPage);
+        this.applicationView.setState({searchResults:recipes,selectedRecipe:null,selectedRecipeIsFavourite:false,currentPageNumber:1,totalPages:totalPages});
     }
 
-    listenForRecipeSearchResultsStateChange(name, newState) {
-        this.applicationView.handleRecipeSearchResultsChange(newState);
+    listenForFavouriteRecipesStateChange(name, favouriteRecipes) {
+        this.applicationView.setState({favouriteRecipes:favouriteRecipes});
     }
 
-    listenForFavouriteRecipesStateChange(name, newState) {
-        this.applicationView.handleFavouriteRecipesChange(newState);
-    }
-
-    listenForShoppingListStateChange(name, newState) {
-        this.applicationView.handleShoppingListChange(newState);
+    listenForShoppingListStateChange(name, shoppingList) {
+        this.applicationView.setState({shoppingList:shoppingList});
     }
 
     _createRecipeFromEdamamRecipe(edamamRecipe) {
         let recipeId = edamamRecipe.uri.split("_",2)[1];
         let mealTypes = edamamRecipe.mealType;
-        if ((mealTypes === null) || (mealTypes === undefined)) {
+        if ((mealTypes === null) || (mealTypes === undefined) || (mealTypes.length === 0)) {
             mealTypes = ["Not supplied"];
         }
         let dietLabels = edamamRecipe.dietLabels;
-        if ((dietLabels === null) || (dietLabels === undefined)) {
+        if ((dietLabels === null) || (dietLabels === undefined) || (dietLabels.length === 0)) {
             dietLabels = ["Not supplied"];
         }
 
@@ -108,13 +103,9 @@ export default class Controller {
             }
         }
         this.lsUtil.saveWithStorageKey(this.recipeSearchResultsKey,recipes);
-        this.currentPageNumber = 1;
         stateManager.setStateByName(this.recipeSearchResultsKey,recipes);
+        this.applicationView.searchEnded();
     }
-
-
-
-
 
     getRecipeFromLastSearchResultsById(recipeId) {
         let arrayOfRecipes = stateManager.getStateByName(this.recipeSearchResultsKey);
@@ -150,7 +141,7 @@ export default class Controller {
         isSnack = false
     ) {
         // Do we have a diet restriction?
-        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium);
+        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
         let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
         let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
         // construct the parameters for the JSON call
@@ -178,8 +169,63 @@ export default class Controller {
 
         };
         /* execute the asychronous fetch request and receive the results in the callback function */
+        this.applicationView.searchStarted();
+
         fetchUtil.fetchQLJSON(this.queryURLRecipesSearch, parameters, this.callbackForRecipeSearch);
     }
+
+    /* provide the interface for the API call */
+    searchForRecipes(
+        queryText = "",
+        isBalancedDiet = false,
+        isHighFiber = false,
+        isHighProtein = false,
+        isLowCarb = false,
+        isLowFat = false,
+        isLowSodium = false,
+        isDiaryFree = false,
+        isGlutenFree = false,
+        isKosher = false,
+        isVegan = false,
+        isVegetarian = false,
+        isDiabetic = false,
+        isBreakfast = false,
+        isLunch = false,
+        isDinner = false,
+        isSnack = false
+    ) {
+        // Do we have a diet restriction?
+        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
+        let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
+        let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
+        // construct the parameters for the JSON call
+        let parameters = {
+            q: queryText,
+            hasDietSelection: hasDietSelection,
+            hasHealthSelection: hasHealthSelection,
+            hasMealTypeSelection: hasMealTypeSelection,
+            isBalancedDiet: isBalancedDiet,
+            isHighFiber: isHighFiber,
+            isHighProtein: isHighProtein,
+            isLowCarb: isLowCarb,
+            isLowFat: isLowFat,
+            isLowSodium: isLowSodium,
+            isDiaryFree: isDiaryFree,
+            isGlutenFree: isGlutenFree,
+            isKosher: isKosher,
+            isVegan: isVegan,
+            isVegetarian: isVegetarian,
+            isDiabetic: isDiabetic,
+            isBreakfast: isBreakfast,
+            isLunch: isLunch,
+            isDinner: isDinner,
+            isSnack: isSnack
+
+        };
+
+        fetchUtil.fetchQLJSON(this.supermarketURLSearch, parameters, this.callbackForLocationSearch);
+    }
+
 
     /*
        Get the current contents of the saved shopping list

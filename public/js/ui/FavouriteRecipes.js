@@ -1,72 +1,59 @@
-/** @jsx createElement */
-
-/*** @jsxFrag createFragment */
 import logger from "../util/SimpleDebug.js";
-import DOMUtil from "../util/ui/DOMUtil.js";
-import { createFragment, createElement } from "../util/ui/JsxProcessor.js";
-import modalHandler from "../util/ui/ModalHandler.js";
-
-var FavouriteRecipes = /*#__PURE__*/function () {
-  function FavouriteRecipes(application, document, modalHandler) {
-    this.application = application;
-    this.document = document;
-    this.modalHandler = modalHandler;
-    this.elementId = "favourite-recipes";
-    this.domutil = new DOMUtil(document);
-    this.modalHandler.addNewModal(this.elementId);
-  }
-
-  var _proto = FavouriteRecipes.prototype;
-
-  _proto.render = function render(arrayOfFavouriteRecipes) {
-    var _this = this;
-
-    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering favourite recipe list");
-    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(arrayOfFavouriteRecipes); // clear the current shopping list and redraw dynamically
-
-    var element = this.document.getElementById(this.elementId + "-content");
-    this.domutil.removeAllChildNodes(element);
-
-    var _loop = function _loop(index) {
-      var recipe = arrayOfFavouriteRecipes[index];
-      if (recipe == null) return "break";
-
-      var recipesListElement = function recipesListElement() {
-        return createElement("li", null, createElement("button", {
-          "recipe-id": recipe.id,
-          class: "button     is-info is-outlined is-rounded",
-          onClick: _this.application.handleEventShowRecipeDetailsFromFavourites
-        }, createElement("span", {
-          "recipe-id": recipe.id
-        }, recipe.name)), createElement("button", {
-          "recipe-id": recipe.id,
-          class: "delete mt-3 ml-2",
-          onClick: _this.application.handleEventRemoveRecipeFromFavourites
-        }, createElement("span", {
-          "recipe-id": recipe.id,
-          className: "icon is-large"
-        }, createElement("i", {
-          "recipe-id": recipe.id,
-          className: "fas fa-times"
-        }))));
-      };
-
-      element.appendChild(recipesListElement());
-    };
-
-    for (var index = 0; index < arrayOfFavouriteRecipes.length; index++) {
-      var _ret = _loop(index);
-
-      if (_ret === "break") break;
-    }
-  };
-
-  _proto.show = function show() {
-    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Showing favourite recipes");
-    this.modalHandler.showModal(this.elementId);
-  };
-
-  return FavouriteRecipes;
-}();
-
-export { FavouriteRecipes as default };
+export default function FavouriteRecipes(props) {
+  var favouriteRecipes = props.favouriteRecipes;
+  var deleteHandler = props.deleteHandler;
+  var closeHandler = props.closeHandler;
+  var detailsHandler = props.detailsHandler;
+  var isShowing = props.shouldShow;
+  if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering favourite recipe list");
+  if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(favouriteRecipes);
+  var listItems = favouriteRecipes.map(function (recipe, index) {
+    return /*#__PURE__*/React.createElement("li", {
+      className: "pt-1 pb-1",
+      key: index
+    }, /*#__PURE__*/React.createElement("button", {
+      "recipe-id": recipe.id,
+      className: "button is-info is-outlined is-rounded",
+      onClick: detailsHandler
+    }, /*#__PURE__*/React.createElement("span", {
+      "recipe-id": recipe.id
+    }, recipe.name.length > 60 ? recipe.name.substr(0, 57) + "..." : recipe.name)), /*#__PURE__*/React.createElement("button", {
+      "recipe-id": recipe.id,
+      className: "delete mt-3 ml-2",
+      onClick: deleteHandler
+    }, /*#__PURE__*/React.createElement("span", {
+      "recipe-id": recipe.id,
+      className: "icon is-large"
+    }, /*#__PURE__*/React.createElement("i", {
+      "recipe-id": recipe.id,
+      className: "fas fa-times"
+    }))));
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    id: "favourite-recipes",
+    className: isShowing ? "modal is-active" : "modal"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-background"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-card pt-5"
+  }, /*#__PURE__*/React.createElement("header", {
+    className: "modal-card-head"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "modal-card-title"
+  }, "Favourite Recipes"), /*#__PURE__*/React.createElement("button", {
+    className: "delete",
+    "aria-label": "close",
+    onClick: closeHandler
+  })), /*#__PURE__*/React.createElement("section", {
+    className: "modal-card-body"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "favourite-recipes-content"
+  }, /*#__PURE__*/React.createElement("ul", {
+    id: "favourite-recipes-content"
+  }, listItems))), /*#__PURE__*/React.createElement("footer", {
+    className: "modal-card-foot"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "button is-rounded",
+    onClick: closeHandler
+  }, "Close")))));
+}

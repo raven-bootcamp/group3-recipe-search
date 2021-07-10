@@ -10,98 +10,56 @@
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root">
 
-    <div id="shopping-list" class="modal">
-        <div class="modal-background">
-            <div class="modal-card pt-5">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Shopping List</p>
-                    <button id="close-shopping-list-delete-button" class="delete modal-close-button"
-                            aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div id="shopping-list-content" class="buttons">
 
-                        <!-- Shopping list items go here -->
-
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
-                </footer>
-            </div>
-        </div>
-    </div>
-
-    <div id="favourite-recipes" class="modal">
-        <div class="modal-background">
-            <div class="modal-card pt-5">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Favourite Recipes</p>
-                    <button id="close-favourite-recipes-delete-button" class="delete modal-close-button"
-                            aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div class="favourite-recipes-content">
-                        <ul id="favourite-recipes-content">
-                            <!-- Favourite Recipes list items go here -->
-                        </ul>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
-                </footer>
-            </div>
-        </div>
-    </div>
-
-    <div id="recipe-details" class="modal">
-
-    </div>
-
-    <!--Navbar-->
-    <nav class="navbar" role="navigation">
-
-        <!-- Title holding the product name -->
-        <div class="navbar-brand">
-            <h1 class="navbar-item">Chop 'n' Change</h1>
-        </div>
-        <div class="navbar-menu" style="float: right;">
-            <div class="navbar-start">
-
-                <!-- Have assigned temp id names feel free to change them -->
-                <a class="navbar-item" id="shopping-list-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-
-                <!-- Have assigned temp id names feel free to change them -->
-                <a class="navbar-item" id="favourite-btn">
+<!--Navbar-->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand level-item">
+        <h1 class="navbar-item has-text-left-mobile has-text-left-tablet has-text-weight-bold">Chop 'n' Change</h1>
+        <a class="navbar-item has-text-left-mobile has-text-left-tablet" id="favourite-btn">
+                <span class="icon is-size-4-desktop pr-3 pl-4">
                     <i class="fas fa-star"></i>
-                </a>
-            </div>
-        </div>
+                </span>
+        </a>
+        <a class="navbar-item has-text-left-mobile has-text-left-tablet" id="shopping-list-btn">
+                <span class="icon is-size-4-desktop pr-3 pl-4">
+                    <i class="fas fa-shopping-cart"></i>
+                </span>
+        </a>
+    </div>
+</nav>
 
-
-    </nav>
-
-    <!-- Main section holding the search box with a background image -->
-    <section class="main_section">
-        <div class="card">
+<!-- Main section holding the search box with a background image -->
+<section class="section main-section">
+    <div class="columns is-centered is-four-fifths">
+        <div class="card p-5 mt-5 mb-5">
             <div class="card-content">
-                <p class="title">Search</p>
-
-                <!-- Have assigned a temp id for search can be changed -->
-                <input class="input is-rounded is-medium" id="search-btn" type="text" placeholder="Type in a recipe">
-
-                <!-- Button to toggle filters -->
-                <button id="filter-button" class="button is-primary is-rounded">Filters</button>
-
+                <p class="title has-text-centered">
+                    What's in your kitchen today?
+                </p>
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <input id="search-text" class="input is-rounded is-medium" type="text" placeholder="Type your ingredients">
+                        </p>
+                        <p class="control">
+                            <button id="search-btn" class="button is-medium is-primary is-rounded">Search</button>
+                        </p>
+                    </div>
+                </div>
+                <!--Button to filter search by diet, meal type, allergies-->
+                <div class="columns is-align-content-space-between has-text-centered mt-5">
+                    <div class="column is-mobile is-6">
+                        <button id="filter-button" class="button is-normal is-primary is-rounded">Refine your search</button>
+                    </div>
+                    <div class="column is-mobile is-6">
+                        <button id="filter-reset" class="button is-normal is-warning is-rounded">Clear your filters</button>
+                    </div>
+                </div>
                 <!-- Filters Section -->
-                <div id="filters" class="content" style="display:none">
-
+                <div id="filters" class="content dropmenu" style="display:none">
                     <div id="filter_diet">
-                        <p>Diet</p>
+                        <p class="has-text-weight-bold">Dietary Restriction</p>
 
                         <div class="control">
                             <label class="radio">
@@ -137,8 +95,8 @@
 
                     </div>
 
-                    <div id="filter_mealtype">
-                        <p>Meal Type</p>
+                    <div id="filter_mealtype" class="mt-4">
+                        <p class="has-text-weight-bold">Meal Type</p>
 
                         <div class="control">
                             <label class="radio">
@@ -163,8 +121,8 @@
 
                         </div>
 
-                        <div id="filter_diet_type">
-                            <p>Diet Type</p>
+                        <div id="filter_diet_type" class="mt-4">
+                            <p class="has-text-weight-bold">Diet Type</p>
 
                             <div class="control">
                                 <label class="radio">
@@ -172,10 +130,10 @@
                                     Balanced
                                 </label>
 
-                                <label class="radio">
+                                <!--<label class="radio">
                                     <input type="radio" id="high-fiber" name="choice3">
                                     High Fiber
-                                </label>
+                                </label>-->
 
                                 <label class="radio">
                                     <input type="radio" id="high-protein" name="choice3">
@@ -205,32 +163,17 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Results section -->
-    <section class="results_section">
-        <div class="container">
-            <div id="search-results" class="columns is-justify-content-space-between">
-            </div>
-        </div>
-    </section>
-
-    <nav id="search-results-nav" offset=4 class="pagination is-rounded is-centered" role="navigation" aria-label="pagination">
-        <a id="search-results-previous" class="pagination-previous">Previous</a>
-        <a id="search-results-next" class="pagination-next">Next page</a>
-        <ul class="pagination-list">
-            <li><a id="page-1" page-number=1 class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
-            <li><a id="page-2" page-number=2 class="pagination-link" aria-label="Goto page 2">2</a></li>
-            <li><a id="page-3" page-number=3 class="pagination-link" aria-label="Goto page 3">3</a></li>
-            <li><a id="page-4" page-number=4 class="pagination-link" aria-label="Goto page 4">4</a></li>
-            <li><a id="page-5" page-number=5 class="pagination-link" aria-label="Goto page 5">5</a></li>
-        </ul>
-    </nav>
-    <!-- Footer have left bare for now -->
-    <footer class="footer" style="text-align: center;">Chop 'n' Change</footer>
- 
+<div id="root">
+    <!-- React App goes here -->
+</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://unpkg.com/@babel/polyfill@7/dist/polyfill.min.js"></script>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 <script type="module" src="./js/App.js"></script>
 </html>
