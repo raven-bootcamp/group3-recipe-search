@@ -35,7 +35,7 @@ export default function RecipeSearchResults(props) {
         <div key={index} className="column is-mobile is-3-tablet is-3-desktop">
             <div className="card">
                 <header className="card-header">
-                    <p className="card-header-title is-size-6">
+                    <p className="card-header-title is-size-4-mobile is-size-5-tablet is-size-6-desktop">
                         <a target="_blank" href={recipe.URL}>{(recipe.name.length > 23)?recipe.name.substr(0,19)+"...":recipe.name}</a>
                     </p>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">

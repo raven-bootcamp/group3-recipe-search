@@ -33,7 +33,7 @@ export default function RecipeSearchResults(props) {
     }, /*#__PURE__*/React.createElement("header", {
       className: "card-header"
     }, /*#__PURE__*/React.createElement("p", {
-      className: "card-header-title is-size-6"
+      className: "card-header-title is-size-4-mobile is-size-5-tablet is-size-6-desktop"
     }, /*#__PURE__*/React.createElement("a", {
       target: "_blank",
       href: recipe.URL
