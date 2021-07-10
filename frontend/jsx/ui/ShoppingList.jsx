@@ -5,6 +5,7 @@ export default function ShoppingList(props) {
     let shoppingList = props.shoppingList;
     let deleteHandler = props.deleteHandler;
     let closeHandler = props.closeHandler;
+    let clearListHandler = props.clearListHandler;
     let locationHandler = props.locationHandler;
     let isShowing = props.shouldShow;
 
@@ -39,7 +40,10 @@ export default function ShoppingList(props) {
                             <div className={"column is-2 ml-3"}>
                                 <button className="button is-rounded modal-close-button" onClick={closeHandler}>Close</button>
                             </div>
-                            <div className={"column is-offset-8 is-1"}>
+                            <div className={"column is-2 ml-3"}>
+                                <button className="button is-rounded is-danger modal-close-button" onClick={clearListHandler}>Clear List</button>
+                            </div>
+                            <div className={"column is-offset-5 is-1"}>
                                 <button className="button is-rounded"  onClick={locationHandler}>
                                     <span className="icon">
                                         <i className="fas fa-search-location"></i>

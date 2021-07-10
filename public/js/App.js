@@ -39,6 +39,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.handleEventShowFavouriteRecipes = _this.handleEventShowFavouriteRecipes.bind(_assertThisInitialized(_this));
     _this.handleEventShowLocationList = _this.handleEventShowLocationList.bind(_assertThisInitialized(_this));
     _this.handleEventRemoveIngredientFromShoppingList = _this.handleEventRemoveIngredientFromShoppingList.bind(_assertThisInitialized(_this));
+    _this.handleEventRemoveAllIngredientsFromShoppingList = _this.handleEventRemoveAllIngredientsFromShoppingList.bind(_assertThisInitialized(_this));
     _this.handleEventShowRecipeDetailsFromFavourites = _this.handleEventShowRecipeDetailsFromFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventShowRecipeDetailsFromSearch = _this.handleEventShowRecipeDetailsFromSearch.bind(_assertThisInitialized(_this));
     _this.handleEventAddFavouriteRecipeToShoppingList = _this.handleEventAddFavouriteRecipeToShoppingList.bind(_assertThisInitialized(_this));
@@ -90,6 +91,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       shoppingList: this.state.shoppingList,
       deleteHandler: this.handleEventRemoveIngredientFromShoppingList,
       closeHandler: this.handleCloseModals,
+      clearListHandler: this.handleEventRemoveAllIngredientsFromShoppingList,
       locationHandler: this.handleEventStartLocationSearch,
       shouldShow: this.state.showShoppingList
     }), /*#__PURE__*/React.createElement(LocationList, {
@@ -408,6 +410,11 @@ var App = /*#__PURE__*/function (_React$Component) {
     var ingredient = event.target.getAttribute("ingredient"); // GET FROM the document element via the event
 
     this.controller.removeIngredientFromShoppingList(ingredient); // this app will be notified when the application state changes
+  };
+
+  _proto.handleEventRemoveAllIngredientsFromShoppingList = function handleEventRemoveAllIngredientsFromShoppingList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Remove All Ingredients from Shopping List");
+    this.controller.removeAllIngredientsFromShoppingList(); // this app will be notified when the application state changes
   };
 
   _proto.handleEventToggleFilter = function handleEventToggleFilter() {

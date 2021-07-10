@@ -32,6 +32,7 @@ class App extends React.Component {
         this.handleEventShowLocationList = this.handleEventShowLocationList.bind(this);
 
         this.handleEventRemoveIngredientFromShoppingList = this.handleEventRemoveIngredientFromShoppingList.bind(this);
+        this.handleEventRemoveAllIngredientsFromShoppingList = this.handleEventRemoveAllIngredientsFromShoppingList.bind(this);
 
         this.handleEventShowRecipeDetailsFromFavourites = this.handleEventShowRecipeDetailsFromFavourites.bind(this);
         this.handleEventShowRecipeDetailsFromSearch = this.handleEventShowRecipeDetailsFromSearch.bind(this);
@@ -81,6 +82,7 @@ class App extends React.Component {
                     <ShoppingList shoppingList={this.state.shoppingList}
                                   deleteHandler={this.handleEventRemoveIngredientFromShoppingList}
                                   closeHandler={this.handleCloseModals}
+                                  clearListHandler={this.handleEventRemoveAllIngredientsFromShoppingList}
                                   locationHandler={this.handleEventStartLocationSearch}
                                   shouldShow={this.state.showShoppingList}/>
                     <LocationList locations={this.state.locations}
@@ -393,6 +395,12 @@ class App extends React.Component {
         // this app will be notified when the application state changes
     }
 
+    handleEventRemoveAllIngredientsFromShoppingList(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove All Ingredients from Shopping List");
+
+        this.controller.removeAllIngredientsFromShoppingList();
+        // this app will be notified when the application state changes
+    }
     handleEventToggleFilter() {
         let filtersDiv = document.getElementById("filters");
 

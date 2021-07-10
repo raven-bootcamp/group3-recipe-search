@@ -280,6 +280,13 @@ export default class Controller {
         return shoppingList;
     }
 
+    removeAllIngredientsFromShoppingList() {
+        this.lsUtil.removeAllItemsFromKeyStorage(this.shoppingListKey);
+        let shoppingList = this.lsUtil.getWithStorageKey(this.shoppingListKey);
+        stateManager.setStateByName(this.shoppingListKey,shoppingList);
+        return shoppingList;
+    }
+
     /* this function is used to compare a recipe with an id in the local storage using the id value */
     isSameRecipeById(recipe, id) {
         return (recipe.id == id);

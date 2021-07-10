@@ -52,6 +52,12 @@ export default class LocalStorageUtil {
         }
     }
 
+    removeAllItemsFromKeyStorage(key) {
+        if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Removing ALL with key " + key);
+        this.localStorage.removeItem(key);
+        return [];
+    }
+
     removeItemFromKeyStorageWithFunctionForEquality(key, item, testForEqualityFunction) {
         if (item !== null) {
             if (logger.isOn() && (500 <= logger.level()) && (500 >= logger.minlevel())) console.log("Removing with key " + key + " and comparison function");
