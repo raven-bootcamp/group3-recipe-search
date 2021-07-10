@@ -94,7 +94,7 @@ app.post("/supermarkets", (req, res) => {
     // start with the mandatory options and recipes that have images
     let newURL = process.env.PLACES_API_URL;
 
-    do we have a user location?
+    // do we have a user location?
     if (parameters.lat !== null) {
         newURL += process.env.PLACES_API_KEY_RADIUS + parameters.lat + "," + parameters.lon;
     }
