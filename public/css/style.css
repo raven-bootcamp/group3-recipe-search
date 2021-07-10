@@ -72,3 +72,14 @@ nav {
     margin-top: 10px;
 }
 
+.notifications {
+    position: relative;
+}
+.notifications .notification {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    z-index: 100;
+    transition: all 500ms ease-in-out;
+}
+

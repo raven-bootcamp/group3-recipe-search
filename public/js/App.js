@@ -12,6 +12,7 @@ import RecipeSearchResults from "./ui/RecipeSearchResults.js";
 import Pagination from "./ui/Pagination.js";
 import logger from "./util/SimpleDebug.js";
 import LocationList from "./ui/LocationList.js";
+import notifier from "./NotificationManager.js";
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(App, _React$Component);
@@ -61,7 +62,8 @@ var App = /*#__PURE__*/function (_React$Component) {
       selectedRecipeIsFavourite: false,
       currentPageNumber: 1,
       totalPages: 1,
-      resultsPerPage: 5
+      resultsPerPage: 5,
+      allowNotifications: true
     };
     return _this;
   }
@@ -260,6 +262,19 @@ var App = /*#__PURE__*/function (_React$Component) {
     var isDinner = document.getElementById("dinner").checked;
     var isSnack = document.getElementById("snack").checked;
     this.controller.searchForRecipes(queryText, isBalancedDiet, isHighFiber, isHighProtein, isLowCarb, isLowFat, isLowSodium, isDiaryFree, isGlutenFree, isKosher, isVegan, isVegetarian, isDiabetic, isBreakfast, isLunch, isDinner, isSnack); // this app will be notified when the application state changes
+  };
+
+  _proto.showNotification = function showNotification(title, message, className, timeout) {
+    if (className === void 0) {
+      className = "info";
+    }
+
+    if (timeout === void 0) {
+      timeout = 5000;
+    }
+
+    if (!this.state.allowNotifications) return;
+    notifier.show(title, message, className, timeout);
   }
   /*
   This the event handler for when the user adds a recipe to the favourites
@@ -274,7 +289,14 @@ var App = /*#__PURE__*/function (_React$Component) {
 
     var recipeId = event.target.getAttribute("recipe-id");
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Add Recipe to Favourites List with id " + recipeId);
-    this.controller.addRecipeToFavouriteRecipes(this.controller.getRecipeFromLastSearchResultsById(recipeId)); // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+    var recipe = this.controller.getRecipeFromLastSearchResultsById(recipeId);
+    var wasAdded = this.controller.addRecipeToFavouriteRecipes(recipe); // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+
+    if (wasAdded) {
+      this.showNotification("Favourite Recipes", "Added " + recipe.name + " to favourites.", "success");
+    } else {
+      this.showNotification("Favourite Recipes", "Already added " + recipe.name, "warning");
+    }
   }
   /*
   This is the event handler for when the user removes a recipe from the favourites
@@ -285,13 +307,18 @@ var App = /*#__PURE__*/function (_React$Component) {
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Remove Recipe from Favourites List");
     var recipeId = event.target.getAttribute("recipe-id");
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Removing recipes with id " + recipeId);
+    var recipe = this.controller.getRecipeFromFavouritesById(recipeId);
     this.controller.removeRecipeFromFavouriteRecipesById(recipeId); // this app will be notified when the application state changes and will see a call to handleFavouriteRecipesChange (ABOVE)
+
+    this.showNotification("Favourite Recipes", "Removed " + recipe.name + " from favourites.", "danger");
   };
 
   _proto.handleEventAddFavouriteRecipeToShoppingList = function handleEventAddFavouriteRecipeToShoppingList(event) {
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - add Favourite Recipe to Shopping List");
     var recipeId = event.target.getAttribute("recipe-id");
-    this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromFavouritesById(recipeId));
+    var recipe = this.controller.getRecipeFromFavouritesById(recipeId);
+    this.controller.addRecipeIngredientsToShoppingList(recipe);
+    this.showNotification("Shopping List", "Added ingredients from " + recipe.name + " to shopping list.");
   }
   /*
   This is the event handler for when the user adds a recipe to the shopping list
@@ -305,7 +332,10 @@ var App = /*#__PURE__*/function (_React$Component) {
     */
 
     var recipeId = event.target.getAttribute("recipe-id");
-    this.controller.addRecipeIngredientsToShoppingList(this.controller.getRecipeFromLastSearchResultsById(recipeId)); // this app will be notified when the application state changes
+    var recipe = this.controller.getRecipeFromLastSearchResultsById(recipeId);
+    this.controller.addRecipeIngredientsToShoppingList(recipe); // this app will be notified when the application state changes
+
+    this.showNotification("Shopping List", "Added ingredients from " + recipe.name + " to shopping list.");
   }
   /*
   This the event handler for when the user wants to see the shopping list

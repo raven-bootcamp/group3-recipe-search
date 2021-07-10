@@ -33,14 +33,13 @@ export default class Controller {
         stateManager.setStateByName(this.favouriteRecipesKey,[]);
         stateManager.addChangeListenerForName(this.favouriteRecipesKey,this.listenForFavouriteRecipesStateChange)
         stateManager.setStateByName(this.shoppingListKey,[]);
-        stateManager.addChangeListenerForName(this.shoppingListKey,this.listenForShoppingListStateChange);
+        stateManager.addChangeListenerForName(this.shoppingListKey,this.listenForShoppingListStateChange)
         stateManager.setStateByName(this.locationSearchResultsKey,[]);
         stateManager.addChangeListenerForName(this.locationSearchResultsKey,this.listenForLocationListStateChange);
 
         //location callbacks
         this.callbackSearchForSupermarketsWithLocation = this.callbackSearchForSupermarketsWithLocation.bind(this);
         this.callbackSearchForSupermarketsWithoutLocation = this.callbackSearchForSupermarketsWithoutLocation.bind(this);
-
 
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
@@ -87,7 +86,6 @@ export default class Controller {
         }
         return recipe;
     }
-
     callbackForLocationSearch(jsonData, httpStatus = 200) {
         if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(`Callback Recipe Search with status ${httpStatus}`, 3);
         let googleLocations = [];
@@ -99,11 +97,11 @@ export default class Controller {
                 let location = locations[index];
                 if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(location);
                 let googleLocation = {
-                   name: location.name,
-                   address: location.formatted_address,
-                   isOpen: (location.opening_hours)?location.opening_hours.open_now:false,
-                   lat:location.geometry.location.lat,
-                   lon:location.geometry.location.lng
+                    name: location.name,
+                    address: location.formatted_address,
+                    isOpen: (location.opening_hours)?location.opening_hours.open_now:false,
+                    lat:location.geometry.location.lat,
+                    lon:location.geometry.location.lng
                 }
                 googleLocations.push(googleLocation);
             }
@@ -114,6 +112,7 @@ export default class Controller {
 
     callbackForRecipeSearch(jsonData, httpStatus = 200) {
         if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(`Callback Recipe Search with status ${httpStatus}`, 3);
+        let rootEl = document.getElementById("root");
         let recipes = [];
 
         if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
@@ -211,7 +210,6 @@ export default class Controller {
         fetchUtil.fetchQLJSON(this.queryURLRecipesSearch, parameters, this.callbackForRecipeSearch);
     }
 
-    /* provide the interface for the API call */
     callbackSearchForSupermarketsWithLocation(location) {
         // construct the parameters for the JSON call
         let parameters = {
@@ -234,7 +232,6 @@ export default class Controller {
             window.navigator.geolocation.getCurrentPosition(this.callbackSearchForSupermarketsWithLocation,this.callbackSearchForSupermarketsWithoutLocation);
         }
     }
-
 
     /*
        Get the current contents of the saved shopping list
@@ -310,15 +307,17 @@ export default class Controller {
     /*
     Add a new recipe to the favourite recipes
     Pass in a recipe object (from a search)
-    Returns the modified list of favourite recipes
+    Returns whether the recipe was added
      */
     addRecipeToFavouriteRecipes(recipeObjFromSearch) {
+        let result = false;
         let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
         if (!this.isRecipeAlreadyAFavourite(recipeObjFromSearch)) {
             this.lsUtil.addNewItemToKeyStorage(this.favouriteRecipesKey,recipeObjFromSearch);
             stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
+            result = true;
         }
-        return favouriteRecipes;
+        return result;
     }
 
     /*
