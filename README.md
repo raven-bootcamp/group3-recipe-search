@@ -19,11 +19,11 @@ Chop 'n' Change - a mobile-responsive recipe app that allows users to search for
 
 # Project description
 
-Chop 'n' Change is a recipe app for homecooks looking for meal inspirations using ingredients they already have at hand, with the option to find recipes that suit your dietary needs. The app is designed to provide users easy access to recipes they love through their favourites list, add ingredients from recipes to create a shopping list, and find your nearest supermarket location.
+Chop 'n' Change is a recipe app for home-cooks looking for meal inspirations using ingredients they already have on hand, with the option to find recipes that suit your dietary needs. The app is designed to provide users easy access to recipes they love through their favourites list, add ingredients from recipes to create a shopping list, and find your nearest supermarket location.
 
 The app can be used on desktops, tablets and mobiles, and was created using:
 
-* Bulma CSS Framework for layout and styling, 
+* Bulma CSS Framework for layout and styling
 * JavaScript and REACT for functionality
 * Recipe search API [EDAMAM](https://www.edamam.com/)
 * [Google Maps API](https://developers.google.com/maps)
@@ -31,8 +31,8 @@ The app can be used on desktops, tablets and mobiles, and was created using:
 ## Main features
 
 * Easily add recipes to a favourite list 
-* Create a shopping list with ease
-* Modals pop-up to provide quick access to recipe information, favourites list and shopping list 
+* Add recipe ingredients to a shopping list with ease
+* Quick access to recipe information, favourites list and shopping list via pop-up Modals
 * Easy access to the favourite list and shopping list from the navigation menu
 * Add or remove items from the favourites and shopping lists with a simple click 
 * Get a quick view of recipe information, and visit the recipe page for more details by clicking on a recipe in the search results
@@ -42,11 +42,11 @@ The following animation shows the web application's appearance and functionality
 ![app demo](./public/img/app_demo.gif)
 
 
-## User stories
+## User Stories
 
-### User story 1
+### User Story 1
 ```
-AS A homecook
+AS A home-cook
 I WANT to be able to find recipes based on ingredients I have at home on any device  
 SO THAT I can cook a dish without having to buy any additional ingredients
 ```
@@ -58,16 +58,16 @@ THEN I am presented with a list of recipes that match my search
 WHEN I click one of the links in the navigation
 THEN the UI opens up the corresponding section as a modal
 WHEN I click on a search result
-THEN I am presented with a quick overview of the recipe as a modal, with information on ingredients, dietary information and meal type, and option to get full details of the recipe via external link
+THEN I am presented with a quick overview of the recipe via a modal, with information on ingredients, dietary information and meal type, and the option to get full details of the recipe via external link
 WHEN I resize the page or view the site on various screens and devices
 THEN I am presented with a responsive layout that adapts to my viewport
 ```
 ### User Story 2
-AS A  home-cook
+AS A home-cook
 I WANT to filter my search results
 SO THAT I can narrow down my search and find recipes that match my needs
 
-#### Acceptance criteria
+#### Acceptance Criteria
 ```
 GIVEN I need to find a recipe based on specific ingredients and needs
 WHEN I search by ingredients, and filter by available options (dietary requirements, diet type and meal type)
@@ -91,7 +91,7 @@ THEN that recipe is removed from my list
 ```
 ### User Story 4
 ```
-AS A home cook, 
+AS A home-cook, 
 I WANT to create a shopping list for a selected recipe 
 SO THAT I can have a list of the ingredients I need to buy 
 ```
@@ -110,10 +110,7 @@ THEN Google Maps opens as a separate tab with the supermarket location
 
 ## Credits
 
-[FontAwesome](https://fontawesome.com/)
-[Node.js](https://nodejs.org/en/)
-[GitHub] (https://ecotrust-canada.github.io/)
-[Unsplash](https://unsplash.com/photos/-YHSwy6uqvk)
-
-
-
+- [FontAwesome](https://fontawesome.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Ecotrust Canada GitHub](https://ecotrust-canada.github.io/markdown-toc/)
+- [Unsplash](https://unsplash.com/photos/-YHSwy6uqvk)
