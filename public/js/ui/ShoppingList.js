@@ -3,6 +3,7 @@ export default function ShoppingList(props) {
   var shoppingList = props.shoppingList;
   var deleteHandler = props.deleteHandler;
   var closeHandler = props.closeHandler;
+  var locationHandler = props.locationHandler;
   var isShowing = props.shouldShow;
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering shopping list");
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(shoppingList);
@@ -41,10 +42,21 @@ export default function ShoppingList(props) {
     className: "modal-card-body"
   }, /*#__PURE__*/React.createElement("div", {
     className: "buttons"
-  }, listItems)), /*#__PURE__*/React.createElement("footer", {
-    className: "modal-card-foot"
+  }, listItems)), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
+    className: "columns is-mobile has-background-light pb-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "column is-2 ml-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "button is-rounded modal-close-button",
+    onClick: closeHandler
+  }, "Close")), /*#__PURE__*/React.createElement("div", {
+    className: "column is-offset-8 is-1"
   }, /*#__PURE__*/React.createElement("button", {
     className: "button is-rounded",
-    onClick: closeHandler
-  }, "Close")))));
+    onClick: locationHandler
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "icon"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-search-location"
+  })))))))));
 }

@@ -5,6 +5,7 @@ export default function ShoppingList(props) {
     let shoppingList = props.shoppingList;
     let deleteHandler = props.deleteHandler;
     let closeHandler = props.closeHandler;
+    let locationHandler = props.locationHandler;
     let isShowing = props.shouldShow;
 
     if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering shopping list");
@@ -33,8 +34,19 @@ export default function ShoppingList(props) {
                             {listItems}
                         </div>
                     </section>
-                    <footer className="modal-card-foot">
-                        <button className="button is-rounded" onClick={closeHandler}>Close</button>
+                    <footer>
+                        <div className="columns is-mobile has-background-light pb-4">
+                            <div className={"column is-2 ml-3"}>
+                                <button className="button is-rounded modal-close-button" onClick={closeHandler}>Close</button>
+                            </div>
+                            <div className={"column is-offset-8 is-1"}>
+                                <button className="button is-rounded"  onClick={locationHandler}>
+                                    <span className="icon">
+                                        <i className="fas fa-search-location"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
                     </footer>
                 </div>
             </div>

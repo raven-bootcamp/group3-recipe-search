@@ -36,22 +36,22 @@ export default function RecipeSearchResults(props) {
             <div className="card">
                 <header className="card-header">
                     <p className="card-header-title is-size-6-mobile is-size-5-tablet is-size-4-desktop">
-                        <a target="_blank" href={recipe.URL}>{(recipe.name.length > 23)?recipe.name.substr(0,19)+"...":recipe.name}</a>
+                        <a recipe-id={recipe.id}  href="" onClick={detailsHandler}>{(recipe.name.length > 23)?recipe.name.substr(0,19)+"...":recipe.name}</a>
                     </p>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">
-                            <i recipe-id={recipe.id} className="fas fa-star" onClick={favouriteHandler}></i>
+                            <i recipe-id={recipe.id} className="cursor-link fas fa-star" onClick={favouriteHandler}></i>
                         </span>
                     </span>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">
-                            <i recipe-id={recipe.id} className="fa fa-cart-plus" onClick={shoppingListHandler}></i>
+                            <i recipe-id={recipe.id} className="cursor-link fa fa-cart-plus" onClick={shoppingListHandler}></i>
                         </span>
                     </span>
                 </header>
                 <div className="card-image has-text-centered">
                     <figure className={"image is-4by3"}>
-                    <img className="recipe-clickable-image" recipe-id={recipe.id} src={recipe.imageURL}
+                    <img className="cursor-link" recipe-id={recipe.id} src={recipe.imageURL}
                          alt={recipe.name} onClick={detailsHandler}/>
                     </figure>
                 </div>

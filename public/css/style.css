@@ -39,8 +39,12 @@ nav {
     margin-top: 7px;
 }
 
-.recipe-clickable-image:hover {
+.cursor-link:hover {
   cursor:pointer;
+}
+
+.cursor-link:active {
+    cursor: progress;
 }
 
 .navbar {
@@ -67,3 +71,4 @@ nav {
     border-radius: 5px;
     margin-top: 10px;
 }
+

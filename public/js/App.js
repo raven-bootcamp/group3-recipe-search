@@ -11,6 +11,7 @@ import RecipeDetails from "./ui/RecipeDetails.js";
 import RecipeSearchResults from "./ui/RecipeSearchResults.js";
 import Pagination from "./ui/Pagination.js";
 import logger from "./util/SimpleDebug.js";
+import LocationList from "./ui/LocationList.js";
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inheritsLoose(App, _React$Component);
@@ -23,17 +24,19 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.searchInProgress = false;
     /* turn on console messages for development*/
 
-    logger.setOff();
+    logger.setOn();
     logger.setLevel(200);
     logger.setMinLevel(0); // Event handlers
 
     _this.handleEventStartRecipeSearch = _this.handleEventStartRecipeSearch.bind(_assertThisInitialized(_this));
     _this.handleEventStartRecipeSearchKeyUp = _this.handleEventStartRecipeSearchKeyUp.bind(_assertThisInitialized(_this));
+    _this.handleEventStartLocationSearch = _this.handleEventStartLocationSearch.bind(_assertThisInitialized(_this));
     _this.handleEventAddRecipeToFavourites = _this.handleEventAddRecipeToFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventRemoveRecipeFromFavourites = _this.handleEventRemoveRecipeFromFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventAddRecipeToShoppingList = _this.handleEventAddRecipeToShoppingList.bind(_assertThisInitialized(_this));
     _this.handleEventShowShoppingList = _this.handleEventShowShoppingList.bind(_assertThisInitialized(_this));
     _this.handleEventShowFavouriteRecipes = _this.handleEventShowFavouriteRecipes.bind(_assertThisInitialized(_this));
+    _this.handleEventShowLocationList = _this.handleEventShowLocationList.bind(_assertThisInitialized(_this));
     _this.handleEventRemoveIngredientFromShoppingList = _this.handleEventRemoveIngredientFromShoppingList.bind(_assertThisInitialized(_this));
     _this.handleEventShowRecipeDetailsFromFavourites = _this.handleEventShowRecipeDetailsFromFavourites.bind(_assertThisInitialized(_this));
     _this.handleEventShowRecipeDetailsFromSearch = _this.handleEventShowRecipeDetailsFromSearch.bind(_assertThisInitialized(_this));
@@ -49,9 +52,11 @@ var App = /*#__PURE__*/function (_React$Component) {
       searchResults: [],
       shoppingList: [],
       favouriteRecipes: [],
+      locations: [],
       showShoppingList: false,
       showFavouriteRecipes: false,
       showRecipeDetails: false,
+      showLocationDetails: false,
       selectedRecipe: null,
       selectedRecipeIsFavourite: false,
       currentPageNumber: 1,
@@ -67,7 +72,8 @@ var App = /*#__PURE__*/function (_React$Component) {
     this.setState({
       showShoppingList: false,
       showFavouriteRecipes: false,
-      showRecipeDetails: false
+      showRecipeDetails: false,
+      showLocations: false
     });
   };
 
@@ -82,7 +88,12 @@ var App = /*#__PURE__*/function (_React$Component) {
       shoppingList: this.state.shoppingList,
       deleteHandler: this.handleEventRemoveIngredientFromShoppingList,
       closeHandler: this.handleCloseModals,
+      locationHandler: this.handleEventStartLocationSearch,
       shouldShow: this.state.showShoppingList
+    }), /*#__PURE__*/React.createElement(LocationList, {
+      locations: this.state.locations,
+      closeHandler: this.handleCloseModals,
+      shouldShow: this.state.showLocations
     }), /*#__PURE__*/React.createElement(FavouriteRecipes, {
       favouriteRecipes: this.state.favouriteRecipes,
       deleteHandler: this.handleEventRemoveRecipeFromFavourites,
@@ -114,7 +125,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       style: {
         textAlign: "center"
       }
-    }, "Chop 'n' Change"));
+    }, "Copyright 2021 Chop 'n' Change.  All rights reserved."));
   };
 
   _proto.componentDidMount = function componentDidMount() {
@@ -203,6 +214,25 @@ var App = /*#__PURE__*/function (_React$Component) {
     if (event.keyCode === 13) {
       this.handleEventStartRecipeSearch(event);
     }
+  };
+
+  _proto.handleEventStartLocationSearch = function handleEventStartLocationSearch(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Start Location Search");
+    this.handleCloseModals();
+    this.setState({
+      showLocations: true,
+      locations: []
+    });
+    this.controller.searchForSupermarkets();
+  };
+
+  _proto.handleEventShowLocationList = function handleEventShowLocationList(event) {
+    if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Location List"); // ask the controller to change the state and get the favourite recipes list
+
+    this.setState({
+      showLocations: true,
+      locations: this.controller.getLocations()
+    });
   };
 
   _proto.handleEventStartRecipeSearch = function handleEventStartRecipeSearch(event) {
@@ -324,6 +354,7 @@ var App = /*#__PURE__*/function (_React$Component) {
   };
 
   _proto.handleEventShowRecipeDetailsFromSearch = function handleEventShowRecipeDetailsFromSearch(event) {
+    event.preventDefault();
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Show Recipe Details from Search Results");
     /*
     collect the recipe attribute from the event
