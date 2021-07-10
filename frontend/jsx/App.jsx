@@ -13,7 +13,7 @@ class App extends React.Component {
         this.searchInProgress = false;
 
         /* turn on console messages for development*/
-        logger.setOn();
+        logger.setOff();
         logger.setLevel(200);
         logger.setMinLevel(0);
 
@@ -85,7 +85,7 @@ class App extends React.Component {
                                          currentPageNumber={this.state.currentPageNumber}
                                          resultsPerPage={4}
                                          favouriteHandler={this.handleEventAddRecipeToFavourites}
-                                         shoppingListHanlder={this.handleEventAddRecipeToShoppingList}
+                                         shoppingListHandler={this.handleEventAddRecipeToShoppingList}
                                          detailsHandler={this.handleEventShowRecipeDetailsFromSearch}/>
                 </div>
                 <Pagination recipes={this.state.searchResults}

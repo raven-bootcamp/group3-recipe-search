@@ -23,7 +23,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.searchInProgress = false;
     /* turn on console messages for development*/
 
-    logger.setOn();
+    logger.setOff();
     logger.setLevel(200);
     logger.setMinLevel(0); // Event handlers
 
@@ -100,7 +100,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       currentPageNumber: this.state.currentPageNumber,
       resultsPerPage: 4,
       favouriteHandler: this.handleEventAddRecipeToFavourites,
-      shoppingListHanlder: this.handleEventAddRecipeToShoppingList,
+      shoppingListHandler: this.handleEventAddRecipeToShoppingList,
       detailsHandler: this.handleEventShowRecipeDetailsFromSearch
     })), /*#__PURE__*/React.createElement(Pagination, {
       recipes: this.state.searchResults,
