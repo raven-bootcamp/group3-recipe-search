@@ -13,6 +13,7 @@ export default class Controller {
 
         // setup query URLs
         this.queryURLRecipesSearch = "/recipes";
+        this.supermarketURLSearch = "/supermarkets";
 
         // setup local storage key and previous searches array
         this.shoppingListKey = "shoppinglist";
@@ -172,6 +173,59 @@ export default class Controller {
 
         fetchUtil.fetchQLJSON(this.queryURLRecipesSearch, parameters, this.callbackForRecipeSearch);
     }
+
+    /* provide the interface for the API call */
+    searchForRecipes(
+        queryText = "",
+        isBalancedDiet = false,
+        isHighFiber = false,
+        isHighProtein = false,
+        isLowCarb = false,
+        isLowFat = false,
+        isLowSodium = false,
+        isDiaryFree = false,
+        isGlutenFree = false,
+        isKosher = false,
+        isVegan = false,
+        isVegetarian = false,
+        isDiabetic = false,
+        isBreakfast = false,
+        isLunch = false,
+        isDinner = false,
+        isSnack = false
+    ) {
+        // Do we have a diet restriction?
+        let hasDietSelection = (isBalancedDiet || isHighFiber || isHighProtein || isLowCarb || isLowFat || isLowSodium); // removed high fibre
+        let hasHealthSelection = (isDiaryFree || isGlutenFree || isKosher || isVegan || isVegetarian || isDiabetic);
+        let hasMealTypeSelection = (isBreakfast || isLunch || isDinner || isSnack);
+        // construct the parameters for the JSON call
+        let parameters = {
+            q: queryText,
+            hasDietSelection: hasDietSelection,
+            hasHealthSelection: hasHealthSelection,
+            hasMealTypeSelection: hasMealTypeSelection,
+            isBalancedDiet: isBalancedDiet,
+            isHighFiber: isHighFiber,
+            isHighProtein: isHighProtein,
+            isLowCarb: isLowCarb,
+            isLowFat: isLowFat,
+            isLowSodium: isLowSodium,
+            isDiaryFree: isDiaryFree,
+            isGlutenFree: isGlutenFree,
+            isKosher: isKosher,
+            isVegan: isVegan,
+            isVegetarian: isVegetarian,
+            isDiabetic: isDiabetic,
+            isBreakfast: isBreakfast,
+            isLunch: isLunch,
+            isDinner: isDinner,
+            isSnack: isSnack
+
+        };
+
+        fetchUtil.fetchQLJSON(this.supermarketURLSearch, parameters, this.callbackForLocationSearch);
+    }
+
 
     /*
        Get the current contents of the saved shopping list

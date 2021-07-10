@@ -88,6 +88,29 @@ app.post("/recipes", (req, res) => {
 });
 
 
+app.post("/supermarkets", (req, res) => {
+    // Construct the API call from the supplied JSON parameters
+    let parameters = req.body.parameters;
+    // start with the mandatory options and recipes that have images
+    let newURL = process.env.PLACES_API_URL;
+
+    do we have a user location?
+    if (parameters.lat !== null) {
+        newURL += process.env.PLACES_API_KEY_RADIUS + parameters.lat + "," + parameters.lon;
+    }
+
+    newURL += process.env.PLACES_API_KEY_KEY;
+
+    console.log("API Call is: " + newURL);
+    request(newURL, function (error, response, body) {
+        console.error('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', body);
+        res.status(response.statusCode);
+        res.json(body);
+    });
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
