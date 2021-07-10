@@ -24,28 +24,23 @@ export default function RecipeDetails(props) {
         <li key={index}><span className={"ml-2"}>{ingredient}</span> </li>
     );
 
-    let mealTypesForDisplay = "";
+    let hashTagsForDisplay = "";
     recipe.mealType.map((typeText,index) => {
-        mealTypesForDisplay += typeText + " ";
+        hashTagsForDisplay += "#" + typeText + " ";
     });
-    if (mealTypesForDisplay.trim().length > 0) {
-        mealTypesForDisplay = "Meal Timing: " + mealTypesForDisplay;
-    }
-    let dietTypesForDisplay = "";
+
     recipe.diet.map((typeText,index) => {
-        dietTypesForDisplay += typeText + " ";
+        hashTagsForDisplay += "#" + typeText + " ";
     });
-    if (dietTypesForDisplay.trim().length > 0) {
-        dietTypesForDisplay = "Diet Types: " + dietTypesForDisplay;
-    }
+
 
     return (
         <div id="recipe-details" className={isShowing ? "modal is-active" : "modal"}>
             <div className="modal-background">
                 <div className="modal-card pt-5">
                     <header className="modal-card-head">
-                        <p id="recipe-details-title" className="modal-card-title"><a target="_blank"
-                                                                                     href={recipe.URL}>{recipe.name}</a>
+                        <p id="recipe-details-title" className="modal-card-title">
+                            <a className="has-text-info-dark" target="_blank" href={recipe.URL}>{recipe.name}</a>
                         </p>
                         <button className="delete" aria-label="close" onClick={closeHandler}></button>
                     </header>
@@ -57,9 +52,8 @@ export default function RecipeDetails(props) {
                             <ol className="pl-3">
                                 {listItems}
                             </ol>
-                            <div className={"pt-3 pb-3 mt-2 mr-6 has-background-info-dark has-text-white"}>
-                                <p className={"ml-3"}>{dietTypesForDisplay}</p>
-                                <p className={"ml-3"}>{mealTypesForDisplay}</p>
+                            <div className={"pt-3 pb-3 mt-2 has-text-info-dark"}>
+                                <p className={"ml-3"}>{hashTagsForDisplay}</p>
                             </div>
                         </div>
 

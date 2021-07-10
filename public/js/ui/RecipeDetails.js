@@ -22,24 +22,13 @@ export default function RecipeDetails(props) {
       className: "ml-2"
     }, ingredient), " ");
   });
-  var mealTypesForDisplay = "";
+  var hashTagsForDisplay = "";
   recipe.mealType.map(function (typeText, index) {
-    mealTypesForDisplay += typeText + " ";
+    hashTagsForDisplay += "#" + typeText + " ";
   });
-
-  if (mealTypesForDisplay.trim().length > 0) {
-    mealTypesForDisplay = "Meal Timing: " + mealTypesForDisplay;
-  }
-
-  var dietTypesForDisplay = "";
   recipe.diet.map(function (typeText, index) {
-    dietTypesForDisplay += typeText + " ";
+    hashTagsForDisplay += "#" + typeText + " ";
   });
-
-  if (dietTypesForDisplay.trim().length > 0) {
-    dietTypesForDisplay = "Diet Types: " + dietTypesForDisplay;
-  }
-
   return /*#__PURE__*/React.createElement("div", {
     id: "recipe-details",
     className: isShowing ? "modal is-active" : "modal"
@@ -53,6 +42,7 @@ export default function RecipeDetails(props) {
     id: "recipe-details-title",
     className: "modal-card-title"
   }, /*#__PURE__*/React.createElement("a", {
+    className: "has-text-info-dark",
     target: "_blank",
     href: recipe.URL
   }, recipe.name)), /*#__PURE__*/React.createElement("button", {
@@ -71,12 +61,10 @@ export default function RecipeDetails(props) {
   })), /*#__PURE__*/React.createElement("ol", {
     className: "pl-3"
   }, listItems), /*#__PURE__*/React.createElement("div", {
-    className: "pt-3 pb-3 mt-2 mr-6 has-background-info-dark has-text-white"
+    className: "pt-3 pb-3 mt-2 has-text-info-dark"
   }, /*#__PURE__*/React.createElement("p", {
     className: "ml-3"
-  }, dietTypesForDisplay), /*#__PURE__*/React.createElement("p", {
-    className: "ml-3"
-  }, mealTypesForDisplay)))), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
+  }, hashTagsForDisplay)))), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
     className: "columns is-mobile has-background-light pb-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "column is-2 ml-3"

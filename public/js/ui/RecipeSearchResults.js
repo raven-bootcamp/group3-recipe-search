@@ -27,13 +27,13 @@ export default function RecipeSearchResults(props) {
   var listItems = recipesForDisplay.map(function (recipe, index) {
     return /*#__PURE__*/React.createElement("div", {
       key: index,
-      className: "column is-mobile is-3-tablet is-3-desktop"
+      className: "column is-mobile is-3-tablet is-3-desktop mt-4 pl-3 pr-3"
     }, /*#__PURE__*/React.createElement("div", {
       className: "card"
     }, /*#__PURE__*/React.createElement("header", {
       className: "card-header"
     }, /*#__PURE__*/React.createElement("p", {
-      className: "card-header-title is-size-4-mobile is-size-5-tablet is-size-6-desktop"
+      className: "card-header-title is-size-6-mobile is-size-5-tablet is-size-4-desktop"
     }, /*#__PURE__*/React.createElement("a", {
       target: "_blank",
       href: recipe.URL
