@@ -10,13 +10,32 @@ export default function LocationList(props) {
     if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(locations);
 
 
+    let openGoogleMaps = (event) => {
+        let mapsURL = "https://www.google.com/maps/search/?api=1&query=";
+        let lat = event.target.getAttribute("lat");
+        let lon = event.target.getAttribute("lon");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(event.target);
 
-    let listItems = "Please wait, loading nearby supermarkets...";
+        mapsURL += lat + "," + lon;
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(location);
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(mapsURL);
+        window.open(mapsURL,"_blank");
+    }
+
+    let listItems = "";
 
     if (locations.length > 0) {
         listItems = locations.map((location, index) =>
-            <li key={index} className="button is-fullwidth is-info is-outlined is-rounded">
+            <li key={index} lat={location.lat} lon={location.lon} className="button is-fullwidth is-info is-outlined is-rounded" onClick={openGoogleMaps}>
                 {location.name + (location.isOpen?"(open now)":"(closed)") + ": " + location.address}
+            </li>
+        );
+    }
+    else {
+        let dummyArray = [0];
+        listItems = dummyArray.map((item, index) =>
+            <li key={0} className="button is-fullwidth is-danger is-rounded">
+                Please wait, loading nearby supermarkets...
             </li>
         );
     }
@@ -30,9 +49,9 @@ export default function LocationList(props) {
                         <button className="delete" aria-label="close" onClick={closeHandler}></button>
                     </header>
                     <section className="modal-card-body">
-                        <div className="buttons">
+                        <ul className="ml-3">
                             {listItems}
-                        </div>
+                        </ul>
                     </section>
                     <footer>
                         <div className="columns is-mobile has-background-light pb-4">

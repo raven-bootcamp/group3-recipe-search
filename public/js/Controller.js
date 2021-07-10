@@ -101,7 +101,9 @@ export default class Controller {
                 let googleLocation = {
                    name: location.name,
                    address: location.formatted_address,
-                   isOpen: (location.opening_hours)?location.opening_hours.open_now:false
+                   isOpen: (location.opening_hours)?location.opening_hours.open_now:false,
+                   lat:location.geometry.location.lat,
+                   lon:location.geometry.location.lng
                 }
                 googleLocations.push(googleLocation);
             }
