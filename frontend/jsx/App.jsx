@@ -118,7 +118,10 @@ class App extends React.Component {
                             previousHandler={this.handleEventPaginationPreviousPressed}
                             pageHandler={this.handleEventPaginationPageNumberPressed}/>
 
-                <footer className="footer" style={{textAlign: "center"}}>Copyright 2021 Chop 'n' Change.  All rights reserved.</footer>
+                <footer className="footer" style={{textAlign: "center"}}>
+                    Copyright 2021 Chop 'n' Change.  All rights reserved.
+                    <div id="edamam-badge" data-color="transparent"></div>
+                </footer>
             </div>
         );
     }

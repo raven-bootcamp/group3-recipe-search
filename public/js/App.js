@@ -133,7 +133,10 @@ var App = /*#__PURE__*/function (_React$Component) {
       style: {
         textAlign: "center"
       }
-    }, "Copyright 2021 Chop 'n' Change.  All rights reserved."));
+    }, "Copyright 2021 Chop 'n' Change.  All rights reserved.", /*#__PURE__*/React.createElement("div", {
+      id: "edamam-badge",
+      "data-color": "transparent"
+    })));
   };
 
   _proto.componentDidMount = function componentDidMount() {
