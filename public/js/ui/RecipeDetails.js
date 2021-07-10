@@ -13,6 +13,7 @@ export default function RecipeDetails(props) {
   var favouriteHandler = props.favouriteHandler;
   var shoppingListHandler = props.shoppingListHandler;
   var isShowing = props.shouldShow;
+  var isFavourite = props.isFavourite;
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering recipe details");
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(recipe);
   var listItems = recipe.ingredients.map(function (ingredient, index) {
@@ -83,27 +84,21 @@ export default function RecipeDetails(props) {
     onClick: closeHandler
   }, "Close")), /*#__PURE__*/React.createElement("div", {
     className: "column is-offset-7 is-1"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("span", {
     "recipe-id": recipe.id,
-    className: "button is-rounded",
+    className: "icon is-large"
+  }, /*#__PURE__*/React.createElement("i", {
+    "recipe-id": recipe.id,
+    className: isFavourite(recipe) ? "cursor-link fas fa-star" : "cursor-link far fa-star",
     onClick: favouriteHandler
-  }, /*#__PURE__*/React.createElement("span", {
-    "recipe-id": recipe.id,
-    className: "icon"
-  }, /*#__PURE__*/React.createElement("i", {
-    "recipe-id": recipe.id,
-    className: "fas fa-star"
-  })))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "column is-1"
-  }, /*#__PURE__*/React.createElement("button", {
-    "recipe-id": recipe.id,
-    className: "button is-rounded",
-    onClick: shoppingListHandler
   }, /*#__PURE__*/React.createElement("span", {
     "recipe-id": recipe.id,
-    className: "icon"
+    className: "icon is-large"
   }, /*#__PURE__*/React.createElement("i", {
     "recipe-id": recipe.id,
-    className: "fa fa-cart-plus"
-  })))))))));
+    className: "cursor-link fa fa-cart-plus",
+    onClick: shoppingListHandler
+  }))))))));
 }

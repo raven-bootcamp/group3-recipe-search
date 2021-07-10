@@ -16,6 +16,7 @@ export default function RecipeDetails(props) {
     let favouriteHandler = props.favouriteHandler;
     let shoppingListHandler = props.shoppingListHandler;
     let isShowing = props.shouldShow;
+    let isFavourite = props.isFavourite;
 
     if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Rendering recipe details");
     if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(recipe);
@@ -71,18 +72,14 @@ export default function RecipeDetails(props) {
                                 <button className="button is-rounded modal-close-button" onClick={closeHandler}>Close</button>
                             </div>
                             <div className={"column is-offset-7 is-1"}>
-                                <button recipe-id={recipe.id} className="button is-rounded"  onClick={favouriteHandler}>
-                                    <span recipe-id={recipe.id} className="icon">
-                                        <i recipe-id={recipe.id} className="fas fa-star"></i>
-                                    </span>
-                                </button>
+                              <span recipe-id={recipe.id} className="icon is-large">
+                                <i recipe-id={recipe.id} className={(isFavourite(recipe))?"cursor-link fas fa-star":"cursor-link far fa-star"} onClick={favouriteHandler}></i>
+                              </span>
                             </div>
                             <div className={"column is-1"}>
-                                <button recipe-id={recipe.id} className="button is-rounded"  onClick={shoppingListHandler}>
-                                    <span recipe-id={recipe.id} className="icon">
-                                        <i recipe-id={recipe.id} className="fa fa-cart-plus"></i>
-                                    </span>
-                                </button>
+                                <span recipe-id={recipe.id} className="icon is-large">
+                                    <i recipe-id={recipe.id} className="cursor-link fa fa-cart-plus" onClick={shoppingListHandler}></i>
+                                </span>
                             </div>
                         </div>
                     </footer>

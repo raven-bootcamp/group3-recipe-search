@@ -5,7 +5,8 @@ export default function RecipeSearchResults(props) {
   var resultsPerPage = props.resultsPerPage;
   var favouriteHandler = props.favouriteHandler;
   var shoppingListHandler = props.shoppingListHandler;
-  var detailsHandler = props.detailsHandler; // clear the current results list and redraw dynamically
+  var detailsHandler = props.detailsHandler;
+  var isFavourite = props.isFavourite; // clear the current results list and redraw dynamically
 
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering search results");
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(recipes); // how many results to we have
@@ -45,7 +46,7 @@ export default function RecipeSearchResults(props) {
       className: "icon"
     }, /*#__PURE__*/React.createElement("i", {
       "recipe-id": recipe.id,
-      className: "cursor-link fas fa-star",
+      className: isFavourite(recipe) ? "cursor-link fas fa-star" : "cursor-link far fa-star",
       onClick: favouriteHandler
     }))), /*#__PURE__*/React.createElement("span", {
       className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"

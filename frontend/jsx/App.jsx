@@ -48,6 +48,10 @@ class App extends React.Component {
         this.searchStarted = this.searchStarted.bind(this);
         this.searchEnded = this.searchEnded.bind(this);
 
+        // favourite toggling
+        this.handleEventToggleRecipeToFromFavourites = this.handleEventToggleRecipeToFromFavourites.bind(this);
+
+
         this.state = {
             searchResults: [],
             shoppingList: [],
@@ -61,7 +65,7 @@ class App extends React.Component {
             selectedRecipeIsFavourite: false,
             currentPageNumber: 1,
             totalPages: 1,
-            resultsPerPage: 5,
+            resultsPerPage: 4,
             allowNotifications: true
         };
 
@@ -96,12 +100,14 @@ class App extends React.Component {
                     <RecipeDetails recipe={this.state.selectedRecipe}
                                    closeHandler={this.handleCloseModals}
                                    shouldShow={this.state.showRecipeDetails}
-                                   favouriteHandler={this.state.selectedRecipeIsFavourite ? this.doNothingHandler : this.handleEventAddRecipeToFavourites}
+                                   isFavourite={this.controller.isRecipeAlreadyAFavourite}
+                                   favouriteHandler={this.handleEventToggleRecipeToFromFavourites}
                                    shoppingListHandler={this.state.selectedRecipeIsFavourite ? this.handleEventAddFavouriteRecipeToShoppingList : this.handleEventAddRecipeToShoppingList}/>
                     <RecipeSearchResults recipes={this.state.searchResults}
                                          currentPageNumber={this.state.currentPageNumber}
-                                         resultsPerPage={4}
-                                         favouriteHandler={this.handleEventAddRecipeToFavourites}
+                                         resultsPerPage={this.state.resultsPerPage}
+                                         isFavourite={this.controller.isRecipeAlreadyAFavourite}
+                                         favouriteHandler={this.handleEventToggleRecipeToFromFavourites}
                                          shoppingListHandler={this.handleEventAddRecipeToShoppingList}
                                          detailsHandler={this.handleEventShowRecipeDetailsFromSearch}/>
                 </div>
@@ -271,6 +277,38 @@ class App extends React.Component {
     /*
     This the event handler for when the user adds a recipe to the favourites
     */
+    handleEventToggleRecipeToFromFavourites(event) {
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Toggle Recipe to/from Favourites List");
+        let recipeId = event.target.getAttribute("recipe-id");
+        if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Toggle Recipe to/from Favourites List with id " + recipeId);
+        // the recipe object could be a saved favourite or from the last search or may only exist in state (after being removed from favourites)
+        let recipe = this.controller.getRecipeFromLastSearchResultsById(recipeId);
+        if (recipe == null) {  // not in search results
+            recipe = this.controller.getRecipeFromFavouritesById(recipeId);
+            if (recipe == null) { //was previously in favourites and toggled out, exists in state (hopefully?)
+                recipe = this.state.selectedRecipe;
+            }
+        }
+        // if we couldn't find a recipe then...well exit
+        if (recipe === null) return;
+
+        // are we dealing with a recipe that is already a favourite?
+        if (!this.controller.isRecipeAlreadyAFavourite(recipe)) {
+            let wasAdded = this.controller.addRecipeToFavouriteRecipes(recipe);
+            if (wasAdded) {
+                this.showNotification("Favourite Recipes", `Added ${recipe.name} to favourites.`,"success");
+            }
+            else {
+                this.showNotification("Favourite Recipes", `Already added ${recipe.name}`,"warning");
+            }
+        }
+        else {
+            this.controller.removeRecipeFromFavouriteRecipes(recipe);
+            this.showNotification("Favourite Recipes", `Removed ${recipe.name} from favourites.`,"danger");
+        }
+
+    }
+
     handleEventAddRecipeToFavourites(event) {
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Add Recipe to Favourites List");
         /*
@@ -399,6 +437,8 @@ class App extends React.Component {
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Remove All Ingredients from Shopping List");
 
         this.controller.removeAllIngredientsFromShoppingList();
+        // close the shopping list
+        this.handleCloseModals();
         // this app will be notified when the application state changes
     }
     handleEventToggleFilter() {

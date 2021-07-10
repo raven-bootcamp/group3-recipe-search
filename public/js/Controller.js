@@ -44,6 +44,9 @@ export default class Controller {
         // setup Async callbacks for the fetch requests
         this.callbackForRecipeSearch = this.callbackForRecipeSearch.bind(this);
         this.callbackForLocationSearch = this.callbackForLocationSearch.bind(this);
+
+        // methods called by React or event handlers
+        this.isRecipeAlreadyAFavourite = this.isRecipeAlreadyAFavourite.bind(this);
     }
 
     listenForLocationListStateChange(name, locations) {
@@ -52,7 +55,7 @@ export default class Controller {
 
     listenForRecipeSearchResultsStateChange(name, recipes) {
         let totalPages = Math.ceil(recipes.length/this.applicationView.state.resultsPerPage);
-        this.applicationView.setState({searchResults:recipes,selectedRecipe:null,selectedRecipeIsFavourite:false,currentPageNumber:1,totalPages:totalPages});
+        this.applicationView.setState({searchResults:recipes,selectedRecipeIsFavourite:false,selectedRecipe:null,currentPageNumber:1,totalPages:totalPages});
     }
 
     listenForFavouriteRecipesStateChange(name, favouriteRecipes) {
@@ -301,6 +304,9 @@ export default class Controller {
     */
     getFavouriteRecipes() {
         let favouriteRecipes = this.lsUtil.getWithStorageKey(this.favouriteRecipesKey);
+        favouriteRecipes.map((recipe,index) => {
+            recipe.isFavourite = true;
+        })
         stateManager.setStateByName(this.favouriteRecipesKey,favouriteRecipes);
         return favouriteRecipes;
     }
