@@ -9,8 +9,10 @@ const app = express();
 
 app.use(bodyparser.json()); /* handle JSON POST */
 
+isDevelopment = (process.env.RUNTIME === "Development");
+
 /* Are we in Development or in Production? */
-if ((process.env.RUNTIME === "Development")) {
+if (isDevelopment) {
     app.use(morgan("dev")); /* log server calls with performance timing with development details */
 
     /* log call requests with body */
@@ -75,18 +77,16 @@ app.post("/recipes", (req, res) => {
         newURL += chosenDiets;
     }
 
-
-    console.log("API Call is: " + newURL);
+    if (isDevelopment) console.log("API Call is: " + newURL);
     request(newURL, function (error, response, body) {
         console.error('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body);
+        if (isDevelopment) console.log('body:', body);
         res.status(response.statusCode);
         res.json(body);
     });
 
 });
-
 
 app.post("/supermarkets", (req, res) => {
     // Construct the API call from the supplied JSON parameters
@@ -94,22 +94,23 @@ app.post("/supermarkets", (req, res) => {
     // start with the mandatory options and recipes that have images
     let newURL = process.env.PLACES_API_URL;
 
-    do we have a user location?
+    //do we have a user location?
     if (parameters.lat !== null) {
         newURL += process.env.PLACES_API_KEY_RADIUS + parameters.lat + "," + parameters.lon;
     }
 
     newURL += process.env.PLACES_API_KEY_KEY;
 
-    console.log("API Call is: " + newURL);
+    if (isDevelopment) console.log("API Call is: " + newURL);
     request(newURL, function (error, response, body) {
         console.error('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body);
+        if (isDevelopment) console.log('body:', body);
         res.status(response.statusCode);
         res.json(body);
     });
 });
+
 
 const port = process.env.PORT || 3000;
 
