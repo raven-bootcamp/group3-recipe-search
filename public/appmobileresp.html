@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/bulma.css"/>
+    <link rel="stylesheet" href="./css/app_mobile_responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <title>Chop 'n' Change</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is the recipe page.
+       
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+
+
+    <!--This code to be added to main index.html file-->
+
+<!--MODALS-->
+<div id="shopping-list" class="modal">
+    <div class="modal-background">
+        <div class="modal-card pt-5">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Shopping List</p>
+                <button id="close-shopping-list-delete-button" class="delete modal-close-button"
+                        aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div id="shopping-list-content" class="buttons">
+
+                    <!-- Shopping list items go here -->
+
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="close-shopping-list-button" class="button modal-close-button">Close</button>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<div id="favourite-recipes" class="modal">
+    <div class="modal-background">
+        <div class="modal-card pt-5">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Favourite Recipes</p>
+                <button id="close-favourite-recipes-delete-button" class="delete modal-close-button"
+                        aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="favourite-recipes-content">
+                    <ul id="favourite-recipes-content">
+                        <!-- Favourite Recipes list items go here -->
+                    </ul>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button id="close-favourite-recipes-button" class="button modal-close-button">Close</button>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<div id="recipe-details" class="modal">
+
+</div>
+
+
+
+
+    <!--Nav bar-->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand level-item">
+            <h1 class="navbar-item has-text-left-mobile has-text-left-tablet has-text-weight-bold">Chop 'n' Change</h1>
+            <a class="navbar-item has-text-left-mobile has-text-left-tablet" id="shopping-list-btn">
+                <span class="icon is-size-4-desktop pr-3 pl-4">
+                    <i class="fas fa-shopping-cart"></i>
+                </span>
+            </a>
+            <a class="navbar-item has-text-left-mobile has-text-left-tablet" id="favourite-btn">
+                <span class="icon is-size-4-desktop pr-3 pl-4">
+                    <i class="fas fa-star"></i>
+                </span>
+            </a>
+        </div>
+    </nav>
+
+
+    <!--Search Container with Search Filter Options-->
+    <section class="section main_section">
+        <div class="columns is-centered is-four-fifths">
+            <div class="card p-5 mt-5 mb-5">
+                <div class="card-content">
+                    <p class="title has-text-centered">
+                        What's in your kitchen today?
+                    </p>
+                    <div class="level-item">
+                        <div class="field has-addons">
+                            <!--Can we use this for desktop and hide the code from line 69-79 on mobile-->
+                            <p class="control">
+                                <input class="input is-rounded is-medium" id="search-input" type="text"
+                                    placeholder="Type your ingredients">
+                            </p>
+                            <p class="control">
+                                <button id="search-btn" class="button is-medium is-primary is-rounded">
+                                    Search
+                                </button>
+                            </p>
+
+                            <!--Can we use the below bit of code for mobile and hide the above on displays bigger than mobile-->
+                            <!-- <p class="control small-Device">
+                                <input class="input is-rounded is-small" id="search-input-small" type="text"
+                                    placeholder="Type your ingredients">
+                            </p>
+                            <p class="control small-Device">
+                                <button id="search-btn" class="button is-small is-danger is-rounded">
+                                    Search
+                                </button>
+                            </p> -->
+                        </div>
+                    </div>
+                    <!--Button to filter search by diet, meal type, allergies-->
+                    <div class="has-text-centered mt-5">
+                        <button id="filter-button" class="button is-normal is-primary is-rounded">Refine your
+                            search</button>
+                    </div>
+                    <!-- Filters Section -->
+                    <div id="filters" class="content dropmenu" style="display:none">
+                        <div id="filter_diet">
+                            <p class="has-text-weight-bold">Diet</p>
+
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" id="dairy-free" name="choice1">
+                                    Dairy Free
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="gluten-free" name="choice1">
+                                    Gluten Free
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="kosher" name="choice1">
+                                    Kosher
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="vegan" name="choice1">
+                                    Vegan
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="vegetarian" name="choice1">
+                                    Vegetarian
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="sugar-conscious" name="choice1">
+                                    Sugar Conscious
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div id="filter_mealtype" class="mt-4">
+                            <p class="has-text-weight-bold">Meal Type</p>
+
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" id="breakfast" name="choice2">
+                                    Breakfast
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="lunch" name="choice2">
+                                    Lunch
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="snack" name="choice2">
+                                    Snack
+                                </label>
+
+                                <label class="radio">
+                                    <input type="radio" id="dinner" name="choice2">
+                                    Dinner
+                                </label>
+
+                            </div>
+
+                            <div id="filter_diet_type" class="mt-4">
+                                <p class="has-text-weight-bold">Diet Type</p>
+
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" id="balanced" name="choice3">
+                                        Balanced
+                                    </label>
+
+                                    <label class="radio">
+                                        <input type="radio" id="high-fiber" name="choice3">
+                                        High Fiber
+                                    </label>
+
+                                    <label class="radio">
+                                        <input type="radio" id="high-protein" name="choice3">
+                                        High Protein
+                                    </label>
+
+                                    <label class="radio">
+                                        <input type="radio" id="low-carb" name="choice3">
+                                        Low Carb
+                                    </label>
+
+                                    <label class="radio">
+                                        <input type="radio" id="low-fat" name="choice3">
+                                        Low Fat
+                                    </label>
+
+                                    <label class="radio">
+                                        <input type="radio" id="low-sodium" name="choice3">
+                                        Low Sodium
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!--recipe cards-->
+    <!--Recipe 1-->
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-1">
+                    <div class="card recipe-card-1 ">
+                        <header class="card-header recipe-title-1">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <p class="card-header-title is-size-5">
+                                Results 1
+                            </p>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </span>
+                            </span>
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--Recipe 2-->
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-2">
+                    <div class="card recipe-card-2">
+                        <header class="card-header recipe-title-2">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <p class="card-header-title is-size-5 ">
+                                Recipe title 2
+                            </p>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </span>
+                            </span>
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <!--Recipe 3-->
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-3">
+                    <div class="card recipe-card-3">
+                        <header class="card-header recipe-title-3">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <p class="card-header-title is-size-5 ">
+                                Recipe title
+                            </p>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </span>
+                            </span>
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <!--Recipe 4-->
+
+                <div class="column is-mobile is-3-tablet is-3-desktop recipe-4">
+                    <div class="card recipe-card-4">
+                        <header class="card-header recipe-title-4">
+                            <!--Javascript to add in recipe name, meal type and diet-->
+                            <p class="card-header-title is-size-5 ">
+                                Recipe title
+                            </p>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </span>
+                            <span class="icon-text is-size-5 is-pulled-right pr-4 mt-4">
+                                <span class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </span>
+                            </span>
+                        </header>
+                        <div class="card-image has-text-centered">
+                            <img src="./jakub-kapusnak-sDbj1dFlFPU-unsplash.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!--Modal for recipe selection - JS script must have "is-active"-- and opens up when user clicks on recipe card-->
+
+    <div class="modal">
+        <div class="modal-background">
+            <div class="modal-card pt-5">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Recipe Details</p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="recipe-content">
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Save changes</button>
+                    <button class="button">Cancel</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modal for shopping list JS script must have "is-active" and pops up when user clicks shopping list icon-->
+
+    <div class="modal">
+        <div class="modal-background">
+            <div class="modal-card pt-5">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Shopping List</p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="recipe-content">
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Save changes</button>
+                    <button class="button">Cancel</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+<!--Pagination-->
+<nav id="search-results-nav" offset=4 class="pagination is-rounded is-centered pr-3 pl-3" role="navigation" aria-label="pagination">
+    <a id="search-results-previous" class="pagination-previous">Previous</a>
+    <a id="search-results-next" class="pagination-next">Next page</a>
+    <ul class="pagination-list">
+        <li><a id="page-1" page-number=1 class="pagination-link is-current" aria-label="Goto page 1">1</a></li>
+        <li><a id="page-2" page-number=2 class="pagination-link" aria-label="Goto page 2">2</a></li>
+        <li><a id="page-3" page-number=3 class="pagination-link" aria-label="Goto page 3">3</a></li>
+        <li><a id="page-4" page-number=4 class="pagination-link" aria-label="Goto page 4">4</a></li>
+        <li><a id="page-5" page-number=5 class="pagination-link" aria-label="Goto page 5">5</a></li>
+    </ul>
+</nav>
+
+<!--Footer-->
+<footer class="footer has-text-centered">Chop 'n' Change - Meals made easy</footer>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script type="module" src="./js/App.js"></script>
+
+</html>
