@@ -24,13 +24,13 @@ nav {
     margin-right: 10%;
     margin-top: 5%;
     margin-bottom: 5%; */
-    padding: 10px;
     border-radius: 14px;
     z-index: 1;
 
 }
 
-
+.card {
+}
 
 .modal-close-button {}
 
