@@ -61,7 +61,7 @@ export default function RecipeDetails(props) {
                                 {listItems}
                             </ol>
                             <div className={"pt-3 pb-3 mt-2 has-text-info-dark"}>
-                                <p className={"ml-3"}>{hashTagsForDisplay}</p>
+                                <p className={"ml-3 is-lowercase"}>{hashTagsForDisplay}</p>
                             </div>
                         </div>
 
