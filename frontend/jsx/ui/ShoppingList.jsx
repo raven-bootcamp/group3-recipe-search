@@ -43,7 +43,8 @@ export default function ShoppingList(props) {
                             <div className={"column is-2 ml-3"}>
                                 <button className="button is-rounded is-danger modal-close-button" onClick={clearListHandler}>Clear List</button>
                             </div>
-                            <div className={"column is-offset-5 is-1"}>
+                            <div className={"column is-4-mobile is-7-tablet is-6-fullhd is-6-desktop"}></div>
+                            <div className={"column is-1"}>
                                 <button className="button is-rounded"  onClick={locationHandler}>
                                     <span className="icon">
                                         <i className="fas fa-search-location"></i>
