@@ -57,7 +57,9 @@ export default function ShoppingList(props) {
     className: "button is-rounded is-danger modal-close-button",
     onClick: clearListHandler
   }, "Clear List")), /*#__PURE__*/React.createElement("div", {
-    className: "column is-offset-5 is-1"
+    className: "column is-4-mobile is-7-tablet is-6-fullhd is-6-desktop"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "column is-1"
   }, /*#__PURE__*/React.createElement("button", {
     className: "button is-rounded",
     onClick: locationHandler
