@@ -17,9 +17,9 @@ Chop 'n' Change - a mobile-responsive recipe app that allows users to search for
       - [Acceptance criteria](#acceptance-criteria-1)
   * [Credits](#credits)
 
-# Project description
+# Project Description
 
-Chop 'n' Change is a recipe app for home-cooks looking for meal inspirations using ingredients they already have on hand, with the option to find recipes that suit your dietary needs. The app is designed to provide users easy access to recipes they love through their favourites list, add ingredients from recipes to create a shopping list, and find your nearest supermarket location.
+Chop 'n' Change is a recipe app for home-cooks looking for meal inspirations that use ingredients already on-hand, with the option to find recipes that suit dietary needs. The app is designed to provide users easy access to recipes they love through their Favourites list, add ingredients from recipes to create a shopping list, and find the nearest supermarket location.
 
 The app can be used on desktops, tablets and mobiles, and was created using:
 
@@ -28,14 +28,15 @@ The app can be used on desktops, tablets and mobiles, and was created using:
 * Recipe search API [EDAMAM](https://www.edamam.com/)
 * [Google Maps API](https://developers.google.com/maps)
 
-## Main features
+## Main Features
 
-* Easily add recipes to a favourite list 
+* Search for recipes using ingredient search terms
+* Easily add recipes to a Favourites list 
 * Add recipe ingredients to a shopping list with ease
 * Quick access to recipe information, favourites list and shopping list via pop-up Modals
-* Easy access to the favourite list and shopping list from the navigation menu
-* Add or remove items from the favourites and shopping lists with a simple click 
-* Get a quick view of recipe information, and visit the recipe page for more details by clicking on a recipe in the search results
+* Easy access to the Favourites list and shopping list from the navigation menu
+* Add or remove items from the Favourites and shopping lists with a simple click 
+* Get a quick view of recipe information, and visit the external recipe page for more details by clicking on a recipe in the search results
 
 ## Mockup 
 The following animation shows the web application's appearance and functionality:
