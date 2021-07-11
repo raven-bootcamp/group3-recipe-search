@@ -27,11 +27,11 @@ export default function RecipeDetails(props) {
 
     let hashTagsForDisplay = "";
     recipe.mealType.map((typeText,index) => {
-        hashTagsForDisplay += "#" + typeText + " ";
+        if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
     });
 
     recipe.diet.map((typeText,index) => {
-        hashTagsForDisplay += "#" + typeText + " ";
+        if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
     });
 
     hashTagsForDisplay = hashTagsForDisplay.toLowerCase();

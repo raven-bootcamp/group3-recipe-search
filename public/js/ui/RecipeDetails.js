@@ -25,10 +25,10 @@ export default function RecipeDetails(props) {
   });
   var hashTagsForDisplay = "";
   recipe.mealType.map(function (typeText, index) {
-    hashTagsForDisplay += "#" + typeText + " ";
+    if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
   });
   recipe.diet.map(function (typeText, index) {
-    hashTagsForDisplay += "#" + typeText + " ";
+    if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
   });
   hashTagsForDisplay = hashTagsForDisplay.toLowerCase();
 
