@@ -14,7 +14,7 @@ nav {
 .main-section {
     background-image: url('../img/main_img.jpg');
     background-size: cover;
-    padding: 110px;
+    padding-top: 110px;
 }
 
 /* Custom chnages made on the card class on top of Bulma */
@@ -30,6 +30,15 @@ nav {
 }
 
 .card {
+}
+
+.search_style {
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.search_title_style {
+    font-weight: bold;
 }
 
 .modal-close-button {}
@@ -54,7 +63,7 @@ nav {
 .navbar {
     position: fixed;
     width: 100%;
-    background-color: #424b54;
+    /* background-color: #424b54; */
     padding: 12px;
 }
 
@@ -71,10 +80,10 @@ nav {
 }
 
 .footer {
-    background-color: #424b54;
-    padding: 20px;
-    color: white;
-    font-size: 18px;;
+    /* background-color: #424b54; */
+    /* padding: 20px; */
+    /* color: white; */
+    /* font-size: 18px;; */
 }
 
 .dropmenu {
