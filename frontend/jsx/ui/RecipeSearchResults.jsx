@@ -7,6 +7,7 @@ export default function RecipeSearchResults(props) {
     let favouriteHandler = props.favouriteHandler;
     let shoppingListHandler = props.shoppingListHandler;
     let detailsHandler = props.detailsHandler;
+    let isFavourite = props.isFavourite;
 
 
     // clear the current results list and redraw dynamically
@@ -40,7 +41,7 @@ export default function RecipeSearchResults(props) {
                     </p>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">
-                            <i recipe-id={recipe.id} className="cursor-link fas fa-star" onClick={favouriteHandler}></i>
+                            <i recipe-id={recipe.id} className={(isFavourite(recipe))?"cursor-link fas fa-star":"cursor-link far fa-star"} onClick={favouriteHandler}></i>
                         </span>
                     </span>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">

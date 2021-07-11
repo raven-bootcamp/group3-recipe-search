@@ -3,6 +3,7 @@ export default function ShoppingList(props) {
   var shoppingList = props.shoppingList;
   var deleteHandler = props.deleteHandler;
   var closeHandler = props.closeHandler;
+  var clearListHandler = props.clearListHandler;
   var locationHandler = props.locationHandler;
   var isShowing = props.shouldShow;
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Rendering shopping list");
@@ -50,7 +51,12 @@ export default function ShoppingList(props) {
     className: "button is-rounded modal-close-button",
     onClick: closeHandler
   }, "Close")), /*#__PURE__*/React.createElement("div", {
-    className: "column is-offset-8 is-1"
+    className: "column is-2 ml-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "button is-rounded is-danger modal-close-button",
+    onClick: clearListHandler
+  }, "Clear List")), /*#__PURE__*/React.createElement("div", {
+    className: "column is-offset-5 is-1"
   }, /*#__PURE__*/React.createElement("button", {
     className: "button is-rounded",
     onClick: locationHandler
