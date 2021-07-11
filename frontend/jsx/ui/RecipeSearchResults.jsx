@@ -52,7 +52,7 @@ export default function RecipeSearchResults(props) {
                 </header>
                 <div className="card-image has-text-centered">
                     <figure className={"image is-4by3"}>
-                    <img className="cursor-link" recipe-id={recipe.id} src={recipe.imageURL}
+                    <img className="cursor-link recipe-results-img" recipe-id={recipe.id} src={recipe.imageURL}
                          alt={recipe.name} onClick={detailsHandler}/>
                     </figure>
                 </div>

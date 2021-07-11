@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="./css/bulma.css"/>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <title>Chop 'n' Change</title>
 </head>
 <body>
@@ -13,7 +16,7 @@
 
 
 <!--Navbar-->
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand level-item">
         <h1 class="navbar-item has-text-left-mobile has-text-left-tablet has-text-weight-bold">Chop 'n' Change</h1>
         <a class="navbar-item has-text-left-mobile has-text-left-tablet" id="favourite-btn">
@@ -33,28 +36,28 @@
 <section class="section main-section">
     <div id="notifications" class="notifications"></div>
     <div class="columns is-centered is-four-fifths">
-        <div class="card p-5 mt-5 mb-5">
+        <div class="custom-card p-5 mt-5 mb-5">
             <div class="card-content">
-                <p class="title has-text-centered">
+                <p class="title has-text-centered search-title-style">
                     What's in your kitchen today?
                 </p>
-                <div class="level-item">
+                <div class="level-item search-style">
                     <div class="field has-addons">
                         <p class="control">
                             <input id="search-text" class="input is-rounded is-medium" type="text" placeholder="Type your ingredients">
                         </p>
                         <p class="control">
-                            <button id="search-btn" class="button is-medium is-primary is-rounded">Search</button>
+                            <button id="search-btn" class="button is-medium is-link is-rounded">Search</button>
                         </p>
                     </div>
                 </div>
                 <!--Button to filter search by diet, meal type, allergies-->
                 <div class="columns is-align-content-space-between has-text-centered mt-5">
                     <div class="column is-mobile is-6">
-                        <button id="filter-button" class="button is-normal is-primary is-rounded">Refine your search</button>
+                        <button id="filter-button" class="button is-normal is-warning  is-rounded">Refine search</button>
                     </div>
                     <div class="column is-mobile is-6">
-                        <button id="filter-reset" class="button is-normal is-warning is-rounded">Clear your filters</button>
+                        <button id="filter-reset" class="button is-normal is-light is-rounded">Clear  filters</button>
                     </div>
                 </div>
                 <!-- Filters Section -->
@@ -167,10 +170,18 @@
     </div>
 </section>
 
-<div id="root">
+<div class="results" id="root">
     <!-- React App goes here -->
 
 </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        Copyright 2021 Chop 'n' Change.  All rights reserved.
+        <div id=edamam-badge style="margin-top: 20px;"></div>
+    </div>
+</footer>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

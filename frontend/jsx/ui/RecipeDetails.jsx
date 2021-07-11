@@ -34,7 +34,7 @@ export default function RecipeDetails(props) {
         hashTagsForDisplay += "#" + typeText + " ";
     });
 
-    hashTagsForDisplay.toLowerCase();
+    hashTagsForDisplay = hashTagsForDisplay.toLowerCase();
 
     let goToExternalPage = function(event) {
         window.open(recipe.URL,"_blank");
