@@ -1,4 +1,5 @@
 import logger from "../util/SimpleDebug.js";
+import browserUtil from "../util/BrowserUtil.js";
 export default function LocationList(props) {
   var locations = props.locations;
   var closeHandler = props.closeHandler;
@@ -7,6 +8,7 @@ export default function LocationList(props) {
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(locations);
 
   var openGoogleMaps = function openGoogleMaps(event) {
+    event.preventDefault();
     var mapsURL = "https://maps.google.com/maps?api=1&&t=&z=13&ie=UTF8&iwloc=&output=embed&q=";
     var lat = event.target.getAttribute("lat");
     var lon = event.target.getAttribute("lon");
@@ -18,21 +20,33 @@ export default function LocationList(props) {
     var embeddedMapEl = document.getElementById("map-frame");
     embeddedMapEl.setAttribute("title", name);
     embeddedMapEl.setAttribute("src", mapsURL);
+    browserUtil.scrollSmoothTo(embeddedMapEl);
   };
 
   var listItems = "";
 
   if (locations.length > 0) {
     listItems = locations.map(function (location, index) {
-      return /*#__PURE__*/React.createElement("a", {
+      return /*#__PURE__*/React.createElement("li", {
+        className: "pb-1",
+        key: index,
+        name: location.name,
+        lat: location.lat,
+        lon: location.lon
+      }, /*#__PURE__*/React.createElement("a", {
         href: "#map-frame",
         key: index,
         name: location.name,
         lat: location.lat,
         lon: location.lon,
-        className: "button truncate-location is-fullwidth is-info is-outlined is-rounded ",
+        className: "button is-fullwidth is-info is-outlined is-rounded ",
         onClick: openGoogleMaps
-      }, location.name + (location.isOpen ? "(open now)" : "(closed)") + ": " + location.address);
+      }, /*#__PURE__*/React.createElement("span", {
+        name: location.name,
+        lat: location.lat,
+        lon: location.lon,
+        className: "truncate-location"
+      }, location.name + (location.isOpen ? "(open now)" : "(closed)") + ": " + location.address)));
     });
   } else {
     var dummyArray = [0];

@@ -30,6 +30,7 @@ export default function RecipeDetails(props) {
   recipe.diet.map(function (typeText, index) {
     hashTagsForDisplay += "#" + typeText + " ";
   });
+  hashTagsForDisplay.toLowerCase();
 
   var goToExternalPage = function goToExternalPage(event) {
     window.open(recipe.URL, "_blank");
@@ -48,10 +49,11 @@ export default function RecipeDetails(props) {
     id: "recipe-details-title",
     className: "modal-card-title"
   }, /*#__PURE__*/React.createElement("a", {
-    className: "has-text-info-dark truncate-recipe-details",
     target: "_blank",
     href: recipe.URL
-  }, recipe.name)), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "truncate-recipe-details has-text-info-dark"
+  }, recipe.name))), /*#__PURE__*/React.createElement("p", {
     className: "is-pulled-right p-1 has-text-info-dark"
   }, /*#__PURE__*/React.createElement("i", {
     className: "cursor-link fas fa-share-square",
@@ -83,7 +85,9 @@ export default function RecipeDetails(props) {
     className: "button is-rounded modal-close-button",
     onClick: closeHandler
   }, "Close")), /*#__PURE__*/React.createElement("div", {
-    className: "column is-offset-7 is-1"
+    className: "column is-5-mobile is-7-tablet"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "column is-1"
   }, /*#__PURE__*/React.createElement("span", {
     "recipe-id": recipe.id,
     className: "icon is-large"

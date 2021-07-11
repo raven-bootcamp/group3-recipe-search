@@ -1,4 +1,5 @@
 import logger from "../util/SimpleDebug.js";
+import browserUtil from "../util/BrowserUtil.js";
 
 export default function LocationList(props) {
 
@@ -11,6 +12,7 @@ export default function LocationList(props) {
 
 
     let openGoogleMaps = (event) => {
+        event.preventDefault();
 
         let mapsURL = "https://maps.google.com/maps?api=1&&t=&z=13&ie=UTF8&iwloc=&output=embed&q=";
         let lat = event.target.getAttribute("lat");
@@ -25,15 +27,19 @@ export default function LocationList(props) {
         let embeddedMapEl = document.getElementById("map-frame");
         embeddedMapEl.setAttribute("title",name);
         embeddedMapEl.setAttribute("src",mapsURL);
+
+        browserUtil.scrollSmoothTo(embeddedMapEl);
     }
 
     let listItems = "";
 
     if (locations.length > 0) {
         listItems = locations.map((location, index) =>
-            <a href="#map-frame" key={index} name={location.name} lat={location.lat} lon={location.lon} className="button truncate-location is-fullwidth is-info is-outlined is-rounded " onClick={openGoogleMaps}>
-                {location.name + (location.isOpen?"(open now)":"(closed)") + ": " + location.address}
-            </a>
+            <li className={"pb-1"} key={index} name={location.name} lat={location.lat} lon={location.lon}>
+                <a href="#map-frame" key={index} name={location.name} lat={location.lat} lon={location.lon} className="button is-fullwidth is-info is-outlined is-rounded " onClick={openGoogleMaps}>
+                    <span name={location.name} lat={location.lat} lon={location.lon} className={"truncate-location"}>{location.name + (location.isOpen?"(open now)":"(closed)") + ": " + location.address}</span>
+                </a>
+            </li>
         );
     }
     else {

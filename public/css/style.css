@@ -43,7 +43,7 @@ nav {
 }
 
 .cursor-link:hover {
-  cursor:pointer;
+    cursor:pointer;
 }
 
 .cursor-link:active {
@@ -184,11 +184,6 @@ nav {
     }
 }
 
-@media (max-width: 640px) {
-    .truncate-recipe-search {
-        width: 350px;
-    }
-}
 
 @media (max-width: 640px) {
     .truncate-recipe-search {
@@ -211,5 +206,15 @@ nav {
 @media (max-width: 375px) {
     .truncate-recipe-search {
         width: 100px;
+    }
+    .truncate-shopping-list {
+        width: 200px;
+    }
+    .truncate-location {
+        width: 230px;
+    }
+
+    .truncate-recipe-details {
+        width: 150px;
     }
 }
