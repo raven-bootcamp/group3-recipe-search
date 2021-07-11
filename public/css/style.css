@@ -172,4 +172,44 @@ nav {
     }
 }
 
+@media (max-width: 768px) {
+    .truncate-recipe-search {
+        width: 400px;
+    }
+}
 
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 540px) {
+    .truncate-recipe-search {
+        width: 300px;
+    }
+}
+
+@media (max-width: 414px) {
+    .truncate-recipe-search {
+        width: 150px;
+    }
+}
+
+@media (max-width: 375px) {
+    .truncate-recipe-search {
+        width: 100px;
+    }
+}
