@@ -28,6 +28,16 @@ The app can be used on desktops, tablets and mobiles, and was created using:
 * Recipe search API [EDAMAM](https://www.edamam.com/)
 * [Google Maps API](https://developers.google.com/maps)
 
+# Instructions For Local Use
+1. Install nodeJS on your local machine (go to https://nodejs.org/en/) 
+1. Clone the repository to your local machine
+1. Open a terminal / command line window, and change to the directory with the checked out code
+1. In that directory, run `npm install`
+1. Once it finishes, run `npm run start` : leave this window and don't touch it again
+1. In a separate command line window, move to the same directory with the checked out code
+1. In the directory, run `npm run watch`
+1. Open a browser and go to `localhost:3000` to use the application
+
 ## Main Features
 
 * Search for recipes using ingredient search terms
