@@ -11,24 +11,29 @@ export default function LocationList(props) {
 
 
     let openGoogleMaps = (event) => {
-        let mapsURL = "https://www.google.com/maps/search/?api=1&query=";
+
+        let mapsURL = "https://maps.google.com/maps?api=1&&t=&z=13&ie=UTF8&iwloc=&output=embed&q=";
         let lat = event.target.getAttribute("lat");
         let lon = event.target.getAttribute("lon");
+        let name= event.target.getAttribute("name");
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(event.target);
 
         mapsURL += lat + "," + lon;
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(location);
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log(mapsURL);
-        window.open(mapsURL,"_blank");
+
+        let embeddedMapEl = document.getElementById("map-frame");
+        embeddedMapEl.setAttribute("title",name);
+        embeddedMapEl.setAttribute("src",mapsURL);
     }
 
     let listItems = "";
 
     if (locations.length > 0) {
         listItems = locations.map((location, index) =>
-            <li key={index} lat={location.lat} lon={location.lon} className="button is-fullwidth is-info is-outlined is-rounded" onClick={openGoogleMaps}>
+            <a href="#map-frame" key={index} name={location.name} lat={location.lat} lon={location.lon} className="button truncate-location is-fullwidth is-info is-outlined is-rounded " onClick={openGoogleMaps}>
                 {location.name + (location.isOpen?"(open now)":"(closed)") + ": " + location.address}
-            </li>
+            </a>
         );
     }
     else {
@@ -49,9 +54,13 @@ export default function LocationList(props) {
                         <button className="delete" aria-label="close" onClick={closeHandler}></button>
                     </header>
                     <section className="modal-card-body">
-                        <ul className="ml-3">
+                        <ul className="ml-3 mb-3">
                             {listItems}
                         </ul>
+                        <iframe width="600" height="500" id="map-frame"
+                                src="" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0">
+                            title=""
+                        </iframe>
                     </section>
                     <footer>
                         <div className="columns is-mobile has-background-light pb-4">
@@ -64,8 +73,8 @@ export default function LocationList(props) {
                     </footer>
                 </div>
             </div>
+            <div>
+            </div>
         </div>
     );
 }
-
-

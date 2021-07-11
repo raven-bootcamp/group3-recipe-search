@@ -48,7 +48,7 @@ export default function RecipeDetails(props) {
     id: "recipe-details-title",
     className: "modal-card-title"
   }, /*#__PURE__*/React.createElement("a", {
-    className: "has-text-info-dark",
+    className: "has-text-info-dark truncate-recipe-details",
     target: "_blank",
     href: recipe.URL
   }, recipe.name)), /*#__PURE__*/React.createElement("p", {

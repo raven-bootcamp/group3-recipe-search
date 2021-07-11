@@ -37,9 +37,10 @@ export default function RecipeSearchResults(props) {
       className: "card-header-title is-size-6-mobile is-size-5-tablet is-size-4-desktop"
     }, /*#__PURE__*/React.createElement("a", {
       "recipe-id": recipe.id,
+      className: "truncate-recipe-search",
       href: "",
       onClick: detailsHandler
-    }, recipe.name.length > 23 ? recipe.name.substr(0, 19) + "..." : recipe.name)), /*#__PURE__*/React.createElement("span", {
+    }, recipe.name)), /*#__PURE__*/React.createElement("span", {
       className: "icon-text is-size-5 is-pulled-right pr-3 mt-4"
     }, /*#__PURE__*/React.createElement("span", {
       "recipe-id": recipe.id,

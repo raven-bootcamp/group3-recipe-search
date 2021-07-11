@@ -45,7 +45,7 @@ export default function RecipeDetails(props) {
                 <div className="modal-card pt-5">
                     <header className="modal-card-head">
                         <p id="recipe-details-title" className="modal-card-title">
-                            <a className="has-text-info-dark" target="_blank" href={recipe.URL}>{recipe.name}</a>
+                            <a className="has-text-info-dark truncate-recipe-details" target="_blank" href={recipe.URL}>{recipe.name}</a>
                         </p>
                         <p className={"is-pulled-right p-1 has-text-info-dark"}>
                             <i className="cursor-link fas fa-share-square" onClick={goToExternalPage}></i>
