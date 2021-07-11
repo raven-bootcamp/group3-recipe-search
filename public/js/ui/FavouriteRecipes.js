@@ -16,8 +16,9 @@ export default function FavouriteRecipes(props) {
       className: "button is-info is-outlined is-rounded",
       onClick: detailsHandler
     }, /*#__PURE__*/React.createElement("span", {
+      className: "truncate-favourite-recipe",
       "recipe-id": recipe.id
-    }, recipe.name.length > 60 ? recipe.name.substr(0, 57) + "..." : recipe.name)), /*#__PURE__*/React.createElement("button", {
+    }, recipe.name)), /*#__PURE__*/React.createElement("button", {
       "recipe-id": recipe.id,
       className: "delete mt-3 ml-2",
       onClick: deleteHandler

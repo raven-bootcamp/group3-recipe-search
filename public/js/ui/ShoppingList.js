@@ -15,8 +15,9 @@ export default function ShoppingList(props) {
       className: "button is-fullwidth is-info is-outlined is-rounded",
       onClick: deleteHandler
     }, /*#__PURE__*/React.createElement("span", {
+      className: "truncate-shopping-list",
       ingredient: ingredient
-    }, ingredient.length > 60 ? ingredient.substr(0, 57) + "..." : ingredient), /*#__PURE__*/React.createElement("span", {
+    }, ingredient), /*#__PURE__*/React.createElement("span", {
       ingredient: ingredient,
       className: "icon is-small"
     }, /*#__PURE__*/React.createElement("i", {

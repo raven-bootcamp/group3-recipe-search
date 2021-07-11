@@ -15,7 +15,7 @@ export default function ShoppingList(props) {
     const listItems = shoppingList.map((ingredient, index) =>
         <button key={index} ingredient={ingredient} className="button is-fullwidth is-info is-outlined is-rounded"
                 onClick={deleteHandler}>
-            <span ingredient={ingredient}>{(ingredient.length > 60)?ingredient.substr(0,57) + "...":ingredient}</span>
+            <span className="truncate-shopping-list" ingredient={ingredient}>{ingredient}</span>
             <span ingredient={ingredient} className="icon is-small">
                     <i ingredient={ingredient} className="fas fa-times"></i>
                 </span>

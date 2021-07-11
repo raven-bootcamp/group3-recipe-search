@@ -14,7 +14,7 @@ export default function FavouriteRecipes(props) {
     const listItems = favouriteRecipes.map((recipe, index) =>
         <li className={"pt-1 pb-1"} key={index}>
             <button recipe-id={recipe.id} className="button is-info is-outlined is-rounded" onClick={detailsHandler}>
-                <span recipe-id={recipe.id}>{(recipe.name.length > 60)?recipe.name.substr(0,57) + "...":recipe.name}</span>
+                <span className={"truncate-favourite-recipe"} recipe-id={recipe.id}>{recipe.name}</span>
             </button>
             <button recipe-id={recipe.id} className="delete mt-3 ml-2" onClick={deleteHandler}>
                 <span recipe-id={recipe.id} className="icon is-large">

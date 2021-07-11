@@ -29,6 +29,8 @@ nav {
 
 }
 
+
+
 .modal-close-button {}
 
 #filters {
@@ -88,4 +90,126 @@ nav {
     transition: all 500ms ease-in-out;
 }
 
+.truncate-recipe-search {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
+.truncate-favourite-recipe {
+    width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.truncate-recipe-details {
+    width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.truncate-shopping-list {
+    width: 480px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.truncate-location {
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 2200px) {
+    .truncate-recipe-search {
+        width: 250px;
+    }
+}
+
+
+@media (max-width: 2000px) {
+    .truncate-recipe-search {
+        width: 220px;
+    }
+}
+
+@media (max-width: 1800px) {
+    .truncate-recipe-search {
+        width: 190px;
+    }
+}
+
+@media (max-width: 1600px) {
+    .truncate-recipe-search {
+        width: 150px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .truncate-recipe-search {
+        width: 75px;
+    }
+}
+@media (max-width: 1200px) {
+    .truncate-recipe-search {
+        width: 50px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .truncate-recipe-search {
+        width: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .truncate-recipe-search {
+        width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .truncate-recipe-search {
+        width: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+    .truncate-recipe-search {
+        width: 350px;
+    }
+}
+
+@media (max-width: 540px) {
+    .truncate-recipe-search {
+        width: 300px;
+    }
+}
+
+@media (max-width: 414px) {
+    .truncate-recipe-search {
+        width: 150px;
+    }
+}
+
+@media (max-width: 375px) {
+    .truncate-recipe-search {
+        width: 100px;
+    }
+}

@@ -37,7 +37,7 @@ export default function RecipeSearchResults(props) {
             <div className="card">
                 <header className="card-header">
                     <p className="card-header-title is-size-6-mobile is-size-5-tablet is-size-4-desktop">
-                        <a recipe-id={recipe.id}  href="" onClick={detailsHandler}>{(recipe.name.length > 23)?recipe.name.substr(0,19)+"...":recipe.name}</a>
+                        <a recipe-id={recipe.id}  className={"truncate-recipe-search"} href="" onClick={detailsHandler}>{recipe.name}</a>
                     </p>
                     <span className="icon-text is-size-5 is-pulled-right pr-3 mt-4">
                         <span recipe-id={recipe.id} className="icon">

@@ -7,25 +7,30 @@ export default function LocationList(props) {
   if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(locations);
 
   var openGoogleMaps = function openGoogleMaps(event) {
-    var mapsURL = "https://www.google.com/maps/search/?api=1&query=";
+    var mapsURL = "https://maps.google.com/maps?api=1&&t=&z=13&ie=UTF8&iwloc=&output=embed&q=";
     var lat = event.target.getAttribute("lat");
     var lon = event.target.getAttribute("lon");
+    var name = event.target.getAttribute("name");
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(event.target);
     mapsURL += lat + "," + lon;
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(location);
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log(mapsURL);
-    window.open(mapsURL, "_blank");
+    var embeddedMapEl = document.getElementById("map-frame");
+    embeddedMapEl.setAttribute("title", name);
+    embeddedMapEl.setAttribute("src", mapsURL);
   };
 
   var listItems = "";
 
   if (locations.length > 0) {
     listItems = locations.map(function (location, index) {
-      return /*#__PURE__*/React.createElement("li", {
+      return /*#__PURE__*/React.createElement("a", {
+        href: "#map-frame",
         key: index,
+        name: location.name,
         lat: location.lat,
         lon: location.lon,
-        className: "button is-fullwidth is-info is-outlined is-rounded",
+        className: "button truncate-location is-fullwidth is-info is-outlined is-rounded ",
         onClick: openGoogleMaps
       }, location.name + (location.isOpen ? "(open now)" : "(closed)") + ": " + location.address);
     });
@@ -57,8 +62,17 @@ export default function LocationList(props) {
   })), /*#__PURE__*/React.createElement("section", {
     className: "modal-card-body"
   }, /*#__PURE__*/React.createElement("ul", {
-    className: "ml-3"
-  }, listItems)), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
+    className: "ml-3 mb-3"
+  }, listItems), /*#__PURE__*/React.createElement("iframe", {
+    width: "600",
+    height: "500",
+    id: "map-frame",
+    src: "",
+    frameBorder: "0",
+    scrolling: "no",
+    marginHeight: "0",
+    marginWidth: "0"
+  }, "title=\"\"")), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
     className: "columns is-mobile has-background-light pb-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "column is-2 ml-3"
@@ -67,5 +81,5 @@ export default function LocationList(props) {
     onClick: closeHandler
   }, "Close")), /*#__PURE__*/React.createElement("div", {
     className: "column is-10"
-  }))))));
+  }))))), /*#__PURE__*/React.createElement("div", null));
 }
