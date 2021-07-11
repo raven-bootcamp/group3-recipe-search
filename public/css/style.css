@@ -71,6 +71,9 @@ nav {
     color: white;
 
 }
+.recipe_results_img {
+    object-fit: cover;
+}
 
 .results {
     padding-top: 3%;
