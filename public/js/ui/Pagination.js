@@ -28,7 +28,7 @@ export default function Pagination(props) {
     }, pageNumber));
   });
   return /*#__PURE__*/React.createElement("nav", {
-    className: "pagination is-centered",
+    className: "pagination is-rounded is-centered",
     role: "navigation",
     "aria-label": "pagination"
   }, /*#__PURE__*/React.createElement("a", {
