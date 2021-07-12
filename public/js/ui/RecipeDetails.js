@@ -74,7 +74,7 @@ export default function RecipeDetails(props) {
   }, listItems), /*#__PURE__*/React.createElement("div", {
     className: "pt-3 pb-3 mt-2 has-text-info-dark"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "ml-3"
+    className: "ml-3 is-lowercase"
   }, hashTagsForDisplay)))), /*#__PURE__*/React.createElement("footer", null, /*#__PURE__*/React.createElement("div", {
     className: "columns is-mobile has-background-light pb-4"
   }, /*#__PURE__*/React.createElement("div", {
