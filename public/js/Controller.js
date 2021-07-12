@@ -94,14 +94,14 @@ export default class Controller {
         let googleLocations = [];
         if (httpStatus >= 200 && httpStatus <= 299) { // do we have any data?
             if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(jsonData);
-            let locations = jsonData.candidates;
+            let locations = jsonData.results;
             if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(locations);
             for (let index = 0; index < locations.length; index++) {
                 let location = locations[index];
                 if (logger.isOn() && (200 <= logger.level()) && (200 >= logger.minlevel())) console.log(location);
                 let googleLocation = {
                     name: location.name,
-                    address: location.formatted_address,
+                    address: location.vicinity,
                     isOpen: (location.opening_hours)?location.opening_hours.open_now:false,
                     lat:location.geometry.location.lat,
                     lon:location.geometry.location.lng

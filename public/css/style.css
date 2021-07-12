@@ -1,5 +1,7 @@
 h1 {
-    font-size: 26px;
+    font-family: 'Satisfy', cursive;
+    font-weight: bold;
+    font-size: 32px;
 }
 
 h2 {
@@ -14,24 +16,24 @@ nav {
 .main-section {
     background-image: url('../img/main_img.jpg');
     background-size: cover;
-    padding: 10px;
+    padding-top: 110px;
 }
 
 /* Custom chnages made on the card class on top of Bulma */
-.card {
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    padding: 10px;
+.custom-card {
     border-radius: 14px;
     z-index: 1;
-
+    background-color: white;
 }
 
+.search-style {
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+.search-title-style {
+    font-weight: bold;
+}
 
-
-.modal-close-button {}
 
 #filters {
     display: none;
@@ -43,7 +45,7 @@ nav {
 }
 
 .cursor-link:hover {
-  cursor:pointer;
+    cursor:pointer;
 }
 
 .cursor-link:active {
@@ -51,9 +53,10 @@ nav {
 }
 
 .navbar {
-    background-color: #424b54;
+    /*background-color: #424b54;*/
     padding: 12px;
-
+    position: fixed;
+    width: 100%;
 }
 
 .navbar-item {
@@ -61,15 +64,29 @@ nav {
 
 }
 
-.footer {
-    background-color: #424b54;
-    padding: 20px;
-    color: white;
-    font-size: 18px;;
+.recipe-results-img {
+    object-fit: cover;
 }
 
+.results {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+/*.footer {*/
+/*    background-color: #424b54;*/
+/*    padding: 20px;*/
+/*    color: white;*/
+/*    font-size: 18px;;*/
+/*}*/
+
 .dropmenu {
-    background-color: lightgrey;
+    /* background-color: lightgrey; */
+    border-color: rgb(231, 231, 231);
+    border-style: solid;
+    border-width: 1.5px;
     padding: 20px;
     border-radius: 5px;
     margin-top: 10px;
@@ -184,11 +201,6 @@ nav {
     }
 }
 
-@media (max-width: 640px) {
-    .truncate-recipe-search {
-        width: 350px;
-    }
-}
 
 @media (max-width: 640px) {
     .truncate-recipe-search {
@@ -198,18 +210,37 @@ nav {
 
 @media (max-width: 540px) {
     .truncate-recipe-search {
+        width: 230px;
+    }
+    .truncate-favourite-recipe {
         width: 300px;
     }
 }
 
-@media (max-width: 414px) {
+@media (max-width: 411px) {
     .truncate-recipe-search {
         width: 150px;
+    }
+    .truncate-favourite-recipe {
+        width: 300px;
     }
 }
 
 @media (max-width: 375px) {
     .truncate-recipe-search {
         width: 100px;
+    }
+    .truncate-shopping-list {
+        width: 200px;
+    }
+    .truncate-location {
+        width: 230px;
+    }
+
+    .truncate-recipe-details {
+        width: 150px;
+    }
+    .truncate-favourite-recipe {
+        width: 250px;
     }
 }

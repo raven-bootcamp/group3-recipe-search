@@ -118,10 +118,7 @@ class App extends React.Component {
                             previousHandler={this.handleEventPaginationPreviousPressed}
                             pageHandler={this.handleEventPaginationPageNumberPressed}/>
 
-                <footer className="footer" style={{textAlign: "center"}}>
-                    Copyright 2021 Chop 'n' Change.  All rights reserved.
-                    <div id="edamam-badge" data-color="transparent"></div>
-                </footer>
+
             </div>
         );
     }
@@ -227,6 +224,7 @@ class App extends React.Component {
         if (this.searchInProgress) return; // don't run another search if one running
 
         event.preventDefault();
+        document.getElementById("filters").style.display = "none";
 
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
         let queryText = document.getElementById("search-text").value.trim();

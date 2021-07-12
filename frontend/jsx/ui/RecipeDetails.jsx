@@ -27,12 +27,14 @@ export default function RecipeDetails(props) {
 
     let hashTagsForDisplay = "";
     recipe.mealType.map((typeText,index) => {
-        hashTagsForDisplay += "#" + typeText + " ";
+        if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
     });
 
     recipe.diet.map((typeText,index) => {
-        hashTagsForDisplay += "#" + typeText + " ";
+        if (typeText !== "Not supplied") hashTagsForDisplay += "#" + typeText + " ";
     });
+
+    hashTagsForDisplay = hashTagsForDisplay.toLowerCase();
 
     let goToExternalPage = function(event) {
         window.open(recipe.URL,"_blank");
@@ -45,7 +47,9 @@ export default function RecipeDetails(props) {
                 <div className="modal-card pt-5">
                     <header className="modal-card-head">
                         <p id="recipe-details-title" className="modal-card-title">
-                            <a className="has-text-info-dark truncate-recipe-details" target="_blank" href={recipe.URL}>{recipe.name}</a>
+                            <a target="_blank" href={recipe.URL}>
+                                <span className={"truncate-recipe-details has-text-info-dark"}>{recipe.name}</span>
+                            </a>
                         </p>
                         <p className={"is-pulled-right p-1 has-text-info-dark"}>
                             <i className="cursor-link fas fa-share-square" onClick={goToExternalPage}></i>
@@ -55,7 +59,7 @@ export default function RecipeDetails(props) {
                     <section className="modal-card-body">
                         <div className="recipe-details-content">
                             <div className="recipe-image has-text-centered">
-                                 <img src={recipe.imageURL} alt={recipe.name}/>
+                                <img src={recipe.imageURL} alt={recipe.name}/>
                             </div>
                             <ol className="pl-3">
                                 {listItems}
@@ -71,7 +75,8 @@ export default function RecipeDetails(props) {
                             <div className={"column is-2 ml-3"}>
                                 <button className="button is-rounded modal-close-button" onClick={closeHandler}>Close</button>
                             </div>
-                            <div className={"column is-offset-7 is-1"}>
+                            <div className={"column is-5-mobile is-7-tablet"}></div>
+                            <div className={"column is-1"}>
                               <span recipe-id={recipe.id} className="icon is-large">
                                 <i recipe-id={recipe.id} className={(isFavourite(recipe))?"cursor-link fas fa-star":"cursor-link far fa-star"} onClick={favouriteHandler}></i>
                               </span>

@@ -4,7 +4,7 @@ class NotificationManager {
     constructor() {
         this.notifications = [];
         this.currentCount = 0;
-        this.offsetPerNotification = 100;
+        this.offsetPerNotification = 120;
         this.containerId = "notifications";
     }
 

@@ -128,15 +128,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       nextHandler: this.handleEventPaginationNextPressed,
       previousHandler: this.handleEventPaginationPreviousPressed,
       pageHandler: this.handleEventPaginationPageNumberPressed
-    }), /*#__PURE__*/React.createElement("footer", {
-      className: "footer",
-      style: {
-        textAlign: "center"
-      }
-    }, "Copyright 2021 Chop 'n' Change.  All rights reserved.", /*#__PURE__*/React.createElement("div", {
-      id: "edamam-badge",
-      "data-color": "transparent"
-    })));
+    }));
   };
 
   _proto.componentDidMount = function componentDidMount() {
@@ -250,6 +242,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     if (this.searchInProgress) return; // don't run another search if one running
 
     event.preventDefault();
+    document.getElementById("filters").style.display = "none";
     if (logger.isOn() && 100 <= logger.level() && 100 >= logger.minlevel()) console.log("Handling event - Start Recipe Search");
     var queryText = document.getElementById("search-text").value.trim(); // code in here to collect the information from the elements of the page
 

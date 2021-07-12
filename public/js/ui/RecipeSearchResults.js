@@ -63,7 +63,7 @@ export default function RecipeSearchResults(props) {
     }, /*#__PURE__*/React.createElement("figure", {
       className: "image is-4by3"
     }, /*#__PURE__*/React.createElement("img", {
-      className: "cursor-link",
+      className: "cursor-link recipe-results-img",
       "recipe-id": recipe.id,
       src: recipe.imageURL,
       alt: recipe.name,
