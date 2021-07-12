@@ -1,6 +1,6 @@
 # Recipe app: Chop 'n' Change - Meals made easy
 
-Chop 'n' Change - a mobile-responsive recipe app that allows users to search for recipes by ingedients and filter by diet type, dietary restrictions and meal type.  
+[Chop 'n' Change](https://group3-recipe-search.herokuapp.com/) - a mobile-responsive recipe app that allows users to search for recipes by ingedients and filter by diet type, dietary restrictions and meal type.  
 
 # Table of Contents
 - [Project description](#project-description)
