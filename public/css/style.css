@@ -210,13 +210,19 @@ nav {
 
 @media (max-width: 540px) {
     .truncate-recipe-search {
+        width: 230px;
+    }
+    .truncate-favourite-recipe {
         width: 300px;
     }
 }
 
-@media (max-width: 414px) {
+@media (max-width: 411px) {
     .truncate-recipe-search {
         width: 150px;
+    }
+    .truncate-favourite-recipe {
+        width: 300px;
     }
 }
 
@@ -233,5 +239,8 @@ nav {
 
     .truncate-recipe-details {
         width: 150px;
+    }
+    .truncate-favourite-recipe {
+        width: 250px;
     }
 }
