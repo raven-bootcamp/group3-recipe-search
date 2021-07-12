@@ -224,6 +224,7 @@ class App extends React.Component {
         if (this.searchInProgress) return; // don't run another search if one running
 
         event.preventDefault();
+        document.getElementById("filters").style.display = "none";
 
         if (logger.isOn() && (100 <= logger.level()) && (100 >= logger.minlevel())) console.log("Handling event - Start Recipe Search");
         let queryText = document.getElementById("search-text").value.trim();
