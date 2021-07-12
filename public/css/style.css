@@ -21,11 +21,6 @@ nav {
 
 /* Custom chnages made on the card class on top of Bulma */
 .custom-card {
-    margin-left: 10%;
-    /* margin-right: 10%;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    padding: 10px;*/
     border-radius: 14px;
     z-index: 1;
     background-color: white;
